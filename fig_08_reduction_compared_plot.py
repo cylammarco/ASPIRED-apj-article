@@ -164,6 +164,10 @@ gmos_public_data_2 = np.genfromtxt(
 )
 
 
+gmos_flux_combined = spectres(
+    gmos_public_data_2[:, 0], gmos_wave_combined, gmos_flux_combined
+)
+
 #   ___      ___    ___     ___    _____
 #  / __|    | _ \  | _ \   /   \  |_   _|
 #  \__ \    |  _/  |   /   | - |    | |
@@ -238,46 +242,94 @@ floyds_public_data = floyds_public_ascii[:, 1]
 floyds_data_resampled = spectres(floyds_public_wave, floyds_wave, floyds_data)
 
 
-# big plot here
+#    ___    ___     ___     ___
+#   | __|  / _ \   | _ \   / __|
+#   | _|  | (_) |  |   /   \__ \
+#  _|_|_   \___/   |_|_\   |___/
+# _| """ |_|"""""|_|"""""|_|"""""|
+# "`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'
+#
 
+fors_ascii = np.genfromtxt("vlt-fors-v418ser/v418ser_chip1_average.dat")
+fors_wave = fors_ascii[:, 0]
+fors_data = fors_ascii[:, 1] * 2.99792458e-6 / fors_wave**2.0
+
+fors_fits = fits.open("vlt-fors-v418ser/reduced_science_0.fits")[
+    "Flux resampled atm ext corrected"
+]
+fors_wave_aspired = np.linspace(
+    fors_fits.header["CRVAL1"],
+    fors_fits.header["CRVAL1"]
+    + fors_fits.header["CDELT1"] * fors_fits.header["NAXIS1"],
+    fors_fits.header["NAXIS1"],
+)
+fors_data_aspired = spectres(fors_wave, fors_wave_aspired, fors_fits.data)
+
+
+# big plot here
 plt.figure(1, figsize=(10, 12))
 plt.clf()
 
 # FLOYDS
 plt.plot(
-    floyds_public_wave, floyds_data_resampled / 8 + 13.5e-16, color="skyblue"
+    floyds_public_wave, floyds_data_resampled / 8 + 13.5e-16, color="royalblue"
 )
-plt.plot(floyds_public_wave, floyds_public_data / 4 + 12e-16, color="salmon")
-plt.text(8200, 1.65e-15, 'LCO/FLOYDS - iPTF14hls')
+plt.plot(floyds_public_wave, floyds_public_data / 4 + 12e-16, color="crimson")
+plt.text(8100, 1.65e-15, "LCO/FLOYDS - iPTF14hls")
 
 # SPRAT
 plt.plot(
     sprat_public_wave[10:],
     sprat_data_resampled[10:] * 3.0 + 7.5e-16,
-    color="skyblue",
+    color="royalblue",
     label="ASPIRED reduction",
 )
 plt.plot(
     sprat_public_wave[10:],
     sprat_public_data[10:] + 6e-16,
-    color="salmon",
+    color="crimson",
     label="iraf-based reduction as per publication",
 )
-plt.text(8200, 8.5e-16, 'LT/SPRAT - DO Aql')
+plt.text(8100, 8.5e-16, "LT/SPRAT - DO Aql")
 
 # GMOS
-plt.plot(gmos_wave_combined, 8 * gmos_flux_combined + 1.5e-16, color="skyblue")
-plt.plot(
-    gmos_public_data_2[:, 0], 8 * gmos_public_data_2[:, 1], color="salmon"
+chip_gap_mask = (gmos_public_data_2[:, 0] < 7956.0) | (
+    gmos_public_data_2[:, 0] > 8009.0
 )
-plt.text(8200, 1.5e-16, 'Gemini/GMOS - GW170817')
+plt.plot(
+    gmos_public_data_2[:, 0][chip_gap_mask],
+    8 * gmos_flux_combined[chip_gap_mask] + 1.5e-16,
+    color="royalblue",
+)
+plt.plot(
+    gmos_public_data_2[:, 0], 8 * gmos_public_data_2[:, 1], color="crimson"
+)
+plt.text(8200, 1.5e-16, "Gemini/GMOS - AT 2017gfo")
 
 plt.xlim(3800, 9500)
 plt.ylim(0, 2.25e-15)
 plt.legend()
 
+# FORS
+plt.plot(fors_wave, 15 * fors_data_aspired * 21 + 1.5e-15, color="royalblue")
+plt.plot(
+    fors_wave,
+    fors_data / 8.0 + 1.4e-15,
+    color="olivedrab",
+    label="starlink-based reduction as per publication",
+)
+plt.text(5100, 2.0e-15, "VLT/FORS2 - V418 Ser")
+
+
+plt.xlim(3800, 9500)
+plt.ylim(0, 2.25e-15)
+plt.legend()
+
+
 ax = plt.gca()
 ax.set_yticks([])
 plt.xlabel(r"Wavelength ($\mathrm{\AA}$)")
-plt.ylabel("Arbitrary Flux")
+plt.ylabel("Arbitrary Flux (per $\mathrm{\AA}$)")
 plt.tight_layout()
+plt.savefig("fig_08_reduction_compared.pdf")
+plt.savefig("fig_08_reduction_compared.png")

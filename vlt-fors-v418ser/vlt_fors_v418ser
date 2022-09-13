@@ -1,0 +1,464 @@
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:1502] Referenced SpectrumOneD of thescience_spectrum_list for spec_id: 0.to the corresponding science_wavecal.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:1526] Referenced SpectrumOneD of thestandard_spectrum_list to the standard_wavecal.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:1655] 15 arc lines are found in science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:1688] 15 arc lines are found in standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:1887] Calibrator is initialised for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:1904] Calibrator is initialised for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:2070] Hough properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:2086] Hough properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:2375] Added user supplied atlas to science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:2395] Added user supplied atlas to standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:2783] Hough Transform is performed on science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:2793] Hough Transform is performed on standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:2185] Ransac properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:2204] Ransac properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:40] INFO [onedspec.py:3021] Attempting to fit wavelength solution for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:42] INFO [onedspec.py:3045] Wavelength solution is fitted for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:42] INFO [onedspec.py:3061] Attempting to fit wavelength solution for standard_spectrum_list[0].
+[Tue, 13 Sep 2022 17:57:44] INFO [onedspec.py:3081] Wavelength solution is fitted for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:44] INFO [onedspec.py:3638] Wavelength calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:44] INFO [onedspec.py:3661] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:44] WARNING [flux_calibration.py:471] The requested standard star cannot be found in the given library,  or the library is not specified. ASPIRED is using esoctiostan.
+[Tue, 13 Sep 2022 17:57:44] INFO [onedspec.py:3709] Loaded standard: ltt7379 from None
+[Tue, 13 Sep 2022 17:57:44] INFO [flux_calibration.py:1127] The exposure time used for computing sensitivity curve is 14.0116 seconds.
+[Tue, 13 Sep 2022 17:57:44] INFO [onedspec.py:3843] Sensitivity curve computed.
+[Tue, 13 Sep 2022 17:57:44] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 5039.819999999999 seconds.
+[Tue, 13 Sep 2022 17:57:44] INFO [onedspec.py:4057] Flux calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:44] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 14.0116 seconds.
+[Tue, 13 Sep 2022 17:57:44] INFO [onedspec.py:4084] Flux calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:44] INFO [onedspec.py:5771] Figure is saved to spectrum_0.jpg for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:45] INFO [onedspec.py:6100] Figure is saved to spectrum.jpg for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:45] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:45] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:45] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:45] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:45] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:45] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:46] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:46] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:46] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:46] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:46] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:46] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:46] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:47] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:47] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:47] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:47] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:47] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:47] INFO [onedspec.py:6779] FITS is created for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:57:48] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:48] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:48] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:48] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:49] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:49] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:49] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:50] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:50] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:57:50] INFO [onedspec.py:6799] FITS is created for the standard_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:19] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:19] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:19] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:19] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:19] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:20] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:20] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:20] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:20] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:20] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:20] INFO [onedspec.py:6779] FITS is created for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 17:58:20] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:58:21] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:58:21] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:58:21] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:58:21] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 17:58:22] INFO [onedspec.py:6799] FITS is created for the standard_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:1502] Referenced SpectrumOneD of thescience_spectrum_list for spec_id: 0.to the corresponding science_wavecal.
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:1526] Referenced SpectrumOneD of thestandard_spectrum_list to the standard_wavecal.
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:1655] 15 arc lines are found in science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:1688] 15 arc lines are found in standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:1887] Calibrator is initialised for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:1904] Calibrator is initialised for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:2070] Hough properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:2086] Hough properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:2375] Added user supplied atlas to science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:2395] Added user supplied atlas to standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:42] INFO [onedspec.py:2783] Hough Transform is performed on science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:43] INFO [onedspec.py:2793] Hough Transform is performed on standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:43] INFO [onedspec.py:2185] Ransac properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:43] INFO [onedspec.py:2204] Ransac properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:43] INFO [onedspec.py:3021] Attempting to fit wavelength solution for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:44] INFO [onedspec.py:3045] Wavelength solution is fitted for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:44] INFO [onedspec.py:3061] Attempting to fit wavelength solution for standard_spectrum_list[0].
+[Tue, 13 Sep 2022 18:02:46] INFO [onedspec.py:3081] Wavelength solution is fitted for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:46] INFO [onedspec.py:3638] Wavelength calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:46] INFO [onedspec.py:3661] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:46] WARNING [flux_calibration.py:471] The requested standard star cannot be found in the given library,  or the library is not specified. ASPIRED is using esoctiostan.
+[Tue, 13 Sep 2022 18:02:46] INFO [onedspec.py:3709] Loaded standard: ltt7379 from None
+[Tue, 13 Sep 2022 18:02:46] INFO [flux_calibration.py:1127] The exposure time used for computing sensitivity curve is 14.0116 seconds.
+[Tue, 13 Sep 2022 18:02:46] INFO [onedspec.py:3843] Sensitivity curve computed.
+[Tue, 13 Sep 2022 18:02:46] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 5039.819999999999 seconds.
+[Tue, 13 Sep 2022 18:02:46] INFO [onedspec.py:4057] Flux calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:46] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 14.0116 seconds.
+[Tue, 13 Sep 2022 18:02:46] INFO [onedspec.py:4084] Flux calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:46] INFO [onedspec.py:5771] Figure is saved to spectrum_0.jpg for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:46] INFO [onedspec.py:6100] Figure is saved to spectrum.jpg for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:47] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:47] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:47] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:47] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:47] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:47] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:47] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:47] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:48] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:48] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:48] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:48] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:48] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:48] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:48] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:48] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:49] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:49] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:49] INFO [onedspec.py:6779] FITS is created for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:02:49] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:49] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:50] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:50] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:50] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:50] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:50] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:51] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:51] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:02:51] INFO [onedspec.py:6799] FITS is created for the standard_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:1502] Referenced SpectrumOneD of thescience_spectrum_list for spec_id: 0.to the corresponding science_wavecal.
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:1526] Referenced SpectrumOneD of thestandard_spectrum_list to the standard_wavecal.
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:1655] 15 arc lines are found in science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:1688] 15 arc lines are found in standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:1887] Calibrator is initialised for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:1904] Calibrator is initialised for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:2070] Hough properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:2086] Hough properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:2375] Added user supplied atlas to science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:13] INFO [onedspec.py:2395] Added user supplied atlas to standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:14] INFO [onedspec.py:2783] Hough Transform is performed on science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:14] INFO [onedspec.py:2793] Hough Transform is performed on standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:14] INFO [onedspec.py:2185] Ransac properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:14] INFO [onedspec.py:2204] Ransac properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:14] INFO [onedspec.py:3021] Attempting to fit wavelength solution for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:16] INFO [onedspec.py:3045] Wavelength solution is fitted for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:16] INFO [onedspec.py:3061] Attempting to fit wavelength solution for standard_spectrum_list[0].
+[Tue, 13 Sep 2022 18:08:18] INFO [onedspec.py:3081] Wavelength solution is fitted for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:18] INFO [onedspec.py:3638] Wavelength calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:18] INFO [onedspec.py:3661] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:18] WARNING [flux_calibration.py:471] The requested standard star cannot be found in the given library,  or the library is not specified. ASPIRED is using esoctiostan.
+[Tue, 13 Sep 2022 18:08:18] INFO [onedspec.py:3709] Loaded standard: ltt7379 from None
+[Tue, 13 Sep 2022 18:08:18] INFO [flux_calibration.py:1127] The exposure time used for computing sensitivity curve is 14.0116 seconds.
+[Tue, 13 Sep 2022 18:08:18] INFO [onedspec.py:3843] Sensitivity curve computed.
+[Tue, 13 Sep 2022 18:08:18] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 5039.819999999999 seconds.
+[Tue, 13 Sep 2022 18:08:18] INFO [onedspec.py:4057] Flux calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:18] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 14.0116 seconds.
+[Tue, 13 Sep 2022 18:08:18] INFO [onedspec.py:4084] Flux calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:19] INFO [onedspec.py:5771] Figure is saved to spectrum_0.jpg for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:19] INFO [onedspec.py:6100] Figure is saved to spectrum.jpg for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:19] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:19] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:19] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:20] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:20] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:20] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:20] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:20] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:21] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:21] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:21] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:21] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:21] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:22] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:22] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:22] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:22] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:22] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:23] INFO [onedspec.py:6779] FITS is created for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:08:23] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:23] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:23] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:24] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:24] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:25] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:25] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:25] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:25] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:08:26] INFO [onedspec.py:6799] FITS is created for the standard_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:1502] Referenced SpectrumOneD of thescience_spectrum_list for spec_id: 0.to the corresponding science_wavecal.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:1526] Referenced SpectrumOneD of thestandard_spectrum_list to the standard_wavecal.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:1655] 15 arc lines are found in science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:1688] 15 arc lines are found in standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:1887] Calibrator is initialised for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:1904] Calibrator is initialised for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:2070] Hough properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:2086] Hough properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:2375] Added user supplied atlas to science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:2395] Added user supplied atlas to standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:2783] Hough Transform is performed on science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:2793] Hough Transform is performed on standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:2185] Ransac properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:2204] Ransac properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:30] INFO [onedspec.py:3021] Attempting to fit wavelength solution for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:32] INFO [onedspec.py:3045] Wavelength solution is fitted for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:32] INFO [onedspec.py:3061] Attempting to fit wavelength solution for standard_spectrum_list[0].
+[Tue, 13 Sep 2022 18:12:33] INFO [onedspec.py:3081] Wavelength solution is fitted for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:33] INFO [onedspec.py:3638] Wavelength calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:33] INFO [onedspec.py:3661] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:33] WARNING [flux_calibration.py:471] The requested standard star cannot be found in the given library,  or the library is not specified. ASPIRED is using esoctiostan.
+[Tue, 13 Sep 2022 18:12:33] INFO [onedspec.py:3709] Loaded standard: ltt7379 from None
+[Tue, 13 Sep 2022 18:12:33] INFO [flux_calibration.py:1127] The exposure time used for computing sensitivity curve is 14.0116 seconds.
+[Tue, 13 Sep 2022 18:12:34] INFO [onedspec.py:3843] Sensitivity curve computed.
+[Tue, 13 Sep 2022 18:12:34] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 5039.819999999999 seconds.
+[Tue, 13 Sep 2022 18:12:34] INFO [onedspec.py:4057] Flux calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:34] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 14.0116 seconds.
+[Tue, 13 Sep 2022 18:12:34] INFO [onedspec.py:4084] Flux calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:34] INFO [onedspec.py:5771] Figure is saved to spectrum_0.jpg for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:34] INFO [onedspec.py:6100] Figure is saved to spectrum.jpg for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:34] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:34] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:34] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:35] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:35] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:35] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:35] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:35] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:35] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:35] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:35] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:36] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:36] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:36] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:36] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:36] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:36] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:36] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:37] INFO [onedspec.py:6779] FITS is created for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:37] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:37] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:37] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:37] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:38] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:38] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:38] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:38] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:39] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:12:39] INFO [onedspec.py:6799] FITS is created for the standard_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:39] INFO [onedspec.py:8439] FITS file is saved to reduced_science_0 for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:12:40] INFO [onedspec.py:8462] FITS file is saved to reduced_standard for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:24:30] INFO [onedspec.py:5140] cp extinction correction function is loaded.
+[Tue, 13 Sep 2022 18:24:30] INFO [onedspec.py:5213] Airmass is set to be 1.101.
+[Tue, 13 Sep 2022 18:24:30] INFO [onedspec.py:5313] Standard airmass is 1.101.
+[Tue, 13 Sep 2022 18:24:30] INFO [onedspec.py:5314] Science airmass is 1.207.
+[Tue, 13 Sep 2022 18:24:30] INFO [onedspec.py:5407] Atmospheric extinction is corrected.
+[Tue, 13 Sep 2022 18:24:31] INFO [onedspec.py:5771] Figure is saved to spectrum_0.jpg for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:31] INFO [onedspec.py:6100] Figure is saved to spectrum.jpg for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:24:31] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:31] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:31] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:31] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:31] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:32] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:32] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:32] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:32] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:32] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:32] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:32] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:33] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:33] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:33] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:33] INFO [onedspec.py:6779] FITS is created for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:24:33] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:24:34] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:24:34] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:24:34] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:24:35] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:24:35] INFO [onedspec.py:6799] FITS is created for the standard_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:11] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:11] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:11] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:12] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:12] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:12] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:12] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:12] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:12] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:12] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:12] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:12] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:13] INFO [onedspec.py:6779] FITS is created for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:25:13] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:25:13] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:25:13] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:25:14] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:25:14] INFO [onedspec.py:6799] FITS is created for the standard_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:1502] Referenced SpectrumOneD of thescience_spectrum_list for spec_id: 0.to the corresponding science_wavecal.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:1526] Referenced SpectrumOneD of thestandard_spectrum_list to the standard_wavecal.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:1655] 15 arc lines are found in science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:1688] 15 arc lines are found in standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:1887] Calibrator is initialised for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:1904] Calibrator is initialised for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:2070] Hough properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:2086] Hough properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:2375] Added user supplied atlas to science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:2395] Added user supplied atlas to standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:2783] Hough Transform is performed on science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:2793] Hough Transform is performed on standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:2185] Ransac properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:2204] Ransac properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:16] INFO [onedspec.py:3021] Attempting to fit wavelength solution for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:18] INFO [onedspec.py:3045] Wavelength solution is fitted for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:18] INFO [onedspec.py:3061] Attempting to fit wavelength solution for standard_spectrum_list[0].
+[Tue, 13 Sep 2022 18:28:19] INFO [onedspec.py:3081] Wavelength solution is fitted for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:19] INFO [onedspec.py:3638] Wavelength calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:19] INFO [onedspec.py:3661] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:19] WARNING [flux_calibration.py:471] The requested standard star cannot be found in the given library,  or the library is not specified. ASPIRED is using esoctiostan.
+[Tue, 13 Sep 2022 18:28:19] INFO [onedspec.py:3709] Loaded standard: ltt7379 from None
+[Tue, 13 Sep 2022 18:28:19] INFO [flux_calibration.py:1127] The exposure time used for computing sensitivity curve is 14.0116 seconds.
+[Tue, 13 Sep 2022 18:28:19] INFO [onedspec.py:3843] Sensitivity curve computed.
+[Tue, 13 Sep 2022 18:28:19] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 5039.819999999999 seconds.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:4057] Flux calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:20] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 14.0116 seconds.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:4084] Flux calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:5140] cp extinction correction function is loaded.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:5213] Airmass is set to be 1.101.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:5313] Standard airmass is 1.101.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:5314] Science airmass is 1.207.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:5407] Atmospheric extinction is corrected.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:5771] Figure is saved to spectrum_0.jpg for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:6100] Figure is saved to spectrum.jpg for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:20] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:21] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:21] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:21] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:21] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:21] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:21] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:21] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:22] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:22] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:22] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:22] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:22] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:22] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:22] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:22] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:23] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:23] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:23] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:23] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:23] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:23] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:23] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:23] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:24] INFO [onedspec.py:6779] FITS is created for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:24] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:24] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:25] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:25] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:25] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:26] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:26] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:27] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:27] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:28:28] INFO [onedspec.py:6799] FITS is created for the standard_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:28] INFO [onedspec.py:8439] FITS file is saved to reduced_science_0 for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:28:28] INFO [onedspec.py:8462] FITS file is saved to reduced_standard for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:43] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 18:56:43] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Tue, 13 Sep 2022 18:56:43] INFO [onedspec.py:1502] Referenced SpectrumOneD of thescience_spectrum_list for spec_id: 0.to the corresponding science_wavecal.
+[Tue, 13 Sep 2022 18:56:43] INFO [onedspec.py:1526] Referenced SpectrumOneD of thestandard_spectrum_list to the standard_wavecal.
+[Tue, 13 Sep 2022 18:56:43] INFO [onedspec.py:1655] 15 arc lines are found in science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:1688] 15 arc lines are found in standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:1887] Calibrator is initialised for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:1904] Calibrator is initialised for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:2070] Hough properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:2086] Hough properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:2375] Added user supplied atlas to science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:2395] Added user supplied atlas to standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:2783] Hough Transform is performed on science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:2793] Hough Transform is performed on standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:2185] Ransac properties are set for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:2204] Ransac properties are set for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:44] INFO [onedspec.py:3021] Attempting to fit wavelength solution for science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:46] INFO [onedspec.py:3045] Wavelength solution is fitted for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:46] INFO [onedspec.py:3061] Attempting to fit wavelength solution for standard_spectrum_list[0].
+[Tue, 13 Sep 2022 18:56:47] INFO [onedspec.py:3081] Wavelength solution is fitted for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:47] INFO [onedspec.py:3638] Wavelength calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:47] INFO [onedspec.py:3661] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:47] WARNING [flux_calibration.py:471] The requested standard star cannot be found in the given library,  or the library is not specified. ASPIRED is using esoctiostan.
+[Tue, 13 Sep 2022 18:56:47] INFO [onedspec.py:3709] Loaded standard: ltt7379 from None
+[Tue, 13 Sep 2022 18:56:47] INFO [flux_calibration.py:1127] The exposure time used for computing sensitivity curve is 14.0116 seconds.
+[Tue, 13 Sep 2022 18:56:48] INFO [onedspec.py:3843] Sensitivity curve computed.
+[Tue, 13 Sep 2022 18:56:48] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 5039.819999999999 seconds.
+[Tue, 13 Sep 2022 18:56:48] INFO [onedspec.py:4057] Flux calibration is applied for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:48] INFO [flux_calibration.py:1583] The exposure time used for flux calibration is 14.0116 seconds.
+[Tue, 13 Sep 2022 18:56:48] INFO [onedspec.py:4084] Flux calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:48] INFO [onedspec.py:5140] cp extinction correction function is loaded.
+[Tue, 13 Sep 2022 18:56:48] INFO [onedspec.py:5213] Airmass is set to be 1.101.
+[Tue, 13 Sep 2022 18:56:48] INFO [onedspec.py:5313] Standard airmass is 1.101.
+[Tue, 13 Sep 2022 18:56:48] INFO [onedspec.py:5314] Science airmass is 1.207.
+[Tue, 13 Sep 2022 18:56:48] INFO [onedspec.py:5407] Atmospheric extinction is corrected.
+[Tue, 13 Sep 2022 18:56:48] INFO [onedspec.py:5771] Figure is saved to spectrum_0.jpg for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:48] INFO [onedspec.py:6100] Figure is saved to spectrum.jpg for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:48] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:49] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:49] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:49] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:49] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:49] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:49] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:50] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:50] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:50] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:50] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:50] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:50] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:51] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:51] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:51] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:51] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:51] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:51] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:52] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:52] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:52] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:52] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:52] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:52] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:53] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:53] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:53] INFO [onedspec.py:6779] FITS is created for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:53] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:54] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:54] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:55] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:55] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:56] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:56] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:57] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:58] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Tue, 13 Sep 2022 18:56:58] INFO [onedspec.py:6799] FITS is created for the standard_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:59] INFO [onedspec.py:8439] FITS file is saved to reduced_science_0 for the science_spectrum_list for spec_id: 0.
+[Tue, 13 Sep 2022 18:56:59] INFO [onedspec.py:8462] FITS file is saved to reduced_standard for the standard_spectrum_list.
