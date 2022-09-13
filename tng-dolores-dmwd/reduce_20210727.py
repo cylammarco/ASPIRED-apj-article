@@ -604,38 +604,60 @@ dmwd_blue_4_onedspec.inspect_reduced_spectrum(
     wave_min=3000, wave_max=8500, display=False
 )
 
+dmwd_red_1_onedspec.create_fits(
+    output="flux_resampled_atm_ext_telluric_corrected",
+)
+dmwd_red_2_onedspec.create_fits(
+    output="flux_resampled_atm_ext_telluric_corrected",
+)
+dmwd_red_3_onedspec.create_fits(
+    output="flux_resampled_atm_ext_telluric_corrected",
+)
+dmwd_blue_1_onedspec.create_fits(
+    output="flux_resampled_atm_ext_telluric_corrected",
+)
+dmwd_blue_2_onedspec.create_fits(
+    output="flux_resampled_atm_ext_telluric_corrected",
+)
+dmwd_blue_3_onedspec.create_fits(
+    output="flux_resampled_atm_ext_telluric_corrected",
+)
+dmwd_blue_4_onedspec.create_fits(
+    output="flux_resampled_atm_ext_telluric_corrected",
+)
+
 dmwd_red_1_onedspec.save_fits(
-    output="flux_atm_ext_telluric_corrected",
+    output="flux_resampled_atm_ext_telluric_corrected",
     filename="dmwd_red_1",
     overwrite=True,
 )
 dmwd_red_2_onedspec.save_fits(
-    output="flux_atm_ext_telluric_corrected",
+    output="flux_resampled_atm_ext_telluric_corrected",
     filename="dmwd_red_2",
     overwrite=True,
 )
 dmwd_red_3_onedspec.save_fits(
-    output="flux_atm_ext_telluric_corrected",
+    output="flux_resampled_atm_ext_telluric_corrected",
     filename="dmwd_red_3",
     overwrite=True,
 )
 dmwd_blue_1_onedspec.save_fits(
-    output="flux_atm_ext_telluric_corrected",
+    output="flux_resampled_atm_ext_telluric_corrected",
     filename="dmwd_blue_1",
     overwrite=True,
 )
 dmwd_blue_2_onedspec.save_fits(
-    output="flux_atm_ext_telluric_corrected",
+    output="flux_resampled_atm_ext_telluric_corrected",
     filename="dmwd_blue_2",
     overwrite=True,
 )
 dmwd_blue_3_onedspec.save_fits(
-    output="flux_atm_ext_telluric_corrected",
+    output="flux_resampled_atm_ext_telluric_corrected",
     filename="dmwd_blue_3",
     overwrite=True,
 )
 dmwd_blue_4_onedspec.save_fits(
-    output="flux_atm_ext_telluric_corrected",
+    output="flux_resampled_atm_ext_telluric_corrected",
     filename="dmwd_blue_4",
     overwrite=True,
 )

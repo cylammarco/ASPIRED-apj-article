@@ -192,3 +192,13 @@ pso_reduced.inspect_reduced_spectrum(
     renderer="jpg+notebook",
     filename="g93_reduced_spectrum",
 )
+
+pso_reduced.create_fits(
+    output="flux_resampled_atm_ext_telluric_corrected",
+)
+
+pso_reduced.save_fits(
+    output="flux_resampled_atm_ext_telluric_corrected",
+    filename="pso_reduced_red",
+    overwrite=True,
+)
