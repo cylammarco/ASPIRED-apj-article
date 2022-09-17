@@ -192,10 +192,10 @@ plt.plot(
     label="GTC/OSIRIS R1000B",
 )
 plt.text(
-    4500, 6.1e-14, "Many absorption lines in", color="royalblue", alpha=0.8
+    4400, 6.3e-14, "Many absorption lines in", color="royalblue", alpha=0.8
 )
 plt.text(
-    4300, 6.1e-14, "both target and standard", color="royalblue", alpha=0.8
+    4400, 6.1e-14, "both target and standard", color="royalblue", alpha=0.8
 )
 
 # DOLORES
