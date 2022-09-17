@@ -267,7 +267,7 @@ fors_data_aspired = spectres(fors_wave, fors_wave_aspired, fors_fits.data)
 
 
 # big plot here
-plt.figure(1, figsize=(10, 12))
+plt.figure(1, figsize=(8, 8))
 plt.clf()
 
 # FLOYDS
