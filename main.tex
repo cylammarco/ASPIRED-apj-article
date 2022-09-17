@@ -467,10 +467,10 @@ data. The FITS file I/O handling is also handled by \texttt{spectrum1D}.
 \subsection{Data Reduction Modules}
 
 \subsubsection{\texttt{image\_reduction}}
-This module allows combining, subtracting and dividing of light,
-dark, bias and flat frames. The FITS header of the first light frame provided
+This module allows mean-, median-, and sum-combining, subtracting and dividing of light,
+dark, bias and flat frames. The FITS header of the \textit{first} light frame provided
 is copied over, while the headers from the other frames are not stored -- only
-the file paths are stored as meta-data. The image reduction meta-data
+the file paths are stored as meta-data. These image reduction meta-data
 are appended to the end of the FITS header. Depending on the convention
 adopted by the observatories, the FITS file is defaulted to contain an empty \texttt{PrimaryHDU}
 with the process data stored in the first \texttt{ImageHDU} extension as
@@ -480,32 +480,37 @@ or it can be stored directly in the \texttt{PrimaryHDU} as most users tend
 to opt for. Many forms of interactive and static images can be exported,
 powered by the \textsc{Plotly} image renderer.
 
-\textsc{ASPIRED} intends to provide basic image reduction methods, sufficient for simple
-optical systems, which are the primary targets of \textsc{ASPIRED}. For
+\textsc{ASPIRED} only intends to provide basic image reduction methods, sufficient
+for simple instrumental setup, which are the primary targets of \textsc{ASPIRED}. For
 example, a long slit spectrograph with a rectilinear 2D spectrum illuminated
 on the detector plane, i.e. the dispersion and spatial directions are perfectly
-perpendicular to each other across the entire detector plane. It is usually
+perpendicular to each other across the entire detector plane. It is also
+assumed that bias, dark and flats frames are already ready for use without
+extra processing. It is usually
 not immediately suitable for complex systems that have multiple non-parallel
 spectra illuminated on the detector plane. In the FLOYDS reduction example,
-we demonstrate how two non-parallel, highly curved spectra in a single
+we demonstrate how two non-parallel curved spectra in a single
 2D spectral image can be reduced and extracted by applying a mask to the
 data.
 
 \subsubsection{\texttt{spectral\_reduction}}
-This is a large module that covers both 1D and 2D operations. In 2D, it
-provides image rectification, spectral tracing and spectral extraction.
-In 1D, it can perform wavelength calibration, flux calibration, atmospheric
-extinction correction and Telluric absorption correction. Diagnostic images
-can be exported at each step of operation, including the wavelength calibration
-that wraps around \textsc{RASCAL} and uses their native plotting capability.
-Outputs can be in FITS or ASCII files, e.g.\ CSV, where possible. See the next
+This is a large module that covers both one-dimensional and two-dimensional
+operations. In two dimensions, it provides image rectification, spectral tracing
+and spectral extraction. In 1D, it can perform wavelength calibration, flux
+calibration, atmospheric extinction correction and Telluric absorption correction.
+Diagnostic images can be exported at each step of operation, including the
+wavelength calibration that wraps around \textsc{RASCAL} and uses their native
+plotting capability. Outputs can be in FITS or CSV, where possible. See the next
 section for the mathematical and scientific descriptions of the various methods.
 
-\subsubsection{\texttt{spectrum1D}}
-This module provides a uniform format to store the metadata
-and the extracted data throughout the entire spectral extraction process.
+\subsubsection{\texttt{spectrum_oneD}}
+This module provides a uniform format to store the metadata and the extracted
+data throughout the entire spectral extraction process. Since multiple spectra
+can be extracted from a \verb+TwoDSpec+ object, each extracted spectrum is stored
+in an independent \verb+SpectrumOneD+ object. They get passed from a \verb+TwoDSpec+
+object an \verb+OneDSpec+ object that stores
 Data storage of observational data is almost exclusively done with FITS files,
-but they are not human readable. In view of that, \textsc{ASPIRED} provides I/O handling
+but they are not human-readable. In view of that, \textsc{ASPIRED} provides I/O handling
 of both FITS and ASCII-type files. All the higher-level functions are wrappers on
 top of a \texttt{spectrum1D} object.
 
@@ -522,7 +527,7 @@ post-extraction processes or spectral analysis and manipulation.
 There are many sophisticated software packages with good and long track records
 to handle these processes post hoc. For example, sky glow subtraction
 with \textsc{Skycorr}~\citep{2014A&A...567A..25N}, or Telluric
-absorption removal \textbf{wihtout} supplementary calibration data with
+absorption removal wihtout supplementary calibration data with
 \textsc{MoleFit}~\citep{2015A&A...576A..77S, 2015A&A...576A..78K}.
 The following describes the technical details of the eight steps,
 where we use the following convention: the spectral image is dispersed
@@ -531,13 +536,15 @@ the blue part of the spectrum and the right side (large pixel number) to the red
 
 \subsection{Spectral Identification and Tracing}
 \label{sec:tracing}
-Conventionally, to obtain the position of a spectrum (i.e.\ trace), the centre of
-a spectrum in the dispersion direction is first identified, then a choice
-algorithm will scan across the spectral image to identify the spectral position
-over the entire dispersion direction. Instead, in \textsc{ASPIRED}, the \texttt{ap\_trace()}
-function works by dividing the 2D spectrum into sub-spectra, and then each part
-is summed along the spectral direction before cross-correlating with the adjacent
-sub-spectra. This way, both the shift and the scaling of the spectrum/a along the
+Conventionally, to obtain the position of a spectrum in a frame~(i.e.\ trace),
+the centre of a spectrum in the dispersion direction is first identified,
+then a choice of algorithm will scan across the spectral image to identify
+the spectral position over the entire dispersion direction. In \textsc{ASPIRED},
+the \texttt{ap\_trace()} function works by dividing the 2D spectrum into
+sub-spectra, and then each part is summed along the spectral direction before
+cross-correlating with the adjacent sub-spectra, with an optional variable scaling
+factor that models a linear change in the width of the trace. Such function is
+off by default. This way, both the shift and the scaling of the spectrum/a along the
 spectral direction can be found simultaneously. The middle of the
 2D spectrum is used as the zero point of the procedure. Here is a
 detailed description of the algorithm:
@@ -582,9 +589,9 @@ sources that are beyond the capability of automated tracing. For
 example, if there is a faint transient source on top of a galaxy,
 a manual offset may be needed for extraction if the host is
 dominating the flux to a level that forced extraction is necessary.
-Otherwise, we recommend extracting the two (or more) most significant
-peaks for validation; the number needed depends on
-the environment and the morphology of the galaxy.
+For an optical design where the source spectrum is always illuminated
+at the same pixels of a detector, it is possible to reuse the trace
+from the standard frame for spectral extraction of the science target.
 
 \begin{figure}
     \centering
@@ -604,21 +611,23 @@ the environment and the morphology of the galaxy.
 
 
 \subsection{Image Rectification}
-In most cases, a spectrum on the detector plane is not only tilted,
+In some cases, a spectrum on the detector plane is not only tilted,
 but it is also sufficiently distorted that the extraction has to be
-performed along a curve in order to perform sky subtraction properly.
-While this does not cause any complication in the tracing, the
-spatial and dispersion directions are no longer aligned with the x-y
-axes of the detector plane. \textsc{PyReduce} can optimally extract
-such highly distorted spectra, but the lack of sky subtraction using
-the ``wings'' in the sky region beyond the line-spread-profile has
-limited the usage in a typical single-frame extraction without an
-accompanying sky observation at an identical slit position.
-Alternatively to extracting along a curve, the 2D image can be
-rectified based on the spectral trace and sky emission or arc lines
-before extraction, so that the latter is performed on a spectrum~(nearly)
-perfectly aligned with the detector x-y axes. Using the arc frame for
-this process will deliver a more reliable rectification function.
+performed along a curve to remove the sky background count
+properly. While this does not cause any complication in the tracing,
+the spatial and dispersion directions are no longer aligned with the
+x-y axes of the detector plane. \textsc{PyReduce} can optimally
+extract such highly distorted spectra, but the lack of sky subtraction
+using the ``wings'' in the sky region on either sides of the
+line-spread-profile has limited the usage in a typical single-frame
+extraction without an accompanying sky observation at an identical slit
+settings. In \textsc{ASPIRED}, a \verb+TwoDSpec+ object makes use of
+the spectral trace to align and resample the spectral image in the spatial
+direction. By using the sky emission (or coadded arc lines), it
+aligns and resamples the image in the dispersion direction, so that the
+latter is performed on a spectrum~(nearly) perfectly aligned with the
+detector x-y axes. Using the arc frame for this process will deliver
+a more reliable rectification function.
 
 The rectification in the spatial direction depends \textbf{only}
 on the trace. Each column of pixels gets (scaled and) shifted by
@@ -649,9 +658,14 @@ one trace. If more than one trace is found/provided, only the first
 one will get processed. The resampling is performed with
 \texttt{scipy.ndimage.zoom} which interpolates with a spline (the
 electron count is not always perfectly conserved, but the difference
-is negligible). It is possible to supply a set of pre-computed polynomials to perform
-the rectification, which can significantly speed up the data reduction
-process of a stable optical system.
+is negligible). It is possible to supply a set of pre-computed
+polynomials to perform the rectification, which can significantly
+speed up the data reduction process of a stable optical system.
+A change in the zeroth order coefficient can shift the bluest part
+of the spectrum to the reddest part, and vice versa. However, as long
+as the effect is identical in the science frame and the standard frame
+they can be calibrated or trimmed. Furthermore, the edges of
+a detector are usually unusable so it possesses little problem.
 
 \subsection{Spectral Extraction}
 \label{sec:extract}
@@ -713,24 +727,24 @@ Smoothing~\citep[LOWESS]{doi:10.1080/01621459.1979.10481038}
 regression to fit for a polynomial, and the third accepts
 a manually supplied profile.
 
-The default option is to use the LOWESS fit because it is the
-least sensitive to noise, cosmic ray contamination and detector
-artefacts. It is also flexible enough to allow a good fit for
-the profile of a resolved galaxy. This may, however, be less
-accurate for extracting a faint spectrum when the image is
-dominated by background noise. In such a case, the Gaussian
-profile is recommended as the profile is constructed from fitting
-the line-spread function from the total stack of all the
-sub-spectra~(as described in Sec.~\ref{sec:tracing}). The quality
-of a valid profile should be as good as an extraction
-performed with the top-hat extraction method.
+The default option is to use the Gaussian fit because it is
+more robust against noise, cosmic ray contamination and detector
+artefacts. It is particularly useful in extracting a faint
+spectrum when the image is dominated by background noise as the
+Gaussian profile is constructed from fitting the line-spread
+function from the total stack of all the
+sub-spectra~(as described in Sec.~\ref{sec:tracing}).
+LOWESS, on the other hand, would do a better job in fitting
+the profile of a resolved galaxy. In any case, the quality
+of the extraction from a valid profile should be at least as
+good as that performed with the top-hat extraction method.
 
 \subsubsection*{Marsh-89 Optimal Extraction}
 \citet[hereafter M89]{1989PASP..101.1032M} improves on the H86
 algorithm by fitting the change in the shape and centroid of the
 profile from one end of the spectrum to the other. It is very
 suited for extracting a highly tilted spectrum where the tilting
-direction is aligned with only \textbf{one} direction in the $x-$
+direction is aligned with only \textbf{one} direction in the $x$-
 or the $y$-axis of the detector. Here we adapt Ian Crossfield's set of public
 \textsc{Python 2} code for Astronomy\footnote{\url{https://people.ucsc.edu/~ianc/python/}}$^,$\footnote{\url{https://crossfield.ku.edu/python/}}
 to \textsc{Python 3}.
@@ -761,7 +775,8 @@ the fitting solution and its quality~(Fig.~\ref{fig:wavecal}).
 
 The polynomial coefficients for the calibration can be supplied
 directly, which would be useful for stable instruments in which
-the variations in the dispersion are negligible.
+the variations in the dispersion are negligible. All the NIST lines
+are available but we recommend providing arc lines manually.
 
 \begin{figure}
     \centering
@@ -797,20 +812,24 @@ can be applied to the data before computing the sensitivity curve.
 This function works by fitting low-order polynomials to localised
 subsets of the data to suppress noise in the data at each point
 interval. It is similar to the commonly used median boxcar filter,
-but uses more weighted information to better
-retain information while removing noise. This can be
-used independently or with continuum fitting (see below), which
-uses a LOWESS filter. By default, the SG-filter removes only
-significant noise~(e.g.\ those from unsubtracted cosmic rays).
+but uses more weighted information to retain information better
+while removing noise. This can be used independently or with
+continuum fitting (see below), which uses a LOWESS filter. By default,
+the SG-filter removes only significant noise~(e.g.\ those from
+unsubtracted cosmic rays).
 
 \subsubsection*{Continuum Fitting}
 By default, the continuum of the standard spectrum is found for
-deriving the sensitivity curve. This process is used after the
+deriving the sensitivity curve. However, this process is strongly
+dependent on both the resolution of the literature and the observed
+standards, as well as the absorption lines in 
+
+This process is used after the
 smoothing procedure~(if performed). The continuum is found by
 fitting the standard spectrum with a LOWESS function as described in
 Sec.~\ref{sec:extract}. This can remove any outlying random noise
-as well as the absorption lines when computing the sensitivity. Users
-are reminded to be cautious with this procedure as the removal of the
+and absorption lines when computing the sensitivity. Users
+are reminded to be cautious with this procedure as removing the
 absorption features in computing the sensitivity function can
 significantly affect the flux calibration near the absorption features.
 
@@ -821,9 +840,8 @@ spline or a polynomial function~(Fig.~\ref{fig:fluxcal}. This can be
 done with or without any pre-smoothing and/or continuum fitting. Users
 can also manually supply a sensitivity function as a callable function
 that accepts a wavelength value and returns the $\log$ of the sensitivity
-value at that wavelength. The sensitivity function does not carry the
-concept of units; it can be magnitude, flux, or any other appropriate
-unit (if supplied manually).
+value at that wavelength. When such a curve is provided manually, it
+is assumed to be in the flux unit.
 
 \begin{figure}
     \centering
@@ -861,35 +879,44 @@ for a comparison plot of the atmospheric extinction curves.
     The extinction table of La Silla Observatory terminates at $9000$\,\AA. The rise at
     the red end of the curve is an undesired artefact due to extrapolation using a
     cubic spline. We are explicitly plotting this range to serve as a warning since we
-    opt to preserve the input data as provided.}
+    opt to preserve the raw data as provided without appending fake data points.}
     \label{fig:extinction}
 \end{figure}
 
 \subsection{Telluric Absorption Removal}
-During the process of generating the sensitivity function, masks over
-the Telluric regions are also used to generate the Telluric absorption
+During the process of generating the sensitivity function, masks are used
+over the Telluric regions to generate the Telluric absorption
 profile from the standard star. The default masking regions are $6850-6960$
 and $7580-7700$\ \AA\ only. This profile can then be multiplied
 by a factor to be determined in order to remove the Telluric absorption
 features in the science target. The best multiplicative factor is found
-by minimising the difference between the continuum and the
-Telluric-absorption-removed-spectrum. An \textbf{additional} multiplier can
-be manually provided to adjust the strength of the subtraction. This is
-designed for manually fine-tuning the absorption factor; otherwise, it is
-defaulted to $1.0$.
+by minimising the difference between the continuum and the Telluric-absorption
+corrected spectrum simultaneously for all the Telluric absorption features.
+An \textbf{additional} multiplier can be manually provided to adjust the
+strength of the subtraction. This is designed for manually fine-tuning the
+absorption factor; otherwise, it is defaulted to $1.0$.
 
 \section{Example Data Reduction Product}
 Being a flexible toolkit, \texttt{ASPIRED} is not designed to reduce data for a
 specific instrument. Instead, it can be customised to suit many configurations,
-as long as they are longslit-like. We demonstrate that with data products
+as long as they are long-slit-like. We demonstrate that with data products
 from nine different instruments, most of them have conventional long-slit settings.
-In the case of Gemini/GMOS, it has a single spectrum exposed onto three detectors.
-LCO/FLOYDS has a beam-splitter to expose the first order red beam and the
-second order blue beam into two non-parallel curved spectra on a single chip.
+In the case of Gemini/GMOS, it has a single spectrum exposed onto three detectors,
+we compare the reduction against the official one for the kilonova event AT 2017gfo.
+Las Cumbres Observatory/FLOYDS has a beam-splitter to expose the first order red
+beam and the second order blue beam into two non-parallel curved spectra on a
+single chip; the SN II-P iPTF14hls with strong emission lines is used as an example.
+The Liverpool Telescope/SPRAT is a high throughput low-resolution spectrograph
+with a conventional optical design; in this case, we compare the reduction of
+a nova shell DO Aql from a stack of four individual exposures. The Very Large
+Telescope/FORS2 data of a helium accretor~(AM CVn) V418 Ser stacked from 21
+individual exposures is used as our last comparison.
+
 WHT/ISIS demonstrates an extremely low SNR reduction of an ultra-cool white
 dwarf with a smooth blackbody-like spectrum. The TNG/DOLORES shows a
 simultaneous tracing followed by sequential extraction of three spectra
-dispersed in one exposure. We compare the spectra with the published ones if they are available.
+dispersed in one exposure. We compare the spectra with the published ones if
+they are available.
 
 \footnote{\url{https://www.wiserep.org/}}
 
@@ -898,13 +925,13 @@ dispersed in one exposure. We compare the spectra with the published ones if the
     \begin{tabular}{l|c|c|c}\hline
         Telescope/Instrument & Object Type                                 & Spectral Resolution & Arc \\\hline\hline
         \multicolumn{4}{c}{Longslit Setup}\\\hline
-        SOAR/GHTS            & Type IIn Supernova (AT22NXG)                & ?                   & HgArNe \\
+        SOAR/GHTS            & Type IIn Supernova (AT 22nxg)               & ?                   & HgArNe \\
         Liverpool/SPRAT      & Nova shell remnant (DO Aql)                 & ?                   & Xe \\
-        GTC/OSIRIS           & BLAP (ZGP-BLAP-09) & ?                   & HgArNe \\
+        GTC/OSIRIS           & BLAP (ZGP-BLAP-09)                          & ?                   & HgArNe \\
         INT/IDS              & Binary Stars at high resolution             & ?                   & ? \\
-        VLT/FORS             & AM CVn                                      & ?                   & ? \\\hline
+        VLT/FORS             & AM CVn (V418 Ser)                           & ?                   & HeHgCd \\\hline
         \multicolumn{4}{c}{Longslit-like Setup}\\\hline
-        Gemini/GMOS          & kilonova (GW170817)                         & ?                   & CuAr \\
+        Gemini/GMOS          & kilonova (AT 2017gfo)                       & ?                   & CuAr \\
         LCO/FLOYDS           & Type II-P (iPTF14hls)                       & ?                   & HgArZn \\\hline
         \multicolumn{4}{c}{Special Use Cases}\\\hline
         TNG/DOLORES          & Common Proper Motion System (dM + dMWD)     & ?                   & ArKrNeHg \\
