@@ -203,7 +203,7 @@ plt.plot(
     dolores_wave,
     dolores_flux + 1.5e-14,
     color="crimson",
-    label="TNG/DOLORES dMWD",
+    label="TNG/DOLORES LR-B",
 )
 plt.plot(
     dolores_dm_wave,
