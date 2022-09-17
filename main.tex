@@ -365,7 +365,7 @@ writing, we have successfully used \textsc{ASPIRED} to reduce data from the Will
 \textit{Intermediate-dispersion Spectrograph and Imaging System}
 \footnote{\url{https://www.ing.iac.es/astronomy/instruments/isis}}~(WHT/ISIS), Las Cumbres
 Observatory FLOYDS~\citep[LCO/FLOYDS]{2013PASP..125.1031B}, Gemini Observatory
-\textit{Gemini Multi-Object Spectrographs} long slit
+\textit{Gemini Multi-Object Spectrographs} long-slit
 mode~\citep[Gemini/GMOS-LS]{2004PASP..116..425H}, Gran Telescopio Canarias \textit{Optical
 System for Imaging and low-Intermediate-Resolution Integrated
 Spectroscopy}~\citep[GTC/OSIRIS]{2000SPIE.4008..623C}, and Telescopio Nazionale Galileo
@@ -374,8 +374,8 @@ RESolution\footnote{\url{http://www.tng.iac.es/instruments/lrs}}}~(TNG/DOLORES);
 these are currently still unofficial sets of reduction procedures. The examples of these deployments can be
 found at \url{https://github.com/cylammarco/aspired-example}.
 
-This paper is organised as follows: Section \textsection2 covers the software's development and
-organisation. Then, we go through the details of the spectral reduction
+This paper is organised as follows: Section \textsection2 covers the development and
+organisation of the software. Then, we go through the details of the spectral reduction
 procedures in Section \textsection3. In the last section, we provide various links
 for references and instructions for installation.
 
@@ -482,7 +482,7 @@ powered by the \textsc{Plotly} image renderer.
 
 \textsc{ASPIRED} only intends to provide basic image reduction methods, sufficient
 for simple instrumental setup, which are the primary targets of \textsc{ASPIRED}. For
-example, a long slit spectrograph with a rectilinear 2D spectrum illuminated
+example, a long-slit spectrograph with a rectilinear 2D spectrum illuminated
 on the detector plane, i.e. the dispersion and spatial directions are perfectly
 perpendicular to each other across the entire detector plane. It is also
 assumed that bias, dark and flats frames are already ready for use without
@@ -894,7 +894,7 @@ by minimising the difference between the continuum and the Telluric-absorption
 corrected spectrum simultaneously for all the Telluric absorption features.
 An \textbf{additional} multiplier can be manually provided to adjust the
 strength of the subtraction. This is designed for manually fine-tuning the
-absorption factor; otherwise, it is defaulted to $1.0$.
+absorption factor; otherwise, it defaults to $1.0$.
 
 \section{Example Data Reduction Product}
 Being a flexible toolkit, \texttt{ASPIRED} is not designed to reduce data for a
@@ -902,46 +902,67 @@ specific instrument. Instead, it can be customised to suit many configurations,
 as long as they are long-slit-like. We demonstrate that with data products
 from nine different instruments, most of them have conventional long-slit settings.
 In the case of Gemini/GMOS, it has a single spectrum exposed onto three detectors,
-we compare the reduction against the official one for the kilonova event AT 2017gfo.
-Las Cumbres Observatory/FLOYDS has a beam-splitter to expose the first order red
-beam and the second order blue beam into two non-parallel curved spectra on a
-single chip; the SN II-P iPTF14hls with strong emission lines is used as an example.
-The Liverpool Telescope/SPRAT is a high throughput low-resolution spectrograph
-with a conventional optical design; in this case, we compare the reduction of
-a nova shell DO Aql from a stack of four individual exposures. The Very Large
-Telescope/FORS2 data of a helium accretor~(AM CVn) V418 Ser stacked from 21
-individual exposures is used as our last comparison.
+each is read out with 4 amplifiers. The bias subtraction is also unconventional,
+so all the image data reduction procedures have to be done outside of ASPIRED
+beforehand. We compare the reduction against the official one for the kilonova
+event AT 2017gfo\footnote{\url{https://www.wiserep.org/}}. Las Cumbres
+Observatory/FLOYDS has a beam-splitter to expose
+the first order red beam and the second order blue beam into two non-parallel
+curved spectra on a single chip. Both the northern and southern FLOYDS suffers
+from strong fringing effects. This is not handled by ASPIRED natively as well,
+so the correction was done by directly accessing the intermediate data stored
+inside the \texttt{OneDSpec} object. iPTF14hls, an SN II-P with strong emission
+lines is used as an example for comparison. The Liverpool Telescope/SPRAT is a
+high throughput low-resolution spectrograph with a conventional optical design;
+in this case, we compare the reduction of a nova shell DO Aql from a stack of
+four individual exposures. The Very Large Telescope/FORS2 data of a helium
+accretor~(AM CVn) V418 Ser stacked from 21 individual exposures is used as our
+last comparison. The first three were compared against data reduction from
+\textsc{iraf}-based pipelines, while the last one is reduced with Molly, which
+is built on top of Starlinks. All of the spectra are resampled to match the
+published spectra.
 
 WHT/ISIS demonstrates an extremely low SNR reduction of an ultra-cool white
 dwarf with a smooth blackbody-like spectrum. The TNG/DOLORES shows a
-simultaneous tracing followed by sequential extraction of three spectra
-dispersed in one exposure. We compare the spectra with the published ones if
-they are available.
+simultaneous tracing followed by sequential extraction of the pair of spectra
+incidented on the long-slit in one exposure. The GTC/OSIRIS works on a BLAP
+with many resolved absorption lines in both the science and the standard
+target.
 
-\footnote{\url{https://www.wiserep.org/}}
+
 
 \begin{table*}
     \centering
     \begin{tabular}{l|c|c|c}\hline
-        Telescope/Instrument & Object Type                                 & Spectral Resolution & Arc \\\hline\hline
-        \multicolumn{4}{c}{Longslit Setup}\\\hline
-        SOAR/GHTS            & Type IIn Supernova (AT 22nxg)               & ?                   & HgArNe \\
-        Liverpool/SPRAT      & Nova shell remnant (DO Aql)                 & ?                   & Xe \\
-        GTC/OSIRIS           & BLAP (ZGP-BLAP-09)                          & ?                   & HgArNe \\
-        INT/IDS              & Binary Stars at high resolution             & ?                   & ? \\
-        VLT/FORS             & AM CVn (V418 Ser)                           & ?                   & HeHgCd \\\hline
-        \multicolumn{4}{c}{Longslit-like Setup}\\\hline
-        Gemini/GMOS          & kilonova (AT 2017gfo)                       & ?                   & CuAr \\
-        LCO/FLOYDS           & Type II-P (iPTF14hls)                       & ?                   & HgArZn \\\hline
-        \multicolumn{4}{c}{Special Use Cases}\\\hline
-        TNG/DOLORES          & Common Proper Motion System (dM + dMWD)     & ?                   & ArKrNeHg \\
-        WHT/ISIS             & Ultracool White Dwarf                       & 300                 & CuAr \\\hline
+        Telescope/Instrument & Object Type                                 & Grating             & Arc \\\hline\hline
+        \multicolumn{4}{c}{long-slit Setup}\\\hline
+        Liverpool/SPRAT      & Nova shell remnant (DO Aql)                 & 600\,l/mm           & Xe \\
+        GTC/OSIRIS           & BLAP (ZGP-BLAP-09)                          & R2500U \& R1000B    & HgArNe \\
+        VLT/FORS             & AM CVn (V418 Ser)                           & 600B                & HeHgCd \\\hline
+        TNG/DOLORES          & Common Proper Motion System (dM + dMWD)     & LR-B                & ArKrNeHg \\
+        WHT/ISIS             & Ultracool White Dwarf (PSO J1801+625)       & R300B \& R300R      & CuAr \\\hline
+        WHT/ACAM             & Ultracool White Dwarf (PSO J1801+625)       & V400                & CuAr \\\hline
+        \multicolumn{4}{c}{Non-basic Setup}\\\hline
+        Gemini/GMOS          & kilonova (AT 2017gfo)                       & R400 \& B600        & CuAr \\
+        LCO/FLOYDS           & Type II-P (iPTF14hls)                       & 235\,l/mm           & HgArZn \\\hline
 \end{tabular}
     \caption{Caption}
     \label{tab:my_label}
 \end{table*}
 
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{fig_08_reduction_compared.pdf}
+    \caption{Caption}
+    \label{fig:reduction_compared}
+\end{figure*}
 
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{fig_09_use_case_plots.pdf}
+    \caption{Caption}
+    \label{fig:use_cases}
+\end{figure*}
 
 \section{Distribution}
 \textsc{ASPIRED} is released under the BSD (3-Clause) License. The
