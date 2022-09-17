@@ -144,7 +144,6 @@ dolores_dm_flux = np.mean(
     axis=0,
 )
 
-
 # OSIRIS
 r1000b_1 = np.load("gtc-osiris-zgpblap09/r1000b_1.npy")
 r1000b_1_wave = r1000b_1[:, 0]
