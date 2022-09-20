@@ -172,7 +172,6 @@
 \title{Automated SpectroPhotometric Image REDuction (ASPIRED) -- \\ A \textsc{Python}-based spectral data reduction toolkit\\}
 
 
-
 %% LaTeX will automatically break titles if they run longer than
 %% one line. However, you may use \\ to force a line break if
 %% you desire. In v6.31 you can include a footnote in the title.
@@ -264,18 +263,26 @@
 
 %% Mark off the abstract in the ``abstract'' environment. 
 \begin{abstract}
-
-We provide a suite of publicly available spectral data reduction software to facilitate
-rapid scientific products from time-domain observations. The Automated SpectroPhotometric
-REDuction (\textsc{ASPIRED}) toolkit is aimed to be as general as possible with high flexibility
-such that it can work with different instruments. The default settings support typical
-low-resolution long-slit spectrometer configurations, whilst it also offers a flexible set of
-functions for users to refine and tailor-make automated pipelines to an instrument's
-individual characteristics. Automation can provide immediate data reduction to allow adaptive
-observing strategies, which is particularly important in Time Domain Astronomy. \textsc{ASPIRED} is
-entirely \textsc{Python}-based and is independent of \textsc{iraf}.
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We provide a suite of open-source spectral data reduction software publicly
+available for all interested users, to facilitate rapid scientific products
+from all forms of long-slit-like spectroscopic observations. The Automated
+SpectroPhotometric REDuction (\textsc{ASPIRED}) toolkit is designed to be a
+general toolkit with high flexibility for users to refine and tailor-make
+their data reduction routines optimised for the individual characteristics
+of their instruments. The default configuration is appropriate for use on a
+low-resolution long-slit spectrometer at a quick-look quality. Minor efforts
+in manually configuring the setting can enable reliable and repeatable data
+reduction of spectral data from a simple instrument. More fine-tuning and
+extra (pre-)processing can extend the reduction to systems with more complex
+setups. We compare some example spectra reduced with \textsc{ASPIRED} to
+those published data processed with \textsc{iraf}-based and
+\textsc{STARLINK}-based pipelines. The \textsc{Python}-based \textsc{iraf}-free
+\textsc{ASPIRED} can significantly ease the effort of an Astronomer in
+constructing their own data reduction workflow, enabling simpler solutions to
+data reduction automation. This availability of near real-time science-ready
+data will allow adaptive observing strategies, particularly important in Time
+Domain Astronomy.
 \end{abstract}
 
 %% Keywords should appear after the \end{abstract} command. 
@@ -303,49 +310,76 @@ entirely \textsc{Python}-based and is independent of \textsc{iraf}.
 
 
 \section{Introduction}
-With major global investments in multi-wavelength and multi-messenger surveys, time-domain
-astronomy is entering a golden age. In order to maximally exploit discoveries from these
-facilities, rapid spectroscopic follow-up observations of transient objects~(e.g.,\ supernovae,
-gravitational-wave optical counterparts etc.) is needed to provide crucial {\em astrophysical} 
-interpretations. Part of the former OPTICON\footnote{\url{https://www.astro-opticon.org}; now the
-OPTICON-RadioNet Pilot \url{https://www.orp-h2020.eu}} project coordinates the operation of a
-network of largely self-funded European robotic and conventional telescopes, coordinating
-common science goals and providing the tools to deliver science-ready photometric and
-spectroscopic data in near real-time. The goal is to facilitate automated or interactive
-decision making, allowing ``on-the-fly'' modification of observing strategies and rapid
-triggering of other facilities. As part of the network's activity, a software development work package was
-commissioned under the working title of Automated SpectroPhotometric REDuction (\textsc{ASPIRED})
-toolkit, coordinated on Github\footnote{\url{https://github.com/cylammarco/ASPIRED}}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+With major global investments in multi-wavelength and multi-messenger surveys,
+time-domain astronomy is entering a golden age. In order to maximally exploit
+discoveries from these facilities, rapid spectroscopic follow-up observations
+of transient objects~(e.g.,\ supernovae, gravitational-wave optical counterparts
+etc.) are needed to provide crucial {\em astrophysical} interpretations. Part of
+the former OPTICON\footnote{\url{https://www.astro-opticon.org}; now the
+OPTICON-RadioNet Pilot \url{https://www.orp-h2020.eu}} project coordinates the
+operation of a network of largely self-funded European robotic and conventional
+telescopes, coordinating common science goals and providing the tools to deliver
+science-ready photometric and spectroscopic data in near real-time. The goal is
+to facilitate automated or interactive decision-making, allowing ``on-the-fly''
+modification of observing strategies and rapid triggering of other facilities.
+As part of the network's activity, a software development work package was
+commissioned under the working title of Automated SpectroPhotometric
+REDuction~(\textsc{ASPIRED}) toolkit, coordinated on
+Github\footnote{\url{https://github.com/cylammarco/ASPIRED}}.
 
-The ``industrial standard'' of spectral and image reduction is of no doubt the
-\textsc{iraf} software~\citep{1986SPIE..627..733T, 1993ASPC...52..173T}. It has powered many
-reduction engines in the past and present. However, unfortunately, the software has reached
-the end-of-support state where there will no longer be any official support to the software
-, and it relies entirely on community support\footnote{\url{https://iraf-community.github.io}}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The ``industrial standard'' of spectral and image reduction is undoubtedly
+the \textsc{iraf} software~\citep{1986SPIE..627..733T, 1993ASPC...52..173T}.
+It has powered many reduction engines in the past and present. However,
+unfortunately, the software has reached the end-of-support state where there
+will no longer be any official support for the software, and it is now
+entirely relying on community support\footnote{\url{https://iraf-community.github.io}}.
+There is also the \textsc{STARLINK}
+library\footnote{\url{https://STARLINK.eao.hawaii.edu/STARLINK}}\citep{2014ASPC..485..391C, 2022ASPC..532..559B}
+that has a huge resource for data reduction tasks. It was first initiated
+in 1980 under the STARLINK Project, which became defunct in 2005, but the
+software survived and its maintenance effort has since transferred to the
+East Asian Observatory. It also comes with a python
+wrapper\footnote{\url{https://github.com/STARLINK/STARLINK-pywrapper}}
+to enable low-level code access from high-level programs. The few drawbacks
+of such a powerful library concern the ease of installation and the
+linkage of libraries that users often find difficult.
 
-In this generation of user-side Astronomy data handling and processing, as well as the emphasis in
-computing courses for scientists, \textsc{Python} is among the most popular languages due to
-its ease to use with a shallow learning curve, readable syntax and simple way to ``glue''
-different pieces of software together. Its flexibility to serve as a scripting and an
-object-oriented language makes it useful in many use cases: demonstrating with visual tools
-with little overhead, prototyping, web-serving, and it can be compiled if wanted. This broad range of
-functionality and high-level usage make it relatively inefficient. However, \textsc{Python}
-is an excellent choice of language to build wrappers over highly efficient and well-established
-codes. In fact, some of the most used packages,
-\textsc{scipy}~\citep{2020SciPy-NMeth} and \textsc{numpy}~\citep{2020NumPy-Array},
-are written in \textsc{Fortran} and \textsc{C} respectively. Multi-threading and multi-processing
-are also possible with built-in and other third-party packages, e.g.\ \textsc{mpi4py}~\citep{DALCIN20111124}. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this generation of user-side Astronomy data handling and processing, as
+well as the emphasis in computing courses for scientists, \textsc{Python} is
+among the most popular languages due to its ease to use with a shallow learning
+curve, readable syntax and simple way to ``glue'' different pieces of software
+together. Its flexibility to serve as a scripting and an object-oriented
+language makes it useful in many use cases: demonstrating with visual tools
+with little overhead, prototyping, web-serving, and it can be compiled if
+wanted. This broad range of functionality and high-level usage make it
+relatively inefficient. However, \textsc{Python} is an excellent choice of
+language to build wrappers over highly efficient and well-established codes.
+Some of the most used packages, \textsc{scipy}~\citep{2020SciPy-NMeth}
+and \textsc{numpy}~\citep{2020NumPy-Array}, are written in \textsc{Fortran}
+and \textsc{C}, respectively, to deliver high performance. Multi-threading
+and multi-processing are also possible with built-in and other third-party
+packages, e.g.\ \textsc{mpi4py}~\citep{DALCIN20111124}. 
 
-Various efforts are being made to develop software for current and next-generation 
-spectral data reduction. For example, \textsc{PypeIt}~\citep{pypeit:zenodo, pypeit:joss_pub}
-is designed for tailor-made reductions of various instruments, \textsc{PyReduce}~\citep{2021A&A...646A..32P}
-is designed for optimal Echelle spectral reduction (but does not handle sky subtraction);
-in the \textsc{Astropy} `Universe'~\citep{astropy:2013, astropy:2018}, \textsc{specreduce}
-is likely to be the next-generation user-focused data reduction package, but it is far from
-the stage of deployment at the time of writing. \textsc{pyDIS} has all the essential
-ingredients for reducing spectra but has been out of maintenance since 2016, and \textsc{specutils}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Various efforts are being made to develop software for current and
+next-generation  spectral data reduction. For example,
+\textsc{PypeIt}~\citep{pypeit:zenodo, 2020JOSS....5.2308P} is designed for
+tailor-made reduction-Black box for various instruments,
+\textsc{PyReduce}~\citep{2021A&A...646A..32P} is designed for optimal Echelle
+spectral reduction (but does not handle sky subtraction); in the \textsc{Astropy}
+`Universe'~\citep{astropy:2013, astropy:2018},
+\textsc{specreduce}\footnote{\url{https://github.com/astropy/specreduce}}~\citep{pickering_timothy_2022_7007991} is likely to be the
+next-generation user-focused data reduction package, but it is still in early
+stage of deployment at the time of writing.
+\textsc{pyDIS}\footnote{\url{https://github.com/StellarCartography/pydis}} has
+all the essential ingredients for reducing spectra but has been out of
+maintenance since 2019, and \textsc{specutils}
 handles spectral analysis and manipulation but not the reduction itself.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In \textsc{ASPIRED}, we have a different vision in how and what should be abstracted from the
 users. Instead of providing a ready-to-go `black box' suited for a specific instrument
 or observations made in particular conditions, we provide a toolkit that is as general
@@ -355,35 +389,42 @@ This shifts more of the work and maintenance to the user-end, but it will allow 
 modification of the data reduction workflow if there are any changes in the instrumental
 configuration, for example, a detector is refitted, and the detector plane is shifted and
 rotated by a few pixels. \textsc{ASPIRED} also aims to provide a set of functions that requires
-coding skills that students  should have attained from university-level of Observational
+coding skills that students should have attained from the university-level of Observational
 Astrophysics course.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 We use the SPRAT family as our `first-light' instruments for development~\citep{2014SPIE.9147E..8HP},
 but we aim to allow high-level tools for users to build and fine-tune their pipelines to support
 a wide range of configurations~\citep{2020arXiv201203505L, marco_2021_4463569}. As of the time of
 writing, we have successfully used \textsc{ASPIRED} to reduce data from the William Herschel Telescope
 \textit{Intermediate-dispersion Spectrograph and Imaging System}
-\footnote{\url{https://www.ing.iac.es/astronomy/instruments/isis}}~(WHT/ISIS), Las Cumbres
-Observatory FLOYDS~\citep[LCO/FLOYDS]{2013PASP..125.1031B}, Gemini Observatory
+\footnote{\url{https://www.ing.iac.es/astronomy/instruments/isis}}~(WHT/ISIS)
+and the Auxiliary-port CAMera~\citep[ACAM;][]{2008SPIE.7014E..6XB}, Las Cumbres
+Observatory FLOYDS~\citep[LCO/FLOYDS;][]{2013PASP..125.1031B}, Gemini Observatory
 \textit{Gemini Multi-Object Spectrographs} long-slit
-mode~\citep[Gemini/GMOS-LS]{2004PASP..116..425H}, Gran Telescopio Canarias \textit{Optical
+mode~\citep[Gemini/GMOS-LS;][]{2004PASP..116..425H}, Gran Telescopio Canarias \textit{Optical
 System for Imaging and low-Intermediate-Resolution Integrated
-Spectroscopy}~\citep[GTC/OSIRIS]{2000SPIE.4008..623C}, and Telescopio Nazionale Galileo
+Spectroscopy}~\citep[GTC/OSIRIS;][]{2000SPIE.4008..623C}, and Telescopio Nazionale Galileo
 \textit{Device Optimised for the LOw
-RESolution\footnote{\url{http://www.tng.iac.es/instruments/lrs}}}~(TNG/DOLORES); all of
-these are currently still unofficial sets of reduction procedures. The examples of these deployments can be
-found at \url{https://github.com/cylammarco/aspired-example}.
+RESolution\footnote{\url{http://www.tng.iac.es/instruments/lrs}}}~\citep[TNG/DOLORES;][]{1999ldss.work..157M},
+and the Very Large Telescope \textit{FOcal Reducer/low dispersion Spectrograph 2}~(VLT/FORS2);
+all of these are currently still unofficial sets of reduction procedures. There
+are examples of these reductions in Section~\ref{sec:comparison}, and see also
+\url{https://github.com/cylammarco/aspired-example}.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 This paper is organised as follows: Section \textsection2 covers the development and
 organisation of the software. Then, we go through the details of the spectral reduction
 procedures in Section \textsection3. In the last section, we provide various links
 for references and instructions for installation.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 This article is not intended to serve as an API document, nor as a review of the
 various methods concerning spectral extraction. Only the high-level
 descriptions and the scientific and mathematical technicalities that are
 important to the data reduction processes are discussed here.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Development and Structure of \textsc{ASPIRED}}
 
 One of the development goals of \textsc{ASPIRED} is to design a piece of software that is as
@@ -396,7 +437,8 @@ foreseeable future. The explicit top-level dependencies are --
 \textsc{ccdproc}~\citep{matt_craig_2017_1069648},
 \textsc{numpy}~\citep{2020NumPy-Array}
 \textsc{plotly}~\citep{plotly},
-\textsc{scipy}~\citep{2020SciPy-NMeth}
+\textsc{RASCAL}~\citep{2020ASPC..527..627V},
+\textsc{scipy}~\citep{2020SciPy-NMeth},
 \textsc{spectres}~\citep{2017arXiv170505165C}, and
 \textsc{statsmodels}~\citep{seabold2010statsmodels}. 
 
@@ -406,37 +448,58 @@ issue and bug tracking, high-level project management, automation with \textsc{G
 upon each \texttt{commit} for:
 
 \begin{enumerate}
-    \item Continuous Integration~(CI) to install the software in \textsc{Linux}, \textsc{Mac} and \textsc{Windows} system, and then perform unit tests with \textsc{pytest}~\citep{pytest6.2},
-    \item generating test coverage report with \textsc{Coveralls}\footnote{\url{https://coveralls.io/github/cylammarco/ASPIRED}} which identifies lines in the script that are missed from the tests,
-    \item Continuous Deployment~(CD) through \textsc{PyPI}\footnote{\url{https://pypi.org/project/aspired}} that allows immediate availability of the latest numbered version,
-    \item dependency version tracking with \textsc{Dependabot}\footnote{\url{https://dependabot.com}}, and
-    \item generating API documentation powered by \textsc{Sphinx}\footnote{\url{https://www.sphinx-doc.org/en/master}} hosted on Read the Docs\footnote{\url{https://aspired.readthedocs.io/en/latest}}.
+    \item Continuous Integration~(CI) to install the software in \textsc{Linux},
+    \textsc{Mac} and \textsc{Windows} system, and then perform unit tests with
+    \textsc{pytest}~\citep{pytest6.2} over most of the functions;
+    \item generating test coverage report with \textsc{Coveralls}\footnote{\url{
+    https://coveralls.io/github/cylammarco/ASPIRED}} which identifies lines in
+    the script that is missed from the tests to assist us in maximising the test
+    coverage;
+    \item Continuous Deployment~(CD) through \textsc{PyPI}\footnote{\url{
+    https://pypi.org/project/aspired}} that allows immediate availability of the
+    latest numbered version;
+    \item dependency version tracking with \textsc{Dependabot}\footnote{\url{
+    https://dependabot.com}} to keep up to date with external dependencies, a
+    pull request would be generated automatically and the software will get
+    tested should there be a new version of a dependency become available; and
+    \item generating API documentation powered by \textsc{Sphinx}\footnote{\url{
+    https://www.sphinx-doc.org/en/master}} which scans for the \textit{decorators}
+    and automatically format the written documentation, docstings into
+    interactive html pages which can also be exported as a pdf file.
+    
+    
+    
+    hosted on Read the Docs\footnote{\url{
+    https://aspired.readthedocs.io/en/latest}}.
 \end{enumerate}
 
-The initial
-work package divided the project broadly into three high-level independent
-components:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The initial work package divided the project broadly into three high-level
+independent components:
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Graphical User Interface\\(not in active development)}
 In the beginning, we commissioned a prototype of the graphical user
 interface\footnote{\url{https://github.com/cylammarco/gASPIRED}}
-\textsc{Electron}\footnote{\url{https://www.electronjs.org}}, which wraps on top of
-\textsc{ASPIRED} without needing to adapt the code. This is
-possible for a few reasons: first, \textsc{Python} is an interpreter, it can execute
-in run time - it is straightforward to run itself as a server to handle the response from 
-\textsc{Electron}; second, there are many plotting libraries available, and there is
-not a unified API standard for creating a figure. It is difficult to maintain
-multiple plotting libraries to optimise certain plots for diagnostics and
-visualisations; \textsc{plotly}\footnote{\url{https://plotly.com}} has a good balance
-generating interactive and static plots, so it is chosen as our plotting engine; third,
-there is a \textsc{JavaScript} version of
+\textsc{Electron}\footnote{\url{https://www.electronjs.org}}, which wraps on
+top of \textsc{ASPIRED} without needing to adapt the code. This is
+possible for a few reasons: first, \textsc{Python} is an interpreter. It can
+execute in run time - it is straightforward to run itself as a server to handle
+the response from \textsc{Electron}; second, there are many plotting libraries
+available, and there is not a unified API standard for creating a figure. It
+is difficult to maintain multiple plotting libraries to optimise certain plots
+for diagnostics and visualisations; \textsc{plotly}\footnote{\url{https://plotly.com}}
+has a good balance generating interactive and static plots, so it is chosen as
+our plotting engine; third, there is a \textsc{JavaScript} version of
 \textsc{SAOImageDS9}\footnote{\url{https://sites.google.com/cfa.harvard.edu/saoimageds9}}
 that allows rapid and easy interactive image manipulation in a familiar
-fashion~\citep{eric_mandel_2021_596052}. Given how \textsc{Electron} and
-\textsc{JS9} work like a web service, this prototype also shows that it can 
-be deployed as an online tool. Such high-level of interactivity is, however, no longer
-in active development and currently only serves as a technology demonstrator of its capability.
+fashion~\citep{2003ASPC..295..489J, eric_mandel_2022_6675771}. Given how
+\textsc{Electron} and \textsc{JS9} work like a web service; this prototype also
+shows that it can  be deployed as an online tool. Such a high level of
+interactivity is, however, no longer in active development and is only served
+as a technology demonstrator of its capability.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Wavelength Calibration\\(not part of this work)}
 The wavelength calibration module is powered by the RANSAC Assisted Spectral CALibration
 ~(\textsc{RASCAL}, \citealt{2020zndo...4117517V, 2020ASPC..527..627V}, Veitch-Michaelis
@@ -454,132 +517,142 @@ list of peaks~(wavelengths), and some knowledge~(e.g.\ dispersion resolution) of
 the system to initialise a most appropriate and efficient calibrator object for
 fitting the pixel-to-wavelength solution.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Data Reduction and Other Calibrations\\(this work)}
 This is the core of the \textsc{ASPIRED}, which mainly handles the spectral
-extraction and calibration processes. The software is organised into
-3 main parts -- \texttt{image\_reduction}, \texttt{spectral\_reduction},
-and \texttt{spectrum1D}. The first two are the ``overlords'' that handle
-all the dependent classes and functions to orchestrate the operations.
-The third is a data structure that stores the metadata and the extracted
-data. The FITS file I/O handling is also handled by \texttt{spectrum1D}.
+extraction and calibration processes. At the user level, the software is
+organised into two main parts -- \texttt{image\_reduction} and
+\texttt{spectral\_reduction}.
 
+\textsc{ASPIRED} only intends to provide basic image reduction methods,
+sufficient for simple instrumental setup, which are the primary targets of
+\textsc{ASPIRED}. For example, a long-slit spectrograph with a rectilinear
+two-dimensional spectrum illuminated on the detector plane, i.e. the dispersion
+and spatial directions are perfectly perpendicular to each other across the
+entire detector plane. It is also assumed that bias, dark and flats frames
+are already ready for use without extra processing. It is usually not
+immediately suitable for complex systems that have multiple non-parallel
+spectra illuminated on the detector plane. In the FLOYDS reduction example,
+we demonstrate how two non-parallel curved spectra in a single two-dimensional
+spectral images can be reduced and extracted by applying a mask to the data.
 
-\subsection{Data Reduction Modules}
+The \texttt{spectral\_reduction} is a large module that covers both the
+two-dimensional and one-dimensional operations: \texttt{TwoDSpec} and
+\texttt{OneDSpec} classes, respectively. The former provides image
+rectification, spectral tracing, spectral extraction of the target and the
+arc, and locating the peaks of the arc lines. In the latter, it performs
+wavelength calibration (with the \texttt{WavelengthCalibration} class),
+flux calibration (with the \texttt{FluxCalibration} class), atmospheric
+extinction correction and Telluric absorption correction. Diagnostic images
+can be exported at each step of the two- and one-dimensional operations.
+This also includes the wavelength calibration diagnostic that wraps around
+\textsc{RASCAL} and uses their native plotting capability. Outputs can be
+in FITS or CSV~(see below). Since the flux calibration has to be performed
+with a standard star spectrum, it is necessary for the \texttt{OneDSpec}
+object to have information on both the target and the standard one-dimensional
+spectra. Thus, a \texttt{OneDSpec} keeps a dictionary of lists: --
+\texttt{science\_spectrum\_list} and \texttt{standard\_spectrum\_list}. At the
+time of writing, we only support wavelength calibration from one (total
+stacked) frame of arc and flux calibration from one (total stacked) frame
+of standard star observation.
 
-\subsubsection{\texttt{image\_reduction}}
-This module allows mean-, median-, and sum-combining, subtracting and dividing of light,
-dark, bias and flat frames. The FITS header of the \textit{first} light frame provided
-is copied over, while the headers from the other frames are not stored -- only
-the file paths are stored as meta-data. These image reduction meta-data
-are appended to the end of the FITS header. Depending on the convention
-adopted by the observatories, the FITS file is defaulted to contain an empty \texttt{PrimaryHDU}
-with the process data stored in the first \texttt{ImageHDU} extension as
-recommended in the FITS Standard 
+There is also a data structure class -- \texttt{SpectrumOneD} that handles the
+data and metadata of the extracted information. It provides a uniform format
+to store the metadata and the extracted data throughout the entire spectral
+extraction process. Since multiple spectra can be extracted from a
+\texttt{TwoDSpec} object, each extracted spectrum is stored in an independent
+\texttt{SpectrumOneD} object. They get passed from a \texttt{TwoDSpec} object
+to an \texttt{OneDSpec} object that stores Data storage of observational data is
+almost exclusively done with FITS files, but they are not human-readable. In
+view of that, \textsc{ASPIRED} provides input/output handling of both FITS and
+ASCII-type files. All the higher-level functions are wrappers on top of a
+\texttt{spectrum1D} object.
+
+\section{Image Reduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This module allows mean-, median-, and sum-combining, subtracting and dividing
+of light, dark, bias and flat frames. The FITS header of the \textit{first}
+light frame provided is copied over, while the headers from the other frames
+are not stored -- only the file paths are stored as meta-data. These image
+reduction meta-data are appended to the end of the FITS header. Depending on
+the convention adopted by the observatories, the FITS file is defaulted to
+contain an empty \texttt{PrimaryHDU} with the process data stored in the
+first \texttt{ImageHDU} extension as recommended in the FITS Standard 
 document\footnote{\url{https://fits.gsfc.nasa.gov/fits_documentation.html}},
 or it can be stored directly in the \texttt{PrimaryHDU} as most users tend
 to opt for. Many forms of interactive and static images can be exported,
 powered by the \textsc{Plotly} image renderer.
 
-\textsc{ASPIRED} only intends to provide basic image reduction methods, sufficient
-for simple instrumental setup, which are the primary targets of \textsc{ASPIRED}. For
-example, a long-slit spectrograph with a rectilinear 2D spectrum illuminated
-on the detector plane, i.e. the dispersion and spatial directions are perfectly
-perpendicular to each other across the entire detector plane. It is also
-assumed that bias, dark and flats frames are already ready for use without
-extra processing. It is usually
-not immediately suitable for complex systems that have multiple non-parallel
-spectra illuminated on the detector plane. In the FLOYDS reduction example,
-we demonstrate how two non-parallel curved spectra in a single
-2D spectral image can be reduced and extracted by applying a mask to the
-data.
+{\Huge\textcolor{red}{More description here.}}
 
-\subsubsection{\texttt{spectral\_reduction}}
-This is a large module that covers both one-dimensional and two-dimensional
-operations. In two dimensions, it provides image rectification, spectral tracing
-and spectral extraction. In 1D, it can perform wavelength calibration, flux
-calibration, atmospheric extinction correction and Telluric absorption correction.
-Diagnostic images can be exported at each step of operation, including the
-wavelength calibration that wraps around \textsc{RASCAL} and uses their native
-plotting capability. Outputs can be in FITS or CSV, where possible. See the next
-section for the mathematical and scientific descriptions of the various methods.
-
-\subsubsection{\texttt{spectrum_oneD}}
-This module provides a uniform format to store the metadata and the extracted
-data throughout the entire spectral extraction process. Since multiple spectra
-can be extracted from a \verb+TwoDSpec+ object, each extracted spectrum is stored
-in an independent \verb+SpectrumOneD+ object. They get passed from a \verb+TwoDSpec+
-object an \verb+OneDSpec+ object that stores
-Data storage of observational data is almost exclusively done with FITS files,
-but they are not human-readable. In view of that, \textsc{ASPIRED} provides I/O handling
-of both FITS and ASCII-type files. All the higher-level functions are wrappers on
-top of a \texttt{spectrum1D} object.
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Spectral Reduction}
-In the highest-level terms, spectral reduction procedures after image
-reduction include: (1) identifying the spectrum/a, (2) tracing the
-spectrum/a, (3) correcting for image distortion, (4) extracting the
-spectrum/a, (5) performing wavelength calibration of the science target and a
-standard star, (6) computing the sensitivity curve using the standard
-observations, (7) performing atmospheric extinction correction,
-and finally (8) removing Telluric absorption. We omit a few common
-processes which we believe should be considered as part of the
-post-extraction processes or spectral analysis and manipulation.
-There are many sophisticated software packages with good and long track records
-to handle these processes post hoc. For example, sky glow subtraction
-with \textsc{Skycorr}~\citep{2014A&A...567A..25N}, or Telluric
+In the highest-level terms, spectral reduction procedures after image reduction
+includes: (1) identifying and tracing the spectrum/a, (2) correcting for image
+distortion, (3) extracting the spectrum/a, (4) performing wavelength
+calibration of the science target and a standard star, (5) computing the
+sensitivity curve using the standard observations, (6) performing atmospheric
+extinction correction, and finally (7) removing Telluric absorption,
+(8) resampling, and (9) exporting data. We omit a few other processes which we
+believe should be considered as part of the post-extraction processes or
+spectral analysis and manipulation. There are many sophisticated software
+packages with good and long track records to handle these processes post hoc.
+For example, sky glow subtraction with
+\textsc{Skycorr}~\citep{2014A&A...567A..25N}, or Telluric
 absorption removal wihtout supplementary calibration data with
 \textsc{MoleFit}~\citep{2015A&A...576A..77S, 2015A&A...576A..78K}.
-The following describes the technical details of the eight steps,
-where we use the following convention: the spectral image is dispersed
-on the detector plane such that the left side (small pixel number) corresponds to
-the blue part of the spectrum and the right side (large pixel number) to the red part.
+The following describes the technical details of the nine steps. We use the
+following convention throughout: the spectral image is dispersed on the detector
+plane such that the left side (small pixel number) corresponds to the blue part
+of the spectrum and the right side (large pixel number) to the red part in the
+dispersion direction, while the direction perpendicular to it is the spatial
+direction.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Spectral Identification and Tracing}
 \label{sec:tracing}
 Conventionally, to obtain the position of a spectrum in a frame~(i.e.\ trace),
 the centre of a spectrum in the dispersion direction is first identified,
-then a choice of algorithm will scan across the spectral image to identify
+and then a choice of algorithm will scan across the spectral image to identify
 the spectral position over the entire dispersion direction. In \textsc{ASPIRED},
-the \texttt{ap\_trace()} function works by dividing the 2D spectrum into
-sub-spectra, and then each part is summed along the spectral direction before
-cross-correlating with the adjacent sub-spectra, with an optional variable scaling
-factor that models a linear change in the width of the trace. Such function is
-off by default. This way, both the shift and the scaling of the spectrum/a along the
-spectral direction can be found simultaneously. The middle of the
-2D spectrum is used as the zero point of the procedure. Here is a
-detailed description of the algorithm:
+the \texttt{ap\_trace()} function works by dividing the two-dimensional spectrum
+into sub-spectra, and then each part is summed along the dispersion direction
+before cross-correlating with the adjacent sub-spectra, with an optional variable
+scaling factor that models a linear change in the width of the trace. Such a
+function is turned off by default. This way, both the shift and the scaling of
+the spectrum/a along the dispersion direction can be found simultaneously. The
+middle of the two-dimensional spectrum is used as the zero point of the procedure. Here is
+a detailed description of the algorithm:
 \begin{enumerate}
     \item
-        The input 2D spectrum is divided into \texttt{nwindow}
+        The input two-dimensional spectrum is divided into \texttt{nwindow}
         sub-spectra.
     \item
-        Each sub-spectrum is summed along the spectral direction
+        Each sub-spectrum is summed along the dispersion direction
         in order to improve the signal(s) of the spectrum/a along
-        the spatial direction – we call this a spatial spectrum.
+        the spatial direction to generate the line spread function
+        of that subspectrum.
     \item
-        Each spatial spectrum is upscaled by a factor of
+        Each line spread function is upscaled by a factor of
         \texttt{resample\_factor} to allow for sub-pixel correlation
         precision. This utilises the \texttt{scipy.signal.resample()}
-        function to fit the spatial profile with a spline.
+        function to fit the spatial profile with a cubic spline.
     \item
-        The i-th spatial spectrum is then cross-correlated to the i+1-th
-        spatial spectrum. The shift and scale where the maximum
-        occurs within the tolerance limit, \texttt{tol} is then stored.
+        The i-th line spread function is then cross-correlated to the i+1-th
+        line spread function. The shift and scale correspond to the maximum
+        correlation within the tolerance limit, \texttt{tol}, and are then stored.
     \item
         The shifts relative to the central sub-spectrum are used to
-        fit for a polynomial solution that defines the position of
-        the trace.
+        fit for a polynomial solution with a constant arbitrary offset.
     \item
-        While the spatial spectra are cross-correlated, they
-        are aligned and stacked for peak finding and Gaussian fitting
-        towards the end of the iteration. Peak finding is performed with
-        \texttt{scipy.signal.find\_peaks()} and returns the list of
-        peaks sorted by their prominence. Only centroiding has to be
-        accurate at this stage, so a Gaussian function is sufficient.
-        The standard deviation of the Gaussian is only served as a
-        first guess of the profile when performing optimal extraction;
-        it would not be used in the case of top-hat extraction (see
-        section \textsection3.3).
+        While the spatial spectra are cross-correlated, they are also
+        aligned and stacked to find the peak of the line spread profile.
+        Peak finding is performed with \texttt{scipy.signal.find\_peaks()}
+        and returns the list of peaks sorted by their prominence. The
+        total stacked line spread profile is fitted with a Gaussian
+        function to get the spread of the spectrum~(standard deviation).
+        This would not be used in the case of top-hat
+        extraction~(see section \textsection\ref{sec:tophat}).
 \end{enumerate}
 
 This procedure is illustrated in Fig.~\ref{fig:trace}. Manually
@@ -598,7 +671,7 @@ from the standard frame for spectral extraction of the science target.
     \includegraphics[width=\columnwidth]{fig_01_tracing.pdf}
     \caption{Top: A LT/SPRAT spectrum is rotated to illustrate how
     cross-correlation is used to find the shift between neighbouring
-    sub-spectra. The orange, green and blue boxes are three example
+    sub-spectra. The orange, green and blue boxes are three examples
     sub-spectra. Bottom left: the three sub-spectra are summed in
     the dispersion direction to generate the three profiles that are
     cross-correlated to compute the shift. Bottom right: the
@@ -610,63 +683,66 @@ from the standard frame for spectral extraction of the science target.
 \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Image Rectification}
-In some cases, a spectrum on the detector plane is not only tilted,
-but it is also sufficiently distorted that the extraction has to be
-performed along a curve to remove the sky background count
-properly. While this does not cause any complication in the tracing,
-the spatial and dispersion directions are no longer aligned with the
-x-y axes of the detector plane. \textsc{PyReduce} can optimally
-extract such highly distorted spectra, but the lack of sky subtraction
-using the ``wings'' in the sky region on either sides of the
-line-spread-profile has limited the usage in a typical single-frame
-extraction without an accompanying sky observation at an identical slit
-settings. In \textsc{ASPIRED}, a \verb+TwoDSpec+ object makes use of
-the spectral trace to align and resample the spectral image in the spatial
-direction. By using the sky emission (or coadded arc lines), it
-aligns and resamples the image in the dispersion direction, so that the
-latter is performed on a spectrum~(nearly) perfectly aligned with the
-detector x-y axes. Using the arc frame for this process will deliver
-a more reliable rectification function.
+In some cases, a spectrum on the detector plane is not only tilted, but it is
+also sufficiently distorted that the spatial and dispersion direction (in the
+detector Cartesian coordinates) are no longer orthogonal to each other. While
+this does not cause any complication in the tracing process, the extraction has
+to be performed along a curve that the process is no longer a one dimensional
+process. Without proper weighting in extracting flux at the sub-pixel level,
+it can cause significant under- or over-subtraction of the sky background. More
+complex methods have to be used to extract them directly
+spectra~(e.g.\ \citet{2021A&A...646A..32P})), as implemented
+in \textsc{PyReduce}. It can optimally extract such highly distorted spectra.
+However, they cannot perform sky subtraction using the ``wings'' in the sky
+region on either side of the line-spread profile. This has limited the usage
+in a typical single-frame extraction without an accompanying sky observation
+exposed using an identical slit setting. In \textsc{ASPIRED}, a
+\texttt{TwoDSpec} object uses the spectral trace to align and resample the
+spectral image in the spatial direction. By using the sky emission and the
+coadded arc lines~(if available), it aligns and resamples the image in the
+dispersion direction, so that the latter is performed on a spectrum~(nearly)
+perfectly aligned with the detector x-y axes. Using the arc frame for this
+process will deliver a more reliable rectification function.
 
-The rectification in the spatial direction depends \textbf{only}
-on the trace. Each column of pixels gets (scaled and) shifted by
-resampling to align with the centre of the spectrum. This will
-usually leave us with a spectrum tilted or curved in the dispersion
-direction. Therefore, the same procedure for tracing the spectra is
-applied in the spatial direction to find the best fit polynomial
-solution for shifting (and scaling) in the dispersion direction for
-the second step of the rectification process (See Fig.~\ref{fig:rectify}).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The rectification in the spatial direction \textbf{only} depends on the trace.
+Each column of pixels gets (scaled and) shifted by resampling to align with the
+centre of the spectrum. This usually leaves us with a spectrum tilted or curved
+in the dispersion direction. Therefore, the same procedure for tracing the
+spectra is applied in the spatial direction to find the best fit polynomial
+solution for shifting (and scaling) in the dispersion direction for the second
+step of the rectification process (See Fig.~\ref{fig:rectify}).
 
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{fig_02_rectification.pdf}
-    \caption{A 2D spectrum from LCO/FLOYDS is used to
-    demonstrate the rectification procedure. The dotted white line
-    is aligned in the spatial direction to serve as a visual guide.
-    Top: The trimmed image of a FLOYDS spectrum. Middle: The 2D
-    spectrum is resampled in the spatial direction based on the
-    polynomial function of the trace. Bottom: The 2D spectrum is
-    resampled in the dispersion direction. The shifts and scales
-    are found by cross-correlating the sub-spectra divided in the
-    spatial direction. This is perpendicular to the tracing process.}
+    \caption{A two-dimensional spectrum from LCO/FLOYDS is used to demonstrate
+    the rectification procedure. The dotted white line is aligned in the
+    spatial direction to serve as a visual guide. Top: The trimmed image of a
+    FLOYDS spectrum. Middle: The two-dimensional spectrum is resampled in the
+    spatial direction based on the polynomial function of the trace. Bottom:
+    The two-dimensional spectrum is resampled in the dispersion direction. The
+    shifts and scales are found by cross-correlating the sub-spectra divided in
+    the spatial direction. This is perpendicular to the tracing process.}
     \label{fig:rectify}
 \end{figure}
 
-At the time of writing, this process is only possible if there is
-one trace. If more than one trace is found/provided, only the first
-one will get processed. The resampling is performed with
-\texttt{scipy.ndimage.zoom} which interpolates with a spline (the
-electron count is not always perfectly conserved, but the difference
-is negligible). It is possible to supply a set of pre-computed
-polynomials to perform the rectification, which can significantly
-speed up the data reduction process of a stable optical system.
-A change in the zeroth order coefficient can shift the bluest part
-of the spectrum to the reddest part, and vice versa. However, as long
-as the effect is identical in the science frame and the standard frame
-they can be calibrated or trimmed. Furthermore, the edges of
-a detector are usually unusable so it possesses little problem.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+At the time of writing, this process is only possible if there is one trace. If
+more than one trace is found/provided, only the first one will get processed.
+The resampling is performed with \texttt{scipy.ndimage.zoom} which interpolates
+with a cubic spline (the electron count is not perfectly conserved, but the
+difference is small). It is possible to supply a set of pre-computed polynomials
+to perform the rectification, which can significantly speed up the data
+reduction process of a stable optical system. A change in the zeroth order
+coefficient can shift the bluest part of the spectrum to the reddest part, and
+vice versa. However, as long as the effect is identical in the science frame
+and the standard frame they can be calibrated out or trimmed. Furthermore, the
+edges of a detector are usually unusable, so it does not pose any real problem.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Spectral Extraction}
 \label{sec:extract}
 There are a few commonly used extraction methods; some work for
@@ -691,7 +767,7 @@ for inspection. The residual image can also be exported for diagnostics.
     \centering
     \includegraphics[width=\columnwidth]{fig_03_extraction_profile.pdf}
     \caption{The same spectrum as in Figure~\ref{fig:rectify} but the
-    2D spectral image is slightly rotated to have the sky lines
+    two-dimensional spectral image is slightly rotated to have the sky lines
     aligned with the spatial direction with the y-axis.
     Top: The regions used for source and sky extractions are marked
     by the red and green lines and arrows. The light shade of orange
@@ -709,7 +785,9 @@ for inspection. The residual image can also be exported for diagnostics.
     \label{fig:extraction}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Tophat/Normal Extraction}
+\label{sec:tophat}
 The top-hat extraction does not weigh the pixels for extraction,
 so every pixel has an equal contribution to the source count. Thus,
 it is very robust in getting the total electron count across
@@ -717,6 +795,7 @@ a slice of pixels. The sky background count can be extracted
 from the regions outside the extraction aperture to be
 subtracted from the spectrum.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Horne-86 Optimal Extraction}
 \citet[hereafter H86]{1986PASP...98..609H} is the golden standard
 of optimal extraction of spectra from modern electronic detectors.
@@ -727,6 +806,7 @@ Smoothing~\citep[LOWESS]{doi:10.1080/01621459.1979.10481038}
 regression to fit for a polynomial, and the third accepts
 a manually supplied profile.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The default option is to use the Gaussian fit because it is
 more robust against noise, cosmic ray contamination and detector
 artefacts. It is particularly useful in extracting a faint
@@ -739,14 +819,17 @@ the profile of a resolved galaxy. In any case, the quality
 of the extraction from a valid profile should be at least as
 good as that performed with the top-hat extraction method.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Marsh-89 Optimal Extraction}
-\citet[hereafter M89]{1989PASP..101.1032M} improves on the H86
-algorithm by fitting the change in the shape and centroid of the
-profile from one end of the spectrum to the other. It is very
-suited for extracting a highly tilted spectrum where the tilting
-direction is aligned with only \textbf{one} direction in the $x$-
-or the $y$-axis of the detector. Here we adapt Ian Crossfield's set of public
-\textsc{Python 2} code for Astronomy\footnote{\url{https://people.ucsc.edu/~ianc/python/}}$^,$\footnote{\url{https://crossfield.ku.edu/python/}}
+\citet[hereafter M89]{1989PASP..101.1032M} improves on the H86 algorithm by
+fitting the change in the shape and centroid of the profile from one end of the
+spectrum to the other. It is very suited for extracting a highly tilted
+spectrum where the tilting direction is aligned with \textbf{one} direction in
+the $x$- or the $y$-axis of the detector. The algorithm still relies on the
+assumption that the spatial and dispersion directions are orthogonal across
+the entire frame (in the detector pixel coordinates). In \textsc{ASPIRED}, we
+adapt Ian Crossfield's set of public \textsc{Python 2} code for
+Astronomy\footnote{\url{https://people.ucsc.edu/~ianc/python/}}$^,$\footnote{\url{https://crossfield.ku.edu/python/}}
 to \textsc{Python 3}.
 
 \begin{figure}
@@ -760,18 +843,18 @@ to \textsc{Python 3}.
     \label{fig:extraction_compared}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Wavelength Calibration}
-The wavelength calibration is powered by \textsc{RASCAL}, which
-is a concurrent development to this work. All the public
-functions from \textsc{RASCAL} are available in \textsc{ASPIRED}
-so users can have fine control over the calibration. The
-diagnostic plots are the set provided by \textsc{RASCAL}.
-They include the spectrum of the arc lamp where the traces
-on the science and standard frames are, which also shows where
-the peaks are detected; the peak-line pairs and the constrained
-space where the Hough-pairs are
-selected~(see \citealt{2020ASPC..527..627V}); and a plot showing
-the fitting solution and its quality~(Fig.~\ref{fig:wavecal}).
+The wavelength calibration is powered by \textsc{RASCAL}, which is a concurrent
+development to this work. All the public functions from \textsc{RASCAL} are
+available in \textsc{ASPIRED} so users can have fine control over the
+calibration. The diagnostic plots are the set provided by \textsc{RASCAL}.
+They include the spectrum of the arc lamp where the traces on the science and
+standard frames are, which also shows where the peaks are detected; the
+peak-line pairs and the constrained space where the Hough-pairs are
+selected~(see \citealt{2020ASPC..527..627V}); and a plot showing the fitting
+solution, residual of the solution, and the pixel-wavelength relation~(
+Fig.~\ref{fig:wavecal}).
 
 The polynomial coefficients for the calibration can be supplied
 directly, which would be useful for stable instruments in which
@@ -781,7 +864,7 @@ are available but we recommend providing arc lines manually.
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{fig_05_wavelength_calibration_diagnostics.pdf}
-    \caption{The wavelength calibration diagnostic plots from RASCAL.
+    \caption{The native wavelength calibration diagnostic plots from RASCAL.
     Top: the arc is plotted in blue, the fitted peaks are marked by
     the orange dots. Middle: The residual plot shows the difference
     between the fitted peaks and the true wavelengths. Bottom: The
@@ -790,6 +873,7 @@ are available but we recommend providing arc lines manually.
     \label{fig:wavecal}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Flux Calibration}
 When a standard spectrum is wavelength calibrated, it can be
 compared against literature values to obtain the sensitivity
@@ -805,43 +889,50 @@ results, but the response functions found would not be equivalent
 because fitting to magnitudes is in logarithmic space and smoothing~(see
 below) will have a different effect compared to flux fitting.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Smoothing}
 A Savitzky-Golay smoothing
 filter\footnote{\url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html}}~\citep[hereafter, SG-filter]{1964AnaCh..36.1627S}
-can be applied to the data before computing the sensitivity curve.
-This function works by fitting low-order polynomials to localised
-subsets of the data to suppress noise in the data at each point
-interval. It is similar to the commonly used median boxcar filter,
-but uses more weighted information to retain information better
-while removing noise. This can be used independently or with
-continuum fitting (see below), which uses a LOWESS filter. By default,
-the SG-filter removes only significant noise~(e.g.\ those from
-unsubtracted cosmic rays).
+can be applied to the data before computing the sensitivity curve. This function
+works by fitting low-order polynomials to localised subsets of the data to
+suppress noise in the data at each point interval. It is similar to the
+commonly used median boxcar filter, but uses more weighted information to
+retain information better while removing noise. This can be used independently
+or with continuum fitting (see below), which uses a LOWESS filter. By default,
+the SG-filter removes only significant noise~(e.g.\ those from unsubtracted
+cosmic rays).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Continuum Fitting}
-By default, the continuum of the standard spectrum is found for
-deriving the sensitivity curve. However, this process is strongly
-dependent on both the resolution of the literature and the observed
-standards, as well as the absorption lines in 
+By default, the continuum of the standard spectrum is found for deriving the
+sensitivity curve. However, this process is strongly dependent on both the
+resolution of the literature and the observed standards, as well as the
+absorption lines in 
 
-This process is used after the
-smoothing procedure~(if performed). The continuum is found by
-fitting the standard spectrum with a LOWESS function as described in
-Sec.~\ref{sec:extract}. This can remove any outlying random noise
-and absorption lines when computing the sensitivity. Users
-are reminded to be cautious with this procedure as removing the
-absorption features in computing the sensitivity function can
-significantly affect the flux calibration near the absorption features.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This process is used after the smoothing procedure~(if performed). The continuum
+is found by fitting the standard spectrum with a LOWESS function as described in
+Sec.~\ref{sec:extract}. This can remove any outlying random noise and absorption
+lines when computing the sensitivity. Users are reminded to be cautious with
+this procedure as removing the absorption features in computing the sensitivity
+function can significantly affect the flux calibration near the absorption
+features.
 
-\subsubsection*{Sensitivity Curve}
-The sensitivity curve is computed by dividing the observed standard
-spectrum by the literature one and then interpolating the result using a
-spline or a polynomial function~(Fig.~\ref{fig:fluxcal}. This can be
-done with or without any pre-smoothing and/or continuum fitting. Users
-can also manually supply a sensitivity function as a callable function
-that accepts a wavelength value and returns the $\log$ of the sensitivity
-value at that wavelength. When such a curve is provided manually, it
-is assumed to be in the flux unit.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Sensitivity Function}
+The sensitivity curve is computed by dividing the observed standard spectrum by
+the literature one and then interpolating the result using a spline or a
+polynomial function~(Fig.~\ref{fig:fluxcal}. This can be done with or without
+any pre-smoothing and/or continuum fitting. In case of a high-resolution
+literature standard spectrum~(e.g.\ the ESO X-Shooter standards), the
+absorption line profiles should be used as part of the sensitivity computation.
+While in the case of the standard stars from \citep{1990AJ.....99.1621O},
+they have removed absorption lines when producing the standard spectra, a
+smooth continuum of the observed spectrum should be used for computing
+the sensitivity function. Users can also manually supply a sensitivity function
+as a callable function that accepts a wavelength value and returns the $\log$
+of the sensitivity value at that wavelength. When such a curve is provided
+manually, it is assumed to be in the unit of flux per second.
 
 \begin{figure}
     \centering
@@ -854,40 +945,44 @@ is assumed to be in the flux unit.
     \label{fig:fluxcal}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Atmospheric Extinction Correction}
 \textsc{ASPIRED} currently has four built-in atmospheric extinction curves:
 
 \begin{enumerate}
-    \item Roque de los Muchachos Observatory~(2420\,m)\footnote{\url{http://www.ing.iac.es/astronomy/observing/manuals/ps/tech\_notes/tn031.pdf}}
-    \item Mauna Kea Observatories~\citep[4205\,m;][]{2013A&A...549A...8B}
-    \item Cerro Paranal Observatory~\citep[2635\,m;][]{2011A&A...527A..91P}
-    \item La Silla Observatory~(2400\,m)\footnote{\url{https://www.eso.org/public/archives/techdocs/pdf/report\_0003.pdf}}
+    \item Roque de los Muchachos Observatory~(2\,420\,m)\footnote{\url{http://www.ing.iac.es/astronomy/observing/manuals/ps/tech\_notes/tn031.pdf}}
+    \item Mauna Kea Observatories~\citep[4\,205\,m;][]{2013A&A...549A...8B}
+    \item Cerro Paranal Observatory~\citep[2\,635\,m;][]{2011A&A...527A..91P}
+    \item La Silla Observatory~(2\,400\,m)\footnote{\url{https://www.eso.org/public/archives/techdocs/pdf/report\_0003.pdf}}
 \end{enumerate}
 
-It reports the extinction in magnitude per airmass as a
-function of wavelength, roughly between $3000$ and $10000$\,\AA.
-Alternatively, a callable function in the appropriate units can be
-supplied to perform the extinction correction. See Figure~\ref{fig:extinction}
+It reports the extinction in magnitude per airmass as a function of wavelength,
+roughly between $3\,000$ and $10\,000$\,\AA. Alternatively, a callable function
+in the appropriate units can be supplied to perform the extinction correction.
+The airmass of the observation can be found from the header if it is reported
+using the conventional keywords for airmass. See Figure~\ref{fig:extinction}
 for a comparison plot of the atmospheric extinction curves.
 
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{fig_07_extinction_curves.pdf}
-    \caption{The extinction curves measured at the four sites: Roque de los Muchachos
-    Observatory~(2420\,m; blue), Mauna Kea Observatories~(4205\,m; orange),
-    Cerro Paranal Observatory~(2635\,m; green), and La Silla Observatory~(2400\,m; red).
-    The extinction table of La Silla Observatory terminates at $9000$\,\AA. The rise at
-    the red end of the curve is an undesired artefact due to extrapolation using a
-    cubic spline. We are explicitly plotting this range to serve as a warning since we
-    opt to preserve the raw data as provided without appending fake data points.}
+    \caption{The extinction curves measured at the four sites: Roque de los
+    Muchachos Observatory~(2420\,m; blue), Mauna Kea Observatories~(4\,205\,m;
+    orange), Cerro Paranal Observatory~(2\,635\,m; green), and La Silla
+    Observatory~(2400\,m; red). The extinction table of La Silla Observatory
+    terminates at $9\,000$\,\AA. The rise at the red end of the curve is an
+    undesired artefact due to extrapolation using a cubic spline. We are
+    explicitly plotting this range to serve as a warning since we opt to
+    preserve the raw data as provided without appending fake data points.}
     \label{fig:extinction}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Telluric Absorption Removal}
 During the process of generating the sensitivity function, masks are used
 over the Telluric regions to generate the Telluric absorption
-profile from the standard star. The default masking regions are $6850-6960$
-and $7580-7700$\ \AA\ only. This profile can then be multiplied
+profile from the standard star. The default masking regions are $6\,850-6\,960$
+and $7\,580-7\,700$\ \AA\ only. This profile can then be multiplied
 by a factor to be determined in order to remove the Telluric absorption
 features in the science target. The best multiplicative factor is found
 by minimising the difference between the continuum and the Telluric-absorption
@@ -896,7 +991,17 @@ An \textbf{additional} multiplier can be manually provided to adjust the
 strength of the subtraction. This is designed for manually fine-tuning the
 absorption factor; otherwise, it defaults to $1.0$.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Resample}
+{\Huge\textcolor{red}{More description here.}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Export}
+{\Huge\textcolor{red}{More description here.}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Example Data Reduction Product}
+\label{sec:comparison}
 Being a flexible toolkit, \texttt{ASPIRED} is not designed to reduce data for a
 specific instrument. Instead, it can be customised to suit many configurations,
 as long as they are long-slit-like. We demonstrate that with data products
@@ -905,65 +1010,81 @@ In the case of Gemini/GMOS, it has a single spectrum exposed onto three detector
 each is read out with 4 amplifiers. The bias subtraction is also unconventional,
 so all the image data reduction procedures have to be done outside of ASPIRED
 beforehand. We compare the reduction against the official one for the kilonova
-event AT 2017gfo\footnote{\url{https://www.wiserep.org/}}. Las Cumbres
+event AT 2017gfo\footnote{\url{https://www.wiserep.org/}}~\citep{2017ApJ...848L..32M}. Las Cumbres
 Observatory/FLOYDS has a beam-splitter to expose
 the first order red beam and the second order blue beam into two non-parallel
 curved spectra on a single chip. Both the northern and southern FLOYDS suffers
 from strong fringing effects. This is not handled by ASPIRED natively as well,
 so the correction was done by directly accessing the intermediate data stored
 inside the \texttt{OneDSpec} object. iPTF14hls, an SN II-P with strong emission
-lines is used as an example for comparison. The Liverpool Telescope/SPRAT is a
+lines is used as an example for comparison~\citep{2017Natur.551..210A}. The Liverpool Telescope/SPRAT is a
 high throughput low-resolution spectrograph with a conventional optical design;
 in this case, we compare the reduction of a nova shell DO Aql from a stack of
-four individual exposures. The Very Large Telescope/FORS2 data of a helium
+four individual exposures\footnote{\url{https://telescope.livjm.ac.uk/cgi-bin/lt_search}}~\citep{2020MNRAS.499.2959H}. The Very Large Telescope/FORS2 data of a helium
 accretor~(AM CVn) V418 Ser stacked from 21 individual exposures is used as our
-last comparison. The first three were compared against data reduction from
-\textsc{iraf}-based pipelines, while the last one is reduced with Molly, which
-is built on top of Starlinks. All of the spectra are resampled to match the
+last comparison~\citep{2020MNRAS.496.1243G}. The first three were compared against data reduction from
+\textsc{iraf}-based pipelines, while the last one is reduced with Molly\footnote{\url{https://cygnus.astro.warwick.ac.uk/phsaap/software/molly/html/INDEX.html}}~\citep{2019ascl.soft07012M}, which
+is built on top of STARLINKs. All of the spectra are resampled to match the
 published spectra.
 
-WHT/ISIS demonstrates an extremely low SNR reduction of an ultra-cool white
-dwarf with a smooth blackbody-like spectrum. The TNG/DOLORES shows a
-simultaneous tracing followed by sequential extraction of the pair of spectra
-incidented on the long-slit in one exposure. The GTC/OSIRIS works on a BLAP
-with many resolved absorption lines in both the science and the standard
-target.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+WHT/ISIS and ACAM demonstrate an extremely low signal-to-noise reduction of an ultra-cool
+white dwarf with a smooth blackbody-like spectrum~\citep{2020MNRAS.493.6001L}.
+The tracing and extraction are only possible after careful cosmic ray removal
+and trimming of the images. The spectral shape of the ISIS spectra in both the
+blue and red arm are in good agreement with the ACAM spectrum. The TNG/DOLORES
+shows a simultaneous tracing of two targets separated by 5" incidented on the
+long-slit in a single exposure, followed by sequential extraction. The
+GTC/OSIRIS works on a blue large amplitude pulsator with many resolved
+absorption lines in both the science and the standard targets~(Feige
+110\footnote{\url{https://www.eso.org/sci/observing/tools/standards/spectra/feige110.html}}; ~\citealp{2022MNRAS.511.4971M}). 
 
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table*}
     \centering
     \begin{tabular}{l|c|c|c}\hline
         Telescope/Instrument & Object Type                                 & Grating             & Arc \\\hline\hline
-        \multicolumn{4}{c}{long-slit Setup}\\\hline
+        \multicolumn{4}{c}{Conventional Long-slit Setup}\\\hline
         Liverpool/SPRAT      & Nova shell remnant (DO Aql)                 & 600\,l/mm           & Xe \\
         GTC/OSIRIS           & BLAP (ZGP-BLAP-09)                          & R2500U \& R1000B    & HgArNe \\
-        VLT/FORS             & AM CVn (V418 Ser)                           & 600B                & HeHgCd \\\hline
+        VLT/FORS             & AM CVn (V418 Ser)                           & 600B                & HeHgCd \\
         TNG/DOLORES          & Common Proper Motion System (dM + dMWD)     & LR-B                & ArKrNeHg \\
-        WHT/ISIS             & Ultracool White Dwarf (PSO J1801+625)       & R300B \& R300R      & CuAr \\\hline
+        WHT/ISIS             & Ultracool White Dwarf (PSO J1801+625)       & R300B \& R300R      & CuAr \\
         WHT/ACAM             & Ultracool White Dwarf (PSO J1801+625)       & V400                & CuAr \\\hline
-        \multicolumn{4}{c}{Non-basic Setup}\\\hline
+        \multicolumn{4}{c}{Other Setup}\\\hline
         Gemini/GMOS          & kilonova (AT 2017gfo)                       & R400 \& B600        & CuAr \\
         LCO/FLOYDS           & Type II-P (iPTF14hls)                       & 235\,l/mm           & HgArZn \\\hline
 \end{tabular}
-    \caption{Caption}
+    \caption{List of the eight targets used in Fig.~\ref{fig:extraction_compared} \& \ref{fig:use_cases}. See body text for refereces.}
     \label{tab:my_label}
 \end{table*}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}
     \centering
     \includegraphics[width=\textwidth]{fig_08_reduction_compared.pdf}
-    \caption{Caption}
+    \caption{From top to bottom are the comparison spectra taken with VLT/FORS2,
+    LCO/FLOYDS, LT/SPRAT and Gemini/GMOS in long-slit mode. The published FORS2
+    spectrum was reduced using \textsc{Molly}~(green) powered by the \textsc{STARLINK}
+    library. The other three (red) were reduced using the respective \textsc{iraf}-based
+    pipelines. All spectra reduced with \textsc{ASPIRED}~(blue) are resampled to match
+    the respective published spectra.}
     \label{fig:reduction_compared}
 \end{figure*}
 
 \begin{figure*}
     \centering
     \includegraphics[width=\textwidth]{fig_09_use_case_plots.pdf}
-    \caption{Caption}
+    \caption{Example extractions of some special cases. The GTC/OSIRIS (blue hue)
+    spectra were flux calibrated in the shorter wavelengths where there are a lot
+    of absorption features. The TNG/DOLORES spectra were of two targets where the
+    tracing was done simultaneously and then the extraction done~(red hue)
+    sequentially. The WHT/ISIS and ACAM (green hue and yellow) are extracting a
+    target with very low signal-to-noise ratio.}
     \label{fig:use_cases}
 \end{figure*}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Distribution}
 \textsc{ASPIRED} is released under the BSD (3-Clause) License. The
 source code is hosted on \textsc{Github}, which can be found at
@@ -996,6 +1117,7 @@ and install with the setup script with
 \end{verbatim}
 .
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgements}
 This work was partially supported by OPTICON. This project has
 received funding from the European Union's Horizon 2020 research and
@@ -1049,7 +1171,7 @@ We adopt the name from the filenames as they are.
 \subsection*{ESO \citet{1992PASP..104..533H, 1994PASP..106..566H} Standards\footnote{\url{https://www.eso.org/sci/observing/tools/standards/spectra/hamuystandards.html}}}
 \begin{verbatim}
 esoctiostan = [
-    `cd32d9927', `cd_34d241', `eg21', `eg274', `feige110', `feige56', `hilt600', `hr1544',
+    `cd3two-dimensional9927', `cd_34d241', `eg21', `eg274', `feige110', `feige56', `hilt600', `hr1544',
     `hr3454', `hr4468', `hr4963', `hr5501', `hr718', `hr7596', `hr7950', `hr8634', `hr9087',
     `ltt1020', `ltt1788', `ltt2415', `ltt3218', `ltt3864', `ltt4364', `ltt4816', `ltt6248',
     `ltt7379', `ltt745', `ltt7987', `ltt9239', `ltt9491'
