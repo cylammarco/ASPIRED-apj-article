@@ -26,7 +26,7 @@
 %% does not need to be explicitly stated.
 %%
 %% using aastex version 6.3
-\documentclass[twocolumn, linenumbers]{aastex631}
+\documentclass[linenumbers, twocolumn]{aastex631}
 
 %% The default is a single spaced, 10 point font, single spaced article.
 %% There are 5 other style options available via an optional argument. They
@@ -380,32 +380,34 @@ maintenance since 2019, and \textsc{specutils}
 handles spectral analysis and manipulation but not the reduction itself.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In \textsc{ASPIRED}, we have a different vision in how and what should be abstracted from the
-users. Instead of providing a ready-to-go `black box' suited for a specific instrument
-or observations made in particular conditions, we provide a toolkit that is as general
-as possible for users to have a set of high-level data reduction building blocks to
-process the data in the ways most appropriate to their instruments and observations.
-This shifts more of the work and maintenance to the user-end, but it will allow rapid
-modification of the data reduction workflow if there are any changes in the instrumental
-configuration, for example, a detector is refitted, and the detector plane is shifted and
-rotated by a few pixels. \textsc{ASPIRED} also aims to provide a set of functions that requires
-coding skills that students should have attained from the university-level of Observational
-Astrophysics course.
+In \textsc{ASPIRED}, we have a different vision of how and what should be
+abstracted from the users. Instead of providing a ready-to-go `black box'
+suited for a specific instrument or observations made in particular conditions,
+we provide a toolkit that is as general as possible for users to have a set of
+high-level data reduction building blocks to process the data in the ways most
+appropriate to their instruments and observations. This shifts more of the work
+and maintenance to the user-end, but it will allow rapid modification of the
+data reduction workflow if there are any changes in the instrumental
+configuration, for example, a detector is refitted, and the detector plane is
+shifted and rotated by a few pixels. \textsc{ASPIRED} also aims to provide a
+set of functions that requires coding skills that students should have attained
+from the university-level of Observational Astrophysics course.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-We use the SPRAT family as our `first-light' instruments for development~\citep{2014SPIE.9147E..8HP},
-but we aim to allow high-level tools for users to build and fine-tune their pipelines to support
-a wide range of configurations~\citep{2020arXiv201203505L, marco_2021_4463569}. As of the time of
-writing, we have successfully used \textsc{ASPIRED} to reduce data from the William Herschel Telescope
-\textit{Intermediate-dispersion Spectrograph and Imaging System}
-\footnote{\url{https://www.ing.iac.es/astronomy/instruments/isis}}~(WHT/ISIS)
+We use the SPRAT family as our `first-light' instruments for
+development~\citep{2014SPIE.9147E..8HP}, but we aim to allow high-level tools
+for users to build and fine-tune their pipelines to support a wide range of
+configurations~\citep{2020arXiv201203505L, marco_2021_4463569}. As of the time
+of writing, we have successfully used \textsc{ASPIRED} to reduce data from the
+William Herschel Telescope \textit{Intermediate-dispersion Spectrograph and
+Imaging System} \footnote{\url{https://www.ing.iac.es/astronomy/instruments/isis}}~(WHT/ISIS)
 and the Auxiliary-port CAMera~\citep[ACAM;][]{2008SPIE.7014E..6XB}, Las Cumbres
 Observatory FLOYDS~\citep[LCO/FLOYDS;][]{2013PASP..125.1031B}, Gemini Observatory
 \textit{Gemini Multi-Object Spectrographs} long-slit
-mode~\citep[Gemini/GMOS-LS;][]{2004PASP..116..425H}, Gran Telescopio Canarias \textit{Optical
-System for Imaging and low-Intermediate-Resolution Integrated
-Spectroscopy}~\citep[GTC/OSIRIS;][]{2000SPIE.4008..623C}, and Telescopio Nazionale Galileo
-\textit{Device Optimised for the LOw
+mode~\citep[Gemini/GMOS-LS;][]{2004PASP..116..425H}, Gran Telescopio Canarias
+\textit{Optical System for Imaging and low-Intermediate-Resolution Integrated
+Spectroscopy}~\citep[GTC/OSIRIS;][]{2000SPIE.4008..623C}, and Telescopio
+Nazionale Galileo \textit{Device Optimised for the LOw
 RESolution\footnote{\url{http://www.tng.iac.es/instruments/lrs}}}~\citep[TNG/DOLORES;][]{1999ldss.work..157M},
 and the Very Large Telescope \textit{FOcal Reducer/low dispersion Spectrograph 2}~(VLT/FORS2);
 all of these are currently still unofficial sets of reduction procedures. There
@@ -413,10 +415,14 @@ are examples of these reductions in Section~\ref{sec:comparison}, and see also
 \url{https://github.com/cylammarco/aspired-example}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-This paper is organised as follows: Section \textsection2 covers the development and
-organisation of the software. Then, we go through the details of the spectral reduction
-procedures in Section \textsection3. In the last section, we provide various links
-for references and instructions for installation.
+This article is organised as follows: Section \textsection\ref{sec:development}
+covers the development and organisation of the software. Then, we discuss the
+details of the spectral image and reduction procedures in Section~\textsection
+\ref{sec:image_reduction} \& \ref{sec:spectral_reduction}. In
+Section~\textsection{\ref{sec:examples}} we show a few example spectra and
+compared some with the published spectra. Section~\textsection{\ref{sec:distribution}}
+explains how \textsc{ASPIRED} can be installed and in the final section, we
+summarize and talk about the future plan.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 This article is not intended to serve as an API document, nor as a review of the
@@ -426,6 +432,7 @@ important to the data reduction processes are discussed here.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Development and Structure of \textsc{ASPIRED}}
+\label{sec:development}
 
 One of the development goals of \textsc{ASPIRED} is to design a piece of software that is as
 modular and portable as possible. We rely on as few external dependencies as possible.
@@ -568,8 +575,9 @@ view of that, \textsc{ASPIRED} provides input/output handling of both FITS and
 ASCII-type files. All the higher-level functions are wrappers on top of a
 \texttt{spectrum1D} object.
 
-\section{Image Reduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Image Reduction}
+\label{sec:image_reduction}
 This module allows mean-, median-, and sum-combining, subtracting and dividing
 of light, dark, bias and flat frames. The FITS header of the \textit{first}
 light frame provided is copied over, while the headers from the other frames
@@ -581,12 +589,14 @@ first \texttt{ImageHDU} extension as recommended in the FITS Standard
 document\footnote{\url{https://fits.gsfc.nasa.gov/fits_documentation.html}},
 or it can be stored directly in the \texttt{PrimaryHDU} as most users tend
 to opt for. Many forms of interactive and static images can be exported,
-powered by the \textsc{Plotly} image renderer.
-
-{\Huge\textcolor{red}{More description here.}}
+powered by the \textsc{Plotly} image renderer. This only allows very basic
+image reduction, we recommend users to reduce the two dimensional spectral
+image data and use the \texttt{spectral\_reduction}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Spectral Reduction}
+\label{sec:spectral_reduction}
+
 In the highest-level terms, spectral reduction procedures after image reduction
 includes: (1) identifying and tracing the spectrum/a, (2) correcting for image
 distortion, (3) extracting the spectrum/a, (4) performing wavelength
@@ -603,8 +613,8 @@ absorption removal wihtout supplementary calibration data with
 \textsc{MoleFit}~\citep{2015A&A...576A..77S, 2015A&A...576A..78K}.
 The following describes the technical details of the nine steps. We use the
 following convention throughout: the spectral image is dispersed on the detector
-plane such that the left side (small pixel number) corresponds to the blue part
-of the spectrum and the right side (large pixel number) to the red part in the
+plane such that the left side~(small pixel number) corresponds to the blue part
+of the spectrum and the right side~(large pixel number) to the red part in the
 dispersion direction, while the direction perpendicular to it is the spatial
 direction.
 
@@ -881,9 +891,56 @@ function of the detector. All the standard stars available in
 \textsc{iraf}\footnote{\url{https://github.com/iraf-community/iraf/tree/main/noao/lib/onedstds}}
 and on the ESO webpage -- \textit{Optical and UV Spectrophotometric
 Standard Stars}\footnote{\url{https://www.eso.org/sci/observing/tools/standards/spectra.html}}
-are available on \textsc{ASPIRED}. See Appendix ~\ref{appendix:standards} for
-the complete listing of the standard stars and the respective data
-source. The calibration can be done in either AB magnitude or
+are available on \textsc{ASPIRED}. We call the name of the set of data a
+\textit{library}, and here is the complete listing of the source and reference
+for each of the libraries where available:
+
+\subsection*{European Southern Observatory~(ESO)}
+The ESO standard spectra are grouped into five sets, they can be downloaded from \url{https://www.eso.org/sci/observing/tools/standards/spectra/}:
+
+\begin{itemize}
+    \item \texttt{esoctiostan} -- CTIO standards from \citet{1992PASP..104..533H, 1994PASP..106..566H}
+    \item \texttt{esohststan} -- HST standards from \citet{1995AJ....110.1316B, 1996AJ....111.1743B}
+    \item \texttt{esookestan} -- Oke standards from \citet{1990AJ.....99.1621O}
+    \item \texttt{esowdstan} -- White dwarf standards from \citet{1995AJ....110.1316B}
+    \item \texttt{esoxshooter} -- ESO X-shooter standards from \citet{2014Msngr.158...16M, 2014A&A...568A...9M}
+\end{itemize}
+
+
+\subsection*{Issac Newton Group of Telescopes~(ING)}
+
+The ING listing is grouped into five sets by the last name of the authors\footnote{\url{http://www.ing.iac.es/Astronomy/observing/manuals/html_manuals/tech_notes/tn065-100/workflux.html}}.
+
+\begin{itemize}
+    \item \texttt{ing\_oke} -- \citet{1990AJ.....99.1621O} standards
+    \item \texttt{ing\_sto} -- \citet{1977ApJ...218..767S} standards
+    \item \texttt{ing\_og} -- \citet{1965ApJ...141...83E} standards
+    \item \texttt{ing\_mas} -- \citet{1988ApJ...328..315M} standards
+    \item \texttt{ing\_fg} -- \citet{1984PASP...96..530F} standards
+\end{itemize}
+
+\subsection*{\texttt{iraf} Standards}
+The complete listing of \texttt{iraf} standards can be found at
+\url{https://github.com/iraf-community/iraf/tree/main/noao/lib/onedstds}.
+References are included is they are available.
+
+\begin{itemize}
+    \item \texttt{irafblackbody}
+    \item \texttt{irafbstdscal} -- KPNO IRS standards (i.e.\ those from the Henry Draper~(HD) catalogue)
+    \item \texttt{irafctiocal} -- The original CTIO standards \citet{1983MNRAS.204..347S, 1984MNRAS.206..241B}
+    \item \texttt{irafctionewcal} -- The updated CTIO standards \citet{1992PASP..104..533H, 1994PASP..106..566H}
+    \item \texttt{irafiidscal} -- KPNO IIDS standards \citet{1988ApJ...328..315M}
+    \item \texttt{irafirscal} -- KPNO IRS standards \citet{1988ApJ...328..315M}
+    \item \texttt{irafoke1990} -- HST standards \citet{1990AJ.....99.1621O}
+    \item \texttt{irafredcal} -- KPNO IRS standards \& IIDS \citet{1988ApJ...328..315M} with wavelength beyond 8\,370\,$\mathrm{\AA}$
+    \item \texttt{irafspechayescal} -- KPNO standards \citet{1988ApJ...328..315M}
+    \item \texttt{irafspec16cal} -- CTIO standards \citet{1992PASP..104..533H, 1994PASP..106..566H} at 16$\mathrm{\AA}$ interval
+    \item \texttt{irafspec50cal} -- KPNO standards \citet{1988ApJ...328..315M, 1990ApJ...358..344M} at 50$\mathrm{\AA}$ interval
+\end{itemize}
+
+
+
+The calibration can be done in either AB magnitude or
 flux density~(per unit wavelength). The two should give similar
 results, but the response functions found would not be equivalent
 because fitting to magnitudes is in logarithmic space and smoothing~(see
@@ -987,21 +1044,102 @@ by a factor to be determined in order to remove the Telluric absorption
 features in the science target. The best multiplicative factor is found
 by minimising the difference between the continuum and the Telluric-absorption
 corrected spectrum simultaneously for all the Telluric absorption features.
-An \textbf{additional} multiplier can be manually provided to adjust the
+An \textbf{extra} multiplier can be manually provided to adjust the
 strength of the subtraction. This is designed for manually fine-tuning the
 absorption factor; otherwise, it defaults to $1.0$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Resample}
-{\Huge\textcolor{red}{More description here.}}
+All the operations above are performed as a function of the native detector
+pixels. Including the telluric absorption corrections as the telluric profile
+is generated in the standard spectrum pixel/wavelength coordinates, the
+correction applied to the target spectrum is performed using an interpolated
+function of the profile at the wavelengths of the target spectrum. Many legacy
+software can only read the spetrum using the header information to create
+the wavelength cooridnates using only three parameter: the wavelength of the
+first element of the spectral array, the bin width of each wavelength
+coordinate, and the length of the spectral array. This requires a uniformly
+sampled wavelength axis, which never happens naturally as there is always some
+level of of image distortion at the detector plane. A resampling is necessary
+to turn the data into such format.
+
+The resampling is performed with the \textsc{spectres} package. Although
+this package allows non-uniform wavelength spacing resampling, we are only
+using it for uniform resampling for the purpose of exporting the data as FITS
+files.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Export}
-{\Huge\textcolor{red}{More description here.}}
+At the time of writing, 22 types of output to CSV and FITS files are supported.
+Each CSV will have the data stored in a separate column, while the FITS has
+the data stored in a separate Header Data Unit~(HDU). Each spectrum is exported
+as a separate file. The options are:
+
+\begin{enumerate}
+    \item \texttt{trace} -- two columns/HDUs containing the pixel coordinates
+    of the trace and its width.
+    \item \texttt{count} -- three columns/HDUs containing the electron count
+    of the spectrum, its uncertainty, and the sky background.
+    \item \texttt{weight\_map} -- one column/HDU for the extraction profile,
+    in top hat and \texttt{horne86} extraction this is a one dimensional array,
+    while the \texttt{marsh90} extraction returns a two dimensional array.
+    \item \texttt{arc\_spec} -- three columns/HDUs for one dimensional arc
+    spectrum, pixel coordinates of the arc line position (sub-pixel precision),
+    and the pixel coordinates of the arc line effective position~(
+    e.g.\ accounted for chip gaps).
+    \item \texttt{wavecal} -- one column/HDU for the Polynomial coefficients
+    for wavelength calibration. The header contains the information of the
+    polynomial type.
+    \item \texttt{wavelength} -- one column/HDU for the wavelength at the
+    native pixel position as extracted.
+    \item \texttt{sensitivity} -- one column/HDU containing the sensitivity
+    function of the detector as a function of the native detector pixel
+    \item \texttt{flux} -- three columns/HDUs containing the
+    flux of the spectrum, its uncertainty, and the sky background.
+    \item \texttt{atm\_ext} -- one column/HDU containing the atmospheric
+    extinction correction factor at each wavelength position.
+    \item \texttt{flux\_atm\_ext\_corrected} -- three columns/HDUs containing
+    the atmospheric extinction corrected flux of the spectrum, its
+    uncertainty, and the sky background,
+    \item \texttt{telluric\_profile} -- one column/HDU containing the telluric
+    absorption profile from the standard spectrum.
+    \item \texttt{flux\_telluric\_corrected} -- three columns/HDUs containing
+    the telluric absorption corrected flux, uncertainty, and the sky
+    background.
+    \item \texttt{flux\_atm\_ext\_telluric\_corrected} -- three columns/HDUs
+    containing the atmospheric extinction and telluric corrected flux,
+    uncertainty, and the sky background.
+    \item \texttt{wavelength\_resampled} -- one column/HDU containing the
+    wavelength at each resampled position.
+    \item \texttt{count\_resampled} -- three columns/HDUs containing the
+    electron count of the spectrum, its uncertainty, and the sky background
+    being subtracted during the extraction process at the resampled wavelength.
+    \item \texttt{sensitivity\_resampled} -- one column/HDU containing the
+    sensitivity function of the detector as a function of resampled wavelength.
+    \item \texttt{flux\_resampled} -- three columns/HDUs containing the
+    flux of the spectrum, its uncertainty, and the sky background at the
+    resampled wavelength.
+    \item \texttt{atm\_ext\_resampled} -- one column/HDU containing the
+    atmospheric extinction correction factor at the resampled wavelength.
+    \item \texttt{flux\_resampled\_atm\_ext\_corrected} -- three columns/HDUs
+    containing the atmospheric extinction corrected flux of the spectrum, its
+    uncertainty, and the sky background at the resampled wavelength.
+    \item \texttt{telluric\_profile\_resampled} -- one column/HDU containing
+    the telluric absorption profile from the standard spectrum at the resampled
+    wavelength.
+    \item \texttt{flux\_resampled\_telluric\_corrected} -- three columns/HDUs
+    containing the telluric absorption corrected flux, uncertainty, and the sky
+    background at the resampled wavelength.
+    \item \texttt{flux\_resampled\_atm\_ext\_telluric\_corrected} -- three
+    columns/HDUs containing the atmospheric extinction and telluric absorption
+    corrected flux, uncertainty, and the sky background at the resampled
+    wavelength.
+\end{enumerate}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Example Data Reduction Product}
-\label{sec:comparison}
+\label{sec:examples}
 Being a flexible toolkit, \texttt{ASPIRED} is not designed to reduce data for a
 specific instrument. Instead, it can be customised to suit many configurations,
 as long as they are long-slit-like. We demonstrate that with data products
@@ -1068,7 +1206,8 @@ absorption lines in both the science and the standard targets~(Feige
     spectrum was reduced using \textsc{Molly}~(green) powered by the \textsc{STARLINK}
     library. The other three (red) were reduced using the respective \textsc{iraf}-based
     pipelines. All spectra reduced with \textsc{ASPIRED}~(blue) are resampled to match
-    the respective published spectra.}
+    the respective published spectra. Telluric correction is applied using the default
+    setting.}
     \label{fig:reduction_compared}
 \end{figure*}
 
@@ -1086,6 +1225,8 @@ absorption lines in both the science and the standard targets~(Feige
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Distribution}
+\label{sec:distribution}
+
 \textsc{ASPIRED} is released under the BSD (3-Clause) License. The
 source code is hosted on \textsc{Github}, which can be found at
 \url{https://github.com/cylammarco/ASPIRED}. The DOI of each version
@@ -1118,6 +1259,10 @@ and install with the setup script with
 .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary and Future work}
+\label{sec:summary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgements}
 This work was partially supported by OPTICON. This project has
 received funding from the European Union's Horizon 2020 research and
@@ -1143,243 +1288,6 @@ global telescope network. We have made use of the data collected from
 the FLOYDS spectrograph on the LCOGT 2m telescope at both Siding Spring,
 Australia and Maui, HI, United States.
 %%%%%%%%%%%%%%%%% APPENDICES %%%%%%%%%%%%%%%%%%%%%
-
-\appendix
-
-\section{Standard Stars}
-\label{appendix:standards}
-We provide the list of standard stars available from the ESO, ING and \texttt{iraf} catalogues (see
-links in the respective group for the file source). We call the name of the set of
-data a \textit{library}; the naming is self-explanatory:
-
-\begin{verbatim}
-library_list = [
-    `esoctiostan', `esohststan', `esookestan', `esowdstan', `esoxshooter', `ing_oke', `ing_sto',
-    `ing_og', `ing_mas', `ing_fg', `irafblackbody', `irafbstdscal', `irafctiocal', 
-    `irafctionewcal', `irafiidscal', `irafirscal', `irafoke1990', `irafredcal', `irafspec16cal',
-    `irafspec50cal', `irafspechayescal'
-]
-\end{verbatim}
-
-The following lists all the available stars in each of the libraries.
-In \texttt{iraf}, a number of stars with multiple commonly used designations
-are run through a name-resolver. We do not provide such utility.
-We adopt the name from the filenames as they are.
-
-\subsection{European Southern Observatory~(ESO)}
-
-\subsection*{ESO \citet{1992PASP..104..533H, 1994PASP..106..566H} Standards\footnote{\url{https://www.eso.org/sci/observing/tools/standards/spectra/hamuystandards.html}}}
-\begin{verbatim}
-esoctiostan = [
-    `cd3two-dimensional9927', `cd_34d241', `eg21', `eg274', `feige110', `feige56', `hilt600', `hr1544',
-    `hr3454', `hr4468', `hr4963', `hr5501', `hr718', `hr7596', `hr7950', `hr8634', `hr9087',
-    `ltt1020', `ltt1788', `ltt2415', `ltt3218', `ltt3864', `ltt4364', `ltt4816', `ltt6248',
-    `ltt7379', `ltt745', `ltt7987', `ltt9239', `ltt9491'
-]
-\end{verbatim}
-
-\subsection*{ESO \citet{1995AJ....110.1316B, 1996AJ....111.1743B} HST Standards\footnote{\url{https://www.eso.org/sci/observing/tools/standards/spectra/hststandards.html}}}
-\begin{verbatim}
-esohststan = [
-    `agk81d266', `bd28d4211', `bd33d2642', `bd75d325', `bpm16274', `feige110', `feige34',
-    `g191b2b', `g93_48', `gd108', `gd50', `grw70d5824', `hd49798', `hd60753', `hd93521',
-    `hr153', `hr1996', `hr4554', `hr5191', `hr7001', `hz2', `hz21', `hz4', `hz44', `lb227',
-    `lds749b', `ngc7293'
-]
-\end{verbatim}
-
-\subsection*{ESO \citet{1990AJ.....99.1621O} Standard \footnote{\url{https://www.eso.org/sci/observing/tools/standards/spectra/okestandards_rev.html}}}
-
-\begin{verbatim}
-esookestan = [
-    `bd25d4655', `bd28d4211', `bd33d2642', `bd75d325', `feige110', `feige34', `feige66',
-    `feige67', `g138_31', `g158_100', `g191b2b', `g193_74', `g24_9', `g60_54', `gd108', `gd248',
-    `gd50', `grw70d5824', `hd93521', `hz21', `hz4', `hz44', `ltt9491', `ngc7293', `sa95_42'
-]
-\end{verbatim}
-
-\subsection*{ESO \citet{1995AJ....110.1316B} WD Standards \footnote{\url{https://www.eso.org/sci/observing/tools/standards/spectra/wdstandards.html}}}
-\begin{verbatim}
-esowdstan = [
-    `agk_81d266_005', `alpha_lyr_004', `bd_25d4655_002', `bd_28d4211_005', `bd_33d2642_004',
-    `bd_75d325_005', `feige110_005', `feige34_005', `feige66_002', `feige67_002', `g93_48_004',
-    `gd108_005', `gd50_004', `gd71', `grw_70d5824_005', `hd93521_005', `hz21_005', `hz2_005',
-    `hz44_005', `hz4_004', `lb227_004', `lds749b_005', `ltt9491_002', `ngc7293_005'
-]
-\end{verbatim}
-
-\subsection*{ESO X-shooter Standards~\citep{2014Msngr.158...16M, 2014A&A...568A...9M}\footnote{\url{https://www.eso.org/sci/observing/tools/standards/spectra/Xshooterspec.html}}}
-\begin{verbatim}
-esoxshooter = [
-    `EG274', `Feige110', `GD153', `GD71', `LTT3218', `LTT7987'
-]
-\end{verbatim}
-
-\subsection{Issac Newton Group of Telescopes~(ING)}
-
-The ING listing is grouped into five sets by the last name of the authors\footnote{\url{http://www.ing.iac.es/Astronomy/observing/manuals/html_manuals/tech_notes/tn065-100/workflux.html}}.
-\subsection*{\citet{1990AJ.....99.1621O} Standards}
-\begin{verbatim}
-ing_oke = [
-    `bd254', `bd28', `bd33', `bd75', `erib', `f110', `f24', `f34', `f66', `f67', `g138', `g158',
-    `g191new', `g191old',  `g193', `g24', `g47', `g60', `g99', `gd108', `gd140', `gd190',
-    `gd248', `gd50', `grw705new', `grw705old', `grw708', `grw73', `hd935', `he3', `hz14',
-    `hz2', `hz21', `hz29', `hz43', `hz44new', `hz44old', `hz4new', `hz4old', `hz7', `l1363',
-    `l1512', `l745', `l870', `l930', `l970', `lb1240', `lb227', `lds235', `lds749', `ltt',
-    `ngc', `r627', `r640', `sa29', `sa95', `t573', `w1346', `w485'
-]
-\end{verbatim}
-
-\subsection*{\citet{1977ApJ...218..767S} Standards}
-
-\begin{verbatim}
-ing_sto = [
-    `bd08', `bd253', `bd28', `bd33', `bd40', `f110', `f15', `f25', `f34', `f56', `f92', `f98',
-    `h102', `h600', `hz15', `k27'
-]
-\end{verbatim}
-
-
-\subsection*{\citet{1965ApJ...141...83E} Standards}
-\begin{verbatim}
-ing_og = [`bd17', `bd26', `hd194', `hd849']
-\end{verbatim}
-
-\subsection*{\citet{1988ApJ...328..315M} Standards}
-\begin{verbatim}
-ing_mas = [
-    `bd28', `cyg', `eg81', `f110', `f34', `f66', `f67', `g191', `gd140', `h600', `hd192',
-    `hd217', `hz14', `hz44', `pg0205', `pg0216', `pg0310', `pg0823', `pg0846', `pg0934',
-    `pg0939', `pg1121', `pg1545', `pg1708', `w1346'
-]
-\end{verbatim}
-
-\subsection*{\citet{1984PASP...96..530F} Standards}
-\begin{verbatim}
-ing_fg = [`g138', `g158', `g24', `gd248']
-\end{verbatim}
-
-\subsection{\texttt{iraf} Standards}
-The complete list of \texttt{iraf} standards are available at
-\footnote{\url{https://github.com/iraf-community/iraf/tree/main/noao/lib/onedstds}}.
-
-\begin{verbatim}
-irafblackbody = [`U', `B', `V', `R', `I', `J', `H', `K', `L', `Lprime', `M']
-\end{verbatim}
-
-\begin{verbatim}
-irafbstdscal = [
-    `hr718', `hr3454', `hr3982', `hr4468', `hr4534', `hr5191', `hr5511', `hr7001', `hr7596',
-    `hr7950', `hr8634', `hr9087', `hr15318', `hr74280', `hr100889', `hr188350', `hr198001',
-    `hr214923', `hr224926'
-]
-\end{verbatim}
-
-\begin{verbatim}
-irafctiocal = [
-    `bd8', `bd25', `bd73632', `cd32', `eg11', `eg21', `eg26', `eg31', `eg54', `eg63', `eg76',
-    `eg79', `eg99', `eg139', `eg149', `eg158', `eg248', `eg274', `f15', `f25', `f56', `f98',
-    `f110', `feige15', `feige25', `feige56', `feige98', `feige110', `g2631', `g9937', `g16350',
-    `h600', `hz2', `hz4', `hz15', `kopf27', `l377', `l1020', `l1788', `l2415', `l2511',
-    `l3218', `l3864', `l4364', `l4816', `l6248', `l7379', `l7987', `l8702', `l9239', `l9491',
-    `l74546', `l93080', `l97030', `lds235', `lds749', `ltt4099', `ltt8702', `rose627', `w1346',
-    `w485a', `wolf1346', `wolf485a'
-]
-\end{verbatim}
-
-\begin{verbatim}
-irafctionewcal = [
-    `cd32', `eg21', `eg274', `f56', `f110', `h600', `l377', `l745', `l1020', `l1788', `l2415',
-    `l2511', `l3218', `l3864', `l4364', `l4816', `l6248', `l7379', `l7987', `l9239', `l9491',
-    `cd32blue', `eg21blue', `eg274blue', `f56blue', `f110blue', `h600blue', `l377blue',
-    `l1020blue', `l1788blue', `l2415blue', `l2511blue', `l3218blue', `l3864blue',
-    `l4364blue', `l4816blue', `l6248blue', `l7379blue', `l7987blue', `l9239blue',
-    `l9491blue', `cd32red', `eg21red', `eg274red', `f56red', `f110red', `h600red', `l377red',
-    `l745red', `l1020red', `l1788red', `l2415red', `l2511red', `l3218red', `l3864red',
-    `l4364red', `l4816red', `l6248red', `l7379red', `l7987red', `l9239red', `l9491red'
-]
-\end{verbatim}
-
-\begin{verbatim}
-irafiidscal = [
-    `40erib', `amcvn', `bd7781', `bd73632', `bd82015', `bd253941', `bd284211', `bd332642',
-    `bd404032', `eg11', `eg20', `eg26', `eg28', `eg29', `eg31', `eg33', `eg39', `eg42',
-    `eg50', `eg54', `eg63', `eg67', `eg71', `eg76', `eg77', `eg79', `eg91', `eg98', `eg99',
-    `eg102', `eg119', `eg129', `eg139', `eg144', `eg145', `eg148', `eg149', `eg158', `eg162',
-    `eg182', `eg184', `eg193', `eg247', `eg248', `feige15', `feige24', `feige25', `feige34',
-    `feige56', `feige92', `feige98', `feige110', `g88', `g2610', `g2631', `g4718', `g9937',
-    `g12627', `g14563', `g16350', `g191b2b', `gd128', `gd140', `gd190', `gh7112', `grw705824',
-    `grw708247', `grw738031', `he3', `hz2', `hz4', `hz7', `hz14', `hz15', `hz29', `hz43',
-    `hz44', `kopff27', `hiltner102', `hiltner600', `l8702', `l13633', `l14094', `l74546a',
-    `l93080', `l97030', `l140349', `l151234b', `lft1655', `lb227', `lb1240', `lds235b',
-    `lds749b', `lp414101', `ltt4099', `ltt8702', `ltt13002', `ltt16294', `ross627', `ross640',
-    `sa29130', `sao131065', `ton573', `wolf1346', `wolf485a'
-]
-\end{verbatim}
-
-\begin{verbatim}
-irafirscal = [
-    `bd082015', `bd174708', `bd253941', `bd262606', `bd284211', `bd332642', `bd404032', `eg50',
-    `eg71', `eg139', `eg158', `eg247', `feige15', `feige25', `feige34', `feige56', `feige92',
-    `feige98', `feige110', `g191b2b', `hd2857', `hd17520', `hd19445', `hd60778', `hd74721',
-    `hd84937', `hd86986', `hd109995', `hd117880', `hd161817', `hd192281', `hd217086', `he3',
-    `hiltner102', `hiltner600', `hr7001', `hz44', `kopff27', `wolf1346'
-]
-\end{verbatim}
-
-\begin{verbatim}
-irafoke1990 = [
-    `bd75325', `bd284211', `feige34', `feige67', `feige110', `g249', `g13831', `g191b2b',
-    `g19374', `gd108', `gd248', `hz21', `ltt9491', `eg71', `eg158', `eg247'
-]
-\end{verbatim}
-
-\begin{verbatim}
-irafredcal = [
-    `40erib', `amcvn', `bd7781', `bd73632', `bd174708', `bd262606', `eg20', `eg33', `eg50',
-    `eg54', `eg63', `eg67', `eg76', `eg79', `eg91', `eg98', `eg99', `eg102', `eg119', `eg129',
-    `eg139', `eg144', `eg145', `eg148', `eg149', `eg158', `eg162', `eg182', `eg184', `eg193',
-    `eg247', `eg248', `feige24', `g2610', `g2631', `g4718', `g9937', `g12627', `g14563',
-    `g16350', `g191b2b', `gd140', `gd190', `grw705824', `grw708247', `grw738031', `hd19445',
-    `hd84937', `he3', `hz29', `hz43', `hz44', `l13633', `l14094', `l151234b', `l74546a',
-    `l93080', `l97030', `lds235b', `lds749b', `lft1655', `ltt4099', `ltt8702', `ltt16294',
-    `ross627', `ross640', `sa29130', `sao131065', `wolf1346', `wolf485a'
-]
-\end{verbatim}
-
-\begin{verbatim}
-irafspec16cal = [
-    `hd15318', `hd30739', `hd74280', `hd100889', `hd114330', `hd129956', `hd188350',
-    `hd198001', `hd214923', `hd224926', `hr718', `hr1544', `hr3454', `hr4468', `hr4963',
-    `hr5501', `hr7596', `hr7950', `hr8634', `hr9087', `hd15318blue', `hd30739blue',
-    `hd74280blue', `hd100889blue', `hd114330blue', `hd129956blue', `hd188350blue',
-    `hd198001blue', `hd214923blue', `hd224926blue', `hr718blue', `hr1544blue', `hr3454blue',
-    `hr4468blue', `hr4963blue', `hr5501blue', `hr7596blue', `hr7950blue', `hr8634blue',
-    `hr9087blue', `hd15318red', `hd30739red', `hd74280red', `hd100889red', `hd114330red',
-    `hd129956red', `hd188350red', `hd198001red', `hd214923red', `hd224926red', `hr718red',
-    `hr1544red', `hr3454red', `hr4468red', `hr4963red', `hr5501red', `hr7596red', `hr7950red',
-    `hr8634red', `hr9087red'
-]
-\end{verbatim}
-
-\begin{verbatim}
-irafspec50cal = [
-    `bd284211', `cygob2no9', `eg20', `eg42', `eg71', `eg81', `eg139', `eg158', `eg247',
-    `feige34', `feige66', `feige67', `feige110', `g191b2b', `gd140', `hd192281', `hd217086',
-    `hilt600', `hz14', `hz44', `pg0205134', `pg0216032', `pg0310149', `pg0823546', `pg0846249',
-    `pg0934554', `pg0939262', `pg1121145', `pg1545035', `pg1708602', `wolf1346'
-]
-\end{verbatim}
-
-\begin{verbatim}
-irafspechayescal = [
-    `bd284211', `cygob2no9', `eg42', `eg71', `eg81', `eg139', `eg158', `eg247', `feige34',
-    `feige66', `feige67', `feige110', `g191b2b', `gd140', `hd192281', `hd217086', `hilt600',
-    `hz14', `hz44', `pg0205134', `pg0216032', `pg0310149', `pg0823546', `pg0846249',
-    `pg0934554', `pg0939262', `pg1121145', `pg1545035', `pg1708602', `wolf1346'
-]
-\end{verbatim}
-
 
 %% For this sample we use BibTeX plus aasjournals.bst to generate the
 %% the bibliography. The sample631.bib file was populated from ADS. To
