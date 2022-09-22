@@ -66,7 +66,7 @@ onedspec.set_hough_properties(range_tolerance=500.,
                               ybins=100,
                               min_wavelength=3800.,
                               max_wavelength=8200.)
-onedspec.set_ransac_properties(sample_size=10,
+onedspec.set_ransac_properties(sample_size=5,
                                top_n_candidate=10,
                                filter_close=True,
                                ransac_tolerance=10.)
@@ -74,22 +74,23 @@ onedspec.add_user_atlas(elements=element,
                         wavelengths=atlas,
                         constrain_poly=True)
 onedspec.do_hough_transform()
+onedspec.set_ransac_properties(minimum_matches=19)
 
 # Solve for the pixel-to-wavelength solution
 onedspec.fit(max_tries=2000)
 
 onedspec.apply_wavelength_calibration()
 
-onedspec.load_standard('hilt102')
-onedspec.get_sensitivity()
+onedspec.load_standard('hilt102', library='irafiirs')
+onedspec.get_sensitivity(lowess_frac=0.075)
 onedspec.apply_flux_calibration()
 
 sensitivity = np.array(onedspec.science_spectrum_list[0].sensitivity)
 wave = np.array(onedspec.standard_spectrum_list[0].wave)
 count = np.array(onedspec.standard_spectrum_list[0].count)
 
-wave_standard = np.array(onedspec.standard_spectrum_list[0].wave_resampled)
-flux_standard = np.array(onedspec.standard_spectrum_list[0].flux_resampled)
+wave_standard = np.array(onedspec.standard_spectrum_list[0].wave)
+flux_standard = np.array(onedspec.standard_spectrum_list[0].flux)
 
 wave_literature = np.array(onedspec.standard_spectrum_list[0].wave_literature)
 flux_literature = np.array(onedspec.standard_spectrum_list[0].flux_literature)
@@ -105,8 +106,8 @@ ax3 = fig.add_subplot(2, 1, 2)
 
 lns1 = ax1.plot(wave[mask], count[mask], label=r"Observed e$^-$ Count")
 lns2 = ax1.plot(wave_literature,
-                flux_literature * 1e15,
-                label=r"Flux (Literature) $\times 10^{15}$")
+                flux_literature * 1e16,
+                label=r"Flux (Literature) $\times 10^{16}$")
 
 lns3 = ax2.plot(wave[mask],
                 sensitivity[mask],
@@ -124,9 +125,9 @@ lns5 = ax3.plot(wave_standard,
                 color='C2',
                 label='Calibrated Flux')
 
-ax1.set_xlim(3900, 8100)
-ax2.set_xlim(3900, 8100)
-ax3.set_xlim(3900, 8100)
+ax1.set_xlim(3950, 8050)
+ax2.set_xlim(3950, 8050)
+ax3.set_xlim(3950, 8050)
 
 ax3.set_ylim(5e-14, 3.1e-13)
 
