@@ -411,10 +411,12 @@ mode~\citep[Gemini/GMOS-LS;][]{2004PASP..116..425H}, Gran Telescopio Canarias
 Spectroscopy}~\citep[GTC/OSIRIS;][]{2000SPIE.4008..623C}, and Telescopio
 Nazionale Galileo \textit{Device Optimised for the LOw
 RESolution\footnote{\url{http://www.tng.iac.es/instruments/lrs}}}~\citep[TNG/DOLORES;][]{1999ldss.work..157M},
-the Very Large Telescope \textit{FOcal Reducer/low dispersion Spectrograph 2}~(VLT/FORS2); and the Southern Astrophysical Research Telescope \textit{Goodman High Throughput Spectrograph}~\citep[SOAR/GHTS][]{2004SPIE.5492..331C}).
-all of these are unofficial sets of reduction procedures. There
-are examples of these reductions in Section~\ref{sec:examples}, and see also
-\url{https://github.com/cylammarco/aspired-example}.
+the Very Large Telescope \textit{FOcal Reducer/low dispersion Spectrograph 2}~(VLT/FORS2); and the Southern Astrophysical Research Telescope \textit{Goodman High Throughput Spectrograph}~\citep[SOAR/GHTS][]{2004SPIE.5492..331C}.
+all of these are unofficial sets of reduction procedures. \textsc{ASPIRED}
+will be tremendously useful for works that repeatedly make use of multiple
+instruments~(e.g.\ \citealp{2022A&A...657A..17B})
+There are examples of these reductions in Section~\ref{sec:examples}, and see
+also \url{https://github.com/cylammarco/aspired-example}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 This article is organised as follows: Section \textsection\ref{sec:development}
@@ -594,7 +596,7 @@ document\footnote{\url{https://fits.gsfc.nasa.gov/fits_documentation.html}},
 but it can also be stored directly in the \texttt{PrimaryHDU} as most users tend
 to opt for. Many forms of interactive and static images can be exported,
 powered by the \textsc{Plotly} image renderer. This only allows basic image
-reduction, we recommend users to reduce the two dimensional spectral image
+reduction, we recommend users to reduce the two-dimensional spectral image
 data and then use the \texttt{spectral\_reduction} to continue with the
 spectral reduction procedures.
 
@@ -614,7 +616,7 @@ processes or spectral analysis and manipulation. There are many sophisticated
 software packages with good and long track records to handle these processes
 post hoc. For example, sky glow subtraction with
 \textsc{Skycorr}~\citep{2014A&A...567A..25N}, or telluric
-absorption removal wihtout supplementary calibration data with
+absorption removal without supplementary calibration data with
 \textsc{MoleFit}~\citep{2015A&A...576A..77S, 2015A&A...576A..78K}.
 The following describes the technical details of the nine steps. We use the
 following convention throughout: the spectral image is dispersed on the detector
@@ -627,11 +629,11 @@ direction.
 \subsection{Spectral Identification and Tracing}
 \label{sec:tracing}
 Conventionally, to obtain the position of a spectrum in a frame~(i.e.\ trace),
-the centre of a spectrum in the dispersion direction is first identified,
-and then a choice of algorithm will scan across the spectral image to identify
+the centre of a spectrum in the dispersion direction is first identified. Then
+a choice of algorithm will scan across the spectral image to identify
 the spectral position over the entire dispersion direction. In \textsc{ASPIRED},
 the \texttt{ap\_trace} function works by dividing the two-dimensional spectrum
-into sub-spectra, and then each part is summed along the dispersion direction
+into sub-spectra. Then each part is summed along the dispersion direction
 before cross-correlating with the adjacent sub-spectra, with an optional variable
 scaling factor that models a linear change in the width of the trace. Such a
 function is turned off by default. This way, both the shift and the scaling of
@@ -752,7 +754,8 @@ which interpolates with a cubic spline. It is possible to supply a set of
 pre-computed polynomials to perform the rectification, which can significantly
 speed up the data reduction process of a stable optical system. A change in the 
 zeroth order coefficient can shift the bluest part of the spectrum to the
-reddest part, and vice versa. For a stable instrument, this should not affect more than a few pixels. However, as long as the effect is identical in the science
+reddest part, and vice versa. For a stable instrument, this should not affect
+more than a few pixels. However, as long as the effect is identical in the science
 frame and the standard frame they can be calibrated out or trimmed. Furthermore,
 the edges of a detector are usually unusable, so it does not pose any real
 problem.
@@ -761,16 +764,16 @@ problem.
 \subsection{Spectral Extraction}
 \label{sec:extract}
 There are a few commonly used extraction methods; some work for
-all kinds of spectral images, some only work with specific
+all kinds of spectral images, and some only work with specific
 observing strategies (e.g. the flat-relative optimal
 extraction;~\citealt{2014A&A...561A..59Z}). The standard textbook
 method is commonly called the \textit{top-hat} extraction or the
 \textit{normal} extraction. It simply sums the electron counts over
-a given size of the aperture, and is robust and easy to use. However,
+a given size of the aperture and is robust and easy to use. However,
 this method does not deliver the maximal signal-to-noise ratio~(SNR)
 from the available data. Various optimal extraction algorithms
 can increase the SNR. This works by down-weighting the wings of the
-spectral profile where almost all the photons are coming from the sky
+spectral profile where almost all the photons come from the sky
 rather than the source~(see Fig.~\ref{fig:extinction}). An optimal
 extraction can boost the SNR, particularly for background-limited
 sources, which are the case in most observations~(see
@@ -786,7 +789,7 @@ for inspection. The residual image can also be exported for diagnostics.
     aligned with the spatial direction with the y-axis.
     \textit{Top}: The regions used for source and sky extractions are marked
     by the red and green lines and arrows. The light shade of orange
-    hash marks denotes the entire region that is used for spectral extraction.
+    hash marks denote the entire region that is used for spectral extraction.
     The two boxes show the two columns of pixels fitted with
     profiles in the bottom half of the figure (the boxes are inflated
     for clarity). \textit{Bottom}: The electron counts across the two slices,
@@ -794,7 +797,7 @@ for inspection. The residual image can also be exported for diagnostics.
     the two red dashed lines mark the regions of the source and the
     pairs of green dashed lines on each side of the centroid are
     showing the regions used for sky extractions, respectively. The
-    black line is the measured spectral profile (data), the blue
+    black line is the measured spectral profile (data), and the blue
     line is the fitted LOWESS line-spread-function (model), offset for
     clarity.}
     \label{fig:extraction}
@@ -826,7 +829,7 @@ The default option is to use the Gaussian fit because it is
 more robust against noise, cosmic ray contamination and detector
 artefacts. It is particularly useful in extracting a faint
 spectrum when the image is dominated by background noise as the
-Gaussian profile is constructed from fitting the line-spread
+Gaussian profile is constructed by fitting the line-spread
 function from the total stack of all the
 sub-spectra~(as described in Sec.~\ref{sec:tracing}).
 LOWESS, on the other hand, would do a better job in fitting
@@ -1058,13 +1061,13 @@ pixels. Including the telluric absorption corrections as the telluric profile
 is generated in the standard spectrum pixel/wavelength coordinates, the
 correction applied to the target spectrum is performed using an interpolated
 function of the profile at the wavelengths of the target spectrum. Many legacy
-software can only read the spetrum using the header information to create
-the wavelength cooridnates using only three parameter: the wavelength of the
+software can only read the spectrum using the header information to create
+the wavelength coordinates using only three parameters: the wavelength of the
 first element of the spectral array, the bin width of each wavelength
 coordinate, and the length of the spectral array. This requires a uniformly
 sampled wavelength axis, which never happens naturally as there is always some
-level of of image distortion at the detector plane. A resampling is necessary
-to turn the data into such format.
+level of image distortion at the detector plane. A resampling is necessary
+to turn the data into such a format.
 
 The resampling is performed with the \textsc{spectres} package. Although
 this package allows non-uniform wavelength spacing resampling, we are only
@@ -1077,7 +1080,7 @@ At the time of writing, 22 types of output to CSV and FITS files are supported.
 Each CSV will have the data stored in a separate column, while the FITS has
 the data stored in a separate Header Data Unit~(HDU). Each spectrum is exported
 as a separate file. At the time of writing, the header is not exported when the
-output option is CSV. The options of output are:
+output option is CSV. The options for output are:
 
 \begin{enumerate}
     \item \texttt{trace} -- two columns/HDUs containing the pixel coordinates
@@ -1087,7 +1090,7 @@ output option is CSV. The options of output are:
     \item \texttt{weight\_map} -- one column/HDU for the extraction profile,
     in top hat and \texttt{horne86} extraction this is a one dimensional array,
     while the \texttt{marsh90} extraction returns a two dimensional array.
-    \item \texttt{arc\_spec} -- three columns/HDUs for one dimensional arc
+    \item \texttt{arc\_spec} -- three columns/HDUs for one-dimensional arc
     spectrum, pixel coordinates of the arc line position (sub-pixel precision),
     and the pixel coordinates of the arc line effective position~(
     e.g.\ accounted for chip gaps) in the dispersion direction.
@@ -1154,7 +1157,7 @@ subtraction is also unconventional, so all the image data reduction procedures
 have to be done outside of ASPIRED beforehand. We compare the reduction against
 the official one for the kilonova event AT 2017gfo\footnote{\url{https://www.wiserep.org/}}~\citep{2017ApJ...848L..32M}. Las Cumbres
 Observatory/FLOYDS has a beam-splitter to expose
-the first order red beam and the second order blue beam into two non-parallel
+the first-order red beam and the second-order blue beam into two non-parallel
 curved spectra on a single chip. Both the northern and southern FLOYDS suffers
 from strong fringing effects. This is not handled by ASPIRED natively as well,
 so the correction was done by directly accessing the intermediate data stored
@@ -1201,7 +1204,7 @@ the standard targets~(Feige 110\footnote{
         Gemini/GMOS          & kilonova (AT 2017gfo)                       & R400 \& B600        & CuAr \\
         LCO/FLOYDS           & Type II-P (iPTF14hls)                       & 235\,l/mm           & HgArZn \\\hline
 \end{tabular}
-    \caption{List of the eight targets used in Fig.~\ref{fig:extraction_compared} \& \ref{fig:use_cases}. See body text for refereces.}
+    \caption{List of the eight targets used in Fig.~\ref{fig:extraction_compared} \& \ref{fig:use_cases}. See body text for references.}
     \label{tab:my_label}
 \end{table*}
 
@@ -1213,7 +1216,7 @@ the standard targets~(Feige 110\footnote{
     LCO/FLOYDS, LT/SPRAT and Gemini/GMOS in long-slit mode. The published FORS2
     spectrum was reduced using \textsc{Molly}~(green) powered by the \textsc{STARLINK}
     library. The other three (red) were reduced using the respective \textsc{iraf}-based
-    pipelines. All spectra reduced with \textsc{ASPIRED}~(blue) are resampled to match
+    pipelines. All spectra reduced with \textsc{ASPIRED}~(blue) are optimally extracted using the \citep{1986PASP...98..609H} algorithm and resampled to match
     the respective published spectra. telluric correction is applied using the default
     setting.}
     \label{fig:reduction_compared}
@@ -1227,7 +1230,7 @@ the standard targets~(Feige 110\footnote{
     of absorption features. The TNG/DOLORES spectra were of two targets where the
     tracing was done simultaneously and then the extraction done~(red hue)
     sequentially. The WHT/ISIS and ACAM (green hue and yellow) are extracting a
-    target with very low signal-to-noise ratio.}
+    target with a very low signal-to-noise ratio. All spectra are optimally extracted using the \citep{1986PASP...98..609H} algorithm.}
     \label{fig:use_cases}
 \end{figure*}
 
@@ -1239,7 +1242,7 @@ the standard targets~(Feige 110\footnote{
 is hosted on \textsc{Github}. The DOI of each version can be found at 
 \textsc{zenodo}: \url{https://zenodo.org/record/4127294}. For more
 straightforward installation, \textsc{ASPIRED} is also available with the
-Python Package Index~(PyPI) so users can install the software by a simple
+Python Package Index~(PyPI) so users can install the software with a simple
 command of 
 \begin{verbatim}
 >> pip install aspired.
@@ -1263,7 +1266,7 @@ and install with the setup script with
 >> git clone [url to main/dev/a specific commit]
 >> python setup.py
 \end{verbatim}
-. It is not currently distributed through conda.
+. It is not currently distributed through \textsc{conda}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary and Future work}
