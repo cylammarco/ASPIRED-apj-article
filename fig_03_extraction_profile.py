@@ -9,9 +9,8 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 fits_file = fits.open('ogg2m001-en06-20160111-0005-e00.fits.fz')[1]
 data = fits_file.data
 header = fits_file.header
-data = rotate(data, 6)
 
-red_spatial_mask = np.arange(180, 420)
+red_spatial_mask = np.arange(0, 330)
 red_spec_mask = np.arange(15, 1500)
 
 twodspec = spectral_reduction.TwoDSpec(data,
@@ -26,13 +25,13 @@ twodspec = spectral_reduction.TwoDSpec(data,
                                        log_file_name=None)
 
 twodspec.ap_trace(nspec=1,
-                  nwindow=50,
-                  ap_faint=10,
-                  trace_width=20,
+                  nwindow=30,
+                  ap_faint=5,
+                  trace_width=25,
                   resample_factor=5,
                   shift_tol=120,
                   fit_deg=7,
-                  display=True)
+                  display=False)
 
 trace = np.array(twodspec.spectrum_list[0].trace)
 
@@ -46,33 +45,33 @@ extraction_slice = Polygon(
     facecolor='none',
     label="Region for extraction")
 # arrows
-sky_arrow_1 = FancyArrowPatch((750, 35), (750, 50),
+sky_arrow_1 = FancyArrowPatch((750, 72), (750, 93),
                               color='C2',
                               arrowstyle='<|-|>',
                               mutation_scale=8)
-sky_arrow_2 = FancyArrowPatch((750, 85), (750, 100),
+sky_arrow_2 = FancyArrowPatch((750, 122), (750, 143),
                               color='C2',
                               arrowstyle='<|-|>',
                               mutation_scale=8)
-source_arrow = FancyArrowPatch((750, 55), (750, 80),
+source_arrow = FancyArrowPatch((750, 92), (750, 123),
                                color='C3',
                                arrowstyle='<|-|>',
                                mutation_scale=8)
 
 # boxes
-box_1 = Rectangle((360, 50), 20, 70, edgecolor='black', facecolor='none', lw=1)
-box_2 = Rectangle((1110, 40),
+box_1 = Rectangle((230, 52), 20, 70, edgecolor='black', facecolor='none', lw=1)
+box_2 = Rectangle((1150, 128),
                   20,
                   70,
                   edgecolor='black',
                   facecolor='none',
                   lw=1)
 
-slice_1 = twodspec.img[50:120, 370]
-slice_2 = twodspec.img[40:110, 1120]
+slice_1 = twodspec.img[50:120, 240]
+slice_2 = twodspec.img[125:195, 1160]
 
-lowess_fit_1 = lowess(slice_1[25:46], np.arange(74, 95), frac=0.1)[:, 1]
-lowess_fit_2 = lowess(slice_2[25:46], np.arange(64, 85), frac=0.1)[:, 1]
+lowess_fit_1 = lowess(slice_1[25:51], np.arange(74, 100), frac=0.1)[:, 1]
+lowess_fit_2 = lowess(slice_2[25:51], np.arange(149, 175), frac=0.1)[:, 1]
 
 fig = plt.figure(1, figsize=(6, 6))
 fig.clf()
@@ -113,62 +112,63 @@ ax1.set_xlabel('Pixel (Dispersion Direction)')
 ax1.set_ylabel('Pixel (Spatial Direction)')
 ax1.xaxis.tick_top()
 ax1.xaxis.set_label_position('top')
-ax1.set_ylim(10, 190)
+ax1.set_ylim(20, 260)
+ax1.set_xlim(0, 1450)
 
 ax1.text(300, 40, 'Slice 1')
-ax1.text(1050, 30, 'Slice 2')
+ax1.text(1200, 120, 'Slice 2')
 
 vmin = min(slice_1) - 10
-vmax = max(slice_1) * 1.05
+vmax = max(slice_1) * 1.15
 
-ax2.plot(np.arange(50, 120), slice_1, color='black')
-ax2.plot(np.arange(75, 96), lowess_fit_1 + 50, color='C0')
-ax2.vlines(trace[370] - 1, vmin, vmax, ls=":", color='black')
-ax2.vlines(trace[370] + 10 - 1, vmin, vmax, ls=":", color='C3')
-ax2.vlines(trace[370] - 10 - 1, vmin, vmax, ls=":", color='C3')
-ax2.vlines(trace[370] + 20 - 1, vmin, vmax, ls=":", color='C2')
-ax2.vlines(trace[370] + 30 - 1, vmin, vmax, ls=":", color='C2')
-ax2.vlines(trace[370] - 20 - 1, vmin, vmax, ls=":", color='C2')
-ax2.vlines(trace[370] - 30 - 1, vmin, vmax, ls=":", color='C2')
+ax2.plot(np.arange(49, 119), slice_1/max(slice_1), color='black')
+ax2.plot(np.arange(74, 100), lowess_fit_1/max(lowess_fit_1) * 1.15, color='C0')
+ax2.vlines(trace[240] - 1, 0.0, 1.2, ls=":", color='black')
+ax2.vlines(trace[240] + 10 - 1, 0.0, 1.2, ls=":", color='C3')
+ax2.vlines(trace[240] - 10 - 1, 0.0, 1.2, ls=":", color='C3')
+ax2.vlines(trace[240] + 20 - 1, 0.0, 1.2, ls=":", color='C2')
+ax2.vlines(trace[240] + 30 - 1, 0.0, 1.2, ls=":", color='C2')
+ax2.vlines(trace[240] - 20 - 1, 0.0, 1.2, ls=":", color='C2')
+ax2.vlines(trace[240] - 30 - 1, 0.0, 1.2, ls=":", color='C2')
 
-ax3.plot(np.arange(40, 110), slice_2, color='black', label='Centroid (Trace)')
-ax3.plot(np.arange(65, 86),
-         lowess_fit_2 + 50,
+ax3.plot(np.arange(125, 195), slice_2/max(slice_2), color='black', label='Centroid (Trace)')
+ax3.plot(np.arange(150, 176),
+         lowess_fit_2/max(lowess_fit_2) * 1.15,
          color='C0',
          label='LOWESS profile')
-ax3.vlines(trace[1120], vmin, vmax, ls=":", color='black')
-ax3.vlines(trace[1120] + 10,
-           vmin,
-           vmax,
+ax3.vlines(trace[1160], 0, vmax, ls=":", color='black')
+ax3.vlines(trace[1160] + 10,
+           0.0,
+           1.2,
            ls=":",
            color='C3',
            label='Source region')
-ax3.vlines(trace[1120] - 10, vmin, vmax, ls=":", color='C3')
-ax3.vlines(trace[1120] + 20,
-           vmin,
-           vmax,
+ax3.vlines(trace[1160] - 10, 0, 1.2, ls=":", color='C3')
+ax3.vlines(trace[1160] + 20,
+           0.0,
+           1.2,
            ls=":",
            color='C2',
            label='Sky region')
-ax3.vlines(trace[1120] + 30, vmin, vmax, ls=":", color='C2')
-ax3.vlines(trace[1120] - 20, vmin, vmax, ls=":", color='C2')
-ax3.vlines(trace[1120] - 30, vmin, vmax, ls=":", color='C2')
+ax3.vlines(trace[1160] + 30, 0, 1.2, ls=":", color='C2')
+ax3.vlines(trace[1160] - 20, 0, 1.2, ls=":", color='C2')
+ax3.vlines(trace[1160] - 30, 0, 1.2, ls=":", color='C2')
 
-ax2.set_xlim(45, 123)
-ax3.set_xlim(36, 110)
+ax2.set_xlim(45, 125)
+ax3.set_xlim(128, 198)
 
-ax2.set_ylim(vmin, vmax)
-ax3.set_ylim(vmin, vmax)
+ax2.set_ylim(0.45, 1.2)
+ax3.set_ylim(0.45, 1.2)
 ax3.set_yticks([])
 
-ax2.text(48, 1100, 'Slice 1')
-ax3.text(40, 1100, 'Slice 2')
+ax2.text(50, 1.1, 'Slice 1')
+ax3.text(135, 1.1, 'Slice 2')
 
-ax2.set_ylabel('Electron count')
+ax2.set_ylabel('Normalised Electron count')
 ax2.set_xlabel('Pixel (Spatial Direction)')
 ax3.set_xlabel('Pixel (Spatial Direction)')
 
-ax3.legend()
+ax3.legend(loc='lower right')
 
 plt.tight_layout()
 plt.subplots_adjust(wspace=0, hspace=0.05)
