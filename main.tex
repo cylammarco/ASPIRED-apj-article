@@ -740,25 +740,33 @@ significant under- or over-subtraction of the sky background can occur. More
 complex methods have to be used to extract the spectra
 directly~\citep[e.g.][]{2021A&A...646A..32P}, as implemented in
 \textsc{PyReduce}, which can optimally extract highly distorted spectra.
-However, \textsc{PyReduce} cannot perform sky subtraction using the ``wings'' in the sky
-region on either side of the line-spread profile. This has limited the usage
-of \textsc{PyReduce} in typical single-frame extractions without accompanying sky observations
-exposed using an identical slit setting. In \textsc{ASPIRED}, a
-\texttt{TwoDSpec} object uses the spectral trace to align and resample the
-spectral image in the spatial direction. By using the sky emission and the
-co-added arc lines~(if available), \textsc{ASPIRED} aligns and resamples the image in the
-dispersion direction, so as to produce a spectrum~(nearly)
-perfectly aligned with the detector x-y axes. Using the arc frame for this
-process will deliver a more reliable rectification function.
+However, \textsc{PyReduce} cannot perform sky subtraction using the ``wings''
+in the sky region on either side of the line-spread profile. This has limited
+the usage of \textsc{PyReduce} in typical single-frame extractions without
+accompanying sky observations exposed using an identical slit setting. In
+\textsc{ASPIRED}, a \texttt{TwoDSpec} object uses the spectral trace for
+alignment in the spatial direction; and uses the sky emission lines, and
+optionally coadded with the arc image, for alignment in the dispersion
+direction. This process is to perfectly align the 2D spectral coordinate system
+with the detector's $x-y$ axes. Coadding the arc frame for the procedure can
+improve the reliability of the rectification as more bright lines are available
+in the coadded image for computing the rectification funtion that shifts and
+scales the image.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The rectification in the spatial direction \textbf{only} depends on the trace.
-Each column of pixels is (scaled and) shifted by resampling it to align with the
-center of the spectrum. This usually produces a spectrum that is tilted or curved
-in the dispersion direction. Therefore, the same procedure for tracing the
-spectra is applied in the spatial direction to find the best fit polynomial
-solution for shifting (and scaling) in the dispersion direction for the second
-step of the rectification process (Fig.~\ref{fig:rectify}).
+The rectification is done independently first in the spatial direction then
+the dispersion direction. In the spatial direction, the process only depends
+on the trace.Each column of pixels is (scaled and) shifted by resampling it to
+align to the centre of the spectrum (middle panel of Fig.~\ref{fig:rectify}).
+This process usually produces a spectrum that is tilted or curved in only the
+dispersion direction. Therefore, a similar procedure has to be performed in
+the dispersion direction. However, lines are not traced in this direction. In
+order to find the size of the scaling and shifting, we repeat the tracing
+procedures in Sec.~\ref{sec:tracing} from step 1 through 5 in the
+perpendicular~(dispersion) direction. A first or second order polynomial are
+usually sufficient to fit the shift as a function of the number of pixels from
+the trace. Then, the spectral image in resampled a second time but only in the
+dispersion direction. The final result is shown in the bottom panel of
+Fig.~\ref{fig:rectify}.
 
 \begin{figure}
     \centering
@@ -775,7 +783,7 @@ step of the rectification process (Fig.~\ref{fig:rectify}).
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-At the time of writing, this process is only possible if there is one trace. If
+At the time of writing, this process only possible works on a single trace. If
 more than one trace is found/provided, only the one with the highest prominence
 will be processed, where the 
 prominence\footnote{\url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.peak_prominences.html}}
@@ -895,16 +903,17 @@ As mentioned, the wavelength calibration is powered by \textsc{rascal}, which is
 development to this work. All the public functions from \textsc{rascal} are
 available in \textsc{ASPIRED} so users can have fine control over the
 calibration. The diagnostic plots are the set provided by \textsc{rascal}.
-They include the spectrum of the arc lamp where the traces on the science and
-standard frames are, which also shows where the peaks are detected; the
-peak-line pairs and the constrained space where the Hough-pairs are
-selected~(see \citealt{2020ASPC..527..627V}); and a plot showing the fitting
-solution, residual of the solution, and the pixel-wavelength
-relation~(Fig.~\ref{fig:wavecal}).
+They include (i)~the spectrum of the arc lamp extracted using the traces from
+the science and standard frames, the peak of the arc lines are also marked;
+(ii)~the peak\,(pixel)--line\,(wavelength) pairs and the constrained parameter
+space where the Hough pairs are selected~(see \citealt{2020ASPC..527..627V});
+and (iii)~a plot showing the best fit solution, the residual of the solution,
+and the pixel-wavelength relation~(Fig.~\ref{fig:wavecal}).
 
-The polynomial coefficients for the calibration can be supplied directly,
-which would be useful for stable instruments in which the variations in the
-dispersion are negligible. All the lines in the optical and near-infrared range
+Alternatively, the polynomial coefficients for the wavelength calibration can be
+supplied manually, which would be useful for stable instruments in which the
+variations in the dispersion are negligible. All the lines in the optical and
+near-infrared ranging from 100 to 30\,000 \AA\ 
 available from the search form of the National Institute of Standards and
 Technology~(NIST) Physical Measurement Laboratory are included, but we strongly
 recommend providing arc lines manually since arc lamps, even of similar type,
@@ -1082,7 +1091,7 @@ using the conventional keywords for airmass.
 During the process of generating the sensitivity function, masks are used
 over the telluric regions to generate the telluric absorption
 profile from the standard star. The default masking regions are $6\,850-6\,960$
-and $7\,580-7\,700$\ \AA\ only. This profile can then be multiplied
+and $7\,580-7\,700$\ \AA\ only. This telluric profile can then be multiplied
 by a factor to be determined in order to remove the telluric absorption
 features in the science target. The best multiplicative factor is found
 by minimising the difference between the continuum and the telluric-absorption
@@ -1190,7 +1199,8 @@ Being a flexible toolkit, \textsc{ASPIRED} is not designed to reduce data for a
 specific instrument. Instead, it can be customised to suit many configurations,
 as long as they are long-slit-like. We demonstrate this here with data products
 from eight different instruments, most of which have conventional long-slit
-settings. 
+settings. A summary of the following example reductions is tabulated in
+Table~\ref{tab:summary}.
 
 In the case of Gemini/GMOS, a single spectrum is exposed onto
 three detectors, and each detector is read out with four amplifiers. The bias 
@@ -1198,13 +1208,16 @@ subtraction is also unconventional, so all the image data reduction procedures
 have to be done outside of \textsc{ASPIRED} beforehand. We compare our reduction against
 the official one for the kilonova AT 2017gfo\footnote{\url{https://www.wiserep.org/}}~\citep{2017ApJ...848L..32M}. 
 
-Las Cumbres
-Observatory/FLOYDS has a beam-splitter to expose
-the first-order red beam and the second-order blue beam into two non-parallel
+Las Cumbres Observatory/FLOYDS has a beam-splitter to expose the first-order
+red beam and the second-order blue beam into two non-parallel
 curved spectra on a single chip. Both the northern and southern FLOYDS suffers
-from strong fringing effects. This is not handled natively by \textsc{ASPIRED} ,
-so the correction was done by directly accessing the intermediate data stored
-inside the \texttt{OneDSpec} object. Here, the Type II supernova iPTF14hls is used as an example for comparison~\citep{2017Natur.551..210A}.
+from strong fringing effects. This is not handled natively through the API of 
+\textsc{ASPIRED}, instead, the correction was done by directly accessing the
+electron (\texttt{count} of the \texttt{OneDSpec} object. The fringe subtraction
+workflow follows that in the official
+pipeline\footnote{\url{https://github.com/LCOGT/floyds_pipeline}}. Here, the
+Type II supernova iPTF14hls is used as an example for
+comparison~\citep{2017Natur.551..210A}.
 
 \textit{LT}/SPRAT is a high throughput low-resolution spectrograph with
 a conventional optical design; in this case, we compare our reduction to that published for a nova 
@@ -1259,7 +1272,7 @@ good agreement with the ACAM spectrum.
         Las Cumbres/FLOYDS           & Type II-P (iPTF14hls)                       & 235\,l/mm           & HgArZn \\\hline
 \end{tabular}
     \caption{List of the eight targets used in Figures~\ref{fig:extraction_compared} \& \ref{fig:use_cases}. See body text for references.}
-    \label{tab:my_label}
+    \label{tab:summary}
 \end{table*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
