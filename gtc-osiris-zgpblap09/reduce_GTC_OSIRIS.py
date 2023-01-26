@@ -1,7 +1,9 @@
 import copy
 import os
+from packaging import version
 
 import numpy as np
+import aspired
 from aspired import spectral_reduction
 from astroscrappy import detect_cosmics
 from astropy import units as u
@@ -275,6 +277,7 @@ science_1_twodspec.ap_trace(
 )
 science_1_twodspec.ap_extract(
     display=False,
+    algorithm="horne86",
     apwidth=7,
     skywidth=5,
 )
@@ -288,6 +291,7 @@ science_2_twodspec.ap_trace(
 )
 science_2_twodspec.ap_extract(
     display=False,
+    algorithm="horne86",
     apwidth=7,
     skywidth=5,
 )
@@ -296,7 +300,9 @@ science_2_twodspec.extract_arc_spec(spec_width=20, display=False)
 standard_twodspec.add_arc(arc_r1000b_master.data)
 standard_twodspec.apply_mask_to_arc()
 standard_twodspec.ap_trace(display=False, fit_deg=2)
-standard_twodspec.ap_extract(display=False, apwidth=15, skywidth=9)
+standard_twodspec.ap_extract(
+    display=False, algorithm="horne86", apwidth=15, skywidth=9
+)
 standard_twodspec.extract_arc_spec(spec_width=20, display=False)
 
 # One dimensional spectral operation
@@ -456,8 +462,10 @@ science_2_onedspec.apply_flux_calibration(stype="science+standard")
 science_2_onedspec.set_atmospheric_extinction(location="orm")
 science_2_onedspec.apply_atmospheric_extinction_correction()
 
-science_1_onedspec.resample()
-science_2_onedspec.resample()
+# if version 0.5+
+if version.parse(aspired.__version__) > version.parse("0.5"):
+    science_1_onedspec.resample()
+    science_2_onedspec.resample()
 
 #
 #
@@ -599,6 +607,7 @@ science_r2500u_1_twodspec.ap_trace(
 )
 science_r2500u_1_twodspec.ap_extract(
     display=False,
+    algorithm="horne86",
     apwidth=11,
     skywidth=11,
 )
@@ -613,6 +622,7 @@ science_r2500u_2_twodspec.ap_trace(
 )
 science_r2500u_2_twodspec.ap_extract(
     display=False,
+    algorithm="horne86",
     apwidth=11,
     skywidth=11,
 )
@@ -622,7 +632,9 @@ science_r2500u_2_twodspec.extract_arc_spec(display=False)
 standard_r2500u_twodspec.add_arc(arc_r2500u_master.data)
 standard_r2500u_twodspec.apply_mask_to_arc()
 standard_r2500u_twodspec.ap_trace(display=False, fit_deg=3, ap_faint=0)
-standard_r2500u_twodspec.ap_extract(display=False, apwidth=25, skywidth=10)
+standard_r2500u_twodspec.ap_extract(
+    display=False, algorithm="horne86", apwidth=25, skywidth=10
+)
 standard_r2500u_twodspec.extract_arc_spec(display=False)
 
 # One dimensional spectral operation
@@ -681,7 +693,7 @@ element_r2500u = ["HgArXe"] * len(atlas_r2500u)
 science_r2500u_1_onedspec.initialise_calibrator(stype="science+standard")
 
 science_r2500u_1_onedspec.set_hough_properties(
-    num_slopes=2000,
+    num_slopes=2500,
     xbins=200,
     ybins=200,
     min_wavelength=3000,
@@ -702,7 +714,7 @@ science_r2500u_1_onedspec.add_user_atlas(
 science_r2500u_1_onedspec.do_hough_transform()
 
 # Solve for the pixel-to-wavelength solution
-science_r2500u_1_onedspec.fit(max_tries=1000, stype="science+standard")
+science_r2500u_1_onedspec.fit(max_tries=2000, stype="science+standard")
 
 # Apply the wavelength calibration
 science_r2500u_1_onedspec.apply_wavelength_calibration(
@@ -780,8 +792,9 @@ science_r2500u_2_onedspec.inspect_reduced_spectrum(
 )
 
 
-science_r2500u_1_onedspec.resample()
-science_r2500u_2_onedspec.resample()
+if version.parse(aspired.__version__) > version.parse("0.5"):
+    science_r2500u_1_onedspec.resample()
+    science_r2500u_2_onedspec.resample()
 
 
 # Make plot here
@@ -794,9 +807,15 @@ wave_1_bin2 = wave_1[::2]
 wave_1_bin5 = wave_1[::5]
 wave_1_bin10 = wave_1[::10]
 
-flux_1 = science_1_onedspec.science_spectrum_list[
-    0
-].flux_resampled_atm_ext_corrected
+if version.parse(aspired.__version__) > version.parse("0.5"):
+    flux_1 = science_1_onedspec.science_spectrum_list[
+        0
+    ].flux_resampled_atm_ext_corrected
+else:
+    flux_1 = science_1_onedspec.science_spectrum_list[
+        0
+    ].flux_resampled
+
 flux_1_bin1 = flux_1
 flux_1_bin2 = spectres(wave_1_bin2, wave_1, flux_1)
 flux_1_bin5 = spectres(wave_1_bin5, wave_1, flux_1)
@@ -804,9 +823,15 @@ flux_1_bin10 = spectres(wave_1_bin10, wave_1, flux_1)
 
 wave_2 = science_2_onedspec.science_spectrum_list[0].wave_resampled
 
-flux_2 = science_2_onedspec.science_spectrum_list[
-    0
-].flux_resampled_atm_ext_corrected
+if version.parse(aspired.__version__) > version.parse("0.5"):
+    flux_2 = science_2_onedspec.science_spectrum_list[
+        0
+    ].flux_resampled_atm_ext_corrected
+else:
+    flux_2 = science_2_onedspec.science_spectrum_list[
+        0
+    ].flux_resampled
+
 # note this is resampled to match wave_1s
 flux_2_bin1 = spectres(wave_1, wave_2, flux_2)
 flux_2_bin2 = spectres(wave_1_bin2, wave_2, flux_2)
@@ -825,9 +850,14 @@ wave_r2500u_1_bin2 = wave_r2500u_1[::2]
 wave_r2500u_1_bin5 = wave_r2500u_1[::5]
 wave_r2500u_1_bin10 = wave_r2500u_1[::10]
 
-flux_r2500u_1 = science_r2500u_1_onedspec.science_spectrum_list[
-    0
-].flux_resampled_atm_ext_corrected
+if version.parse(aspired.__version__) > version.parse("0.5"):
+    flux_r2500u_1 = science_r2500u_1_onedspec.science_spectrum_list[
+        0
+    ].flux_resampled_atm_ext_corrected
+else:
+    flux_r2500u_1 = science_r2500u_1_onedspec.science_spectrum_list[
+        0
+    ].flux_resampled
 
 flux_r2500u_1_bin1 = flux_r2500u_1
 flux_r2500u_1_bin2 = spectres(wave_r2500u_1_bin2, wave_r2500u_1, flux_r2500u_1)
@@ -840,9 +870,15 @@ wave_r2500u_2 = science_r2500u_2_onedspec.science_spectrum_list[
     0
 ].wave_resampled
 
-flux_r2500u_2 = science_r2500u_2_onedspec.science_spectrum_list[
-    0
-].flux_resampled_atm_ext_corrected
+
+if version.parse(aspired.__version__) > version.parse("0.5"):
+    flux_r2500u_2 = science_r2500u_2_onedspec.science_spectrum_list[
+        0
+    ].flux_resampled_atm_ext_corrected
+else:
+    flux_r2500u_2 = science_r2500u_2_onedspec.science_spectrum_list[
+        0
+    ].flux_resampled
 
 # note this is resampled to match wave_1s
 flux_r2500u_2_bin1 = spectres(wave_r2500u_1, wave_r2500u_2, flux_r2500u_2)
@@ -982,4 +1018,57 @@ np.save(
             extinction.remove(ext_r2500u_bin2, flux_r2500u_2_bin2),
         )
     ),
+)
+
+
+np.savetxt(
+    "osiris-u-pixel-wavelength-solution-pairs.txt",
+    np.column_stack(
+        [
+            science_r2500u_1_onedspec.science_spectrum_list[
+                0
+            ].calibrator.matched_peaks,
+            science_r2500u_1_onedspec.science_spectrum_list[
+                0
+            ].calibrator.matched_atlas,
+        ]
+    ),
+    delimiter=",",
+)
+
+np.savetxt(
+    "osiris-u-effective-pixel-spectrum.txt",
+    np.column_stack(
+        [
+            science_r2500u_1_onedspec.science_spectrum_list[0].pixel_list,
+            science_r2500u_1_onedspec.science_spectrum_list[0].arc_spec,
+        ]
+    ),
+    delimiter=",",
+)
+
+np.savetxt(
+    "osiris-b-pixel-wavelength-solution-pairs.txt",
+    np.column_stack(
+        [
+            science_1_onedspec.science_spectrum_list[
+                0
+            ].calibrator.matched_peaks,
+            science_1_onedspec.science_spectrum_list[
+                0
+            ].calibrator.matched_atlas,
+        ]
+    ),
+    delimiter=",",
+)
+
+np.savetxt(
+    "osiris-b-effective-pixel-spectrum.txt",
+    np.column_stack(
+        [
+            science_1_onedspec.science_spectrum_list[0].pixel_list,
+            science_1_onedspec.science_spectrum_list[0].arc_spec,
+        ]
+    ),
+    delimiter=",",
 )

@@ -231,8 +231,8 @@ v418_onedspec.set_ransac_properties(minimum_matches=5)
 
 v418_onedspec.fit(
     fit_deg=2,
-    candidate_tolerance=5.,
-    fit_tolerance=10.,
+    candidate_tolerance=5.0,
+    fit_tolerance=10.0,
     max_tries=1000,
     save_fig=True,
     fig_type="jpg",
@@ -249,8 +249,10 @@ v418_onedspec.get_sensitivity()
 v418_onedspec.apply_flux_calibration()
 
 
-v418_onedspec.set_atmospheric_extinction(location='cp')
-v418_onedspec.apply_atmospheric_extinction_correction(science_airmass=1.207, standard_airmass=1.101)
+v418_onedspec.set_atmospheric_extinction(location="cp")
+v418_onedspec.apply_atmospheric_extinction_correction(
+    science_airmass=1.207, standard_airmass=1.101
+)
 
 v418_onedspec.inspect_reduced_spectrum(
     save_fig=True,
@@ -264,4 +266,26 @@ v418_onedspec.create_fits(
 v418_onedspec.save_fits(
     output="*",
     overwrite=True,
+)
+
+np.savetxt(
+    "fors-pixel-wavelength-solution-pairs.txt",
+    np.column_stack(
+        [
+            v418_onedspec.science_spectrum_list[0].calibrator.matched_peaks,
+            v418_onedspec.science_spectrum_list[0].calibrator.matched_atlas,
+        ]
+    ),
+    delimiter=",",
+)
+
+np.savetxt(
+    "fors-effective-pixel-spectrum.txt",
+    np.column_stack(
+        [
+            v418_onedspec.science_spectrum_list[0].pixel_list,
+            v418_onedspec.science_spectrum_list[0].arc_spec,
+        ]
+    ),
+    delimiter=",",
 )

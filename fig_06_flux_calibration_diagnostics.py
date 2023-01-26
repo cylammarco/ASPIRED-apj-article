@@ -34,10 +34,10 @@ standard_twodspec.add_arc(arc)
 standard_twodspec.extract_arc_spec()
 standard_twodspec.ap_extract(apwidth=10,
                              skywidth=5,
-                             skysep=0,
+                             skysep=3,
                              skydeg=1,
                              optimal=True,
-                             algorithm='horne86')
+                             algorithm='marsh89')
 standard_count = copy.deepcopy(standard_twodspec.spectrum_list[0].count)
 
 # Science
@@ -45,10 +45,10 @@ science_twodspec.add_arc(arc)
 science_twodspec.extract_arc_spec()
 science_twodspec.ap_extract(apwidth=10,
                             skywidth=5,
-                            skysep=0,
+                            skysep=3,
                             skydeg=1,
                             optimal=True,
-                            algorithm='horne86')
+                            algorithm='marsh89')
 science_count = copy.deepcopy(science_twodspec.spectrum_list[0].count)
 
 onedspec = spectral_reduction.OneDSpec()
@@ -56,33 +56,33 @@ onedspec.from_twodspec(science_twodspec, stype='science')
 onedspec.from_twodspec(standard_twodspec, stype='standard')
 
 # Find the peaks of the arc
-onedspec.find_arc_lines(prominence=2,
-                        distance=5,
+onedspec.find_arc_lines(prominence=1.0,
+                        distance=3,
                         refine_window_width=3)
 
 onedspec.initialise_calibrator()
-onedspec.set_hough_properties(range_tolerance=500.,
-                              xbins=100,
-                              ybins=100,
-                              min_wavelength=3800.,
-                              max_wavelength=8200.)
+onedspec.set_hough_properties(range_tolerance=250.,
+                              xbins=200,
+                              ybins=200,
+                              min_wavelength=3600.,
+                              max_wavelength=8250.)
 onedspec.set_ransac_properties(sample_size=5,
                                top_n_candidate=10,
-                               filter_close=True,
+                               filter_close=False,
                                ransac_tolerance=10.)
 onedspec.add_user_atlas(elements=element,
                         wavelengths=atlas,
-                        constrain_poly=True)
+                        constrain_poly=False)
 onedspec.do_hough_transform()
-onedspec.set_ransac_properties(minimum_matches=19)
+onedspec.set_ransac_properties(minimum_matches=17)
 
 # Solve for the pixel-to-wavelength solution
 onedspec.fit(max_tries=2000)
 
 onedspec.apply_wavelength_calibration()
 
-onedspec.load_standard('hilt102', library='irafiirs')
-onedspec.get_sensitivity(lowess_frac=0.075)
+onedspec.load_standard('hiltner102', library='irafirscal')
+onedspec.get_sensitivity(sens_deg=19, mask_range=[[6850, 6960], [7550, 7750]], mask_fit_size=1, lowess_frac=0.025)
 onedspec.apply_flux_calibration()
 
 sensitivity = np.array(onedspec.science_spectrum_list[0].sensitivity)
@@ -106,19 +106,22 @@ ax3 = fig.add_subplot(2, 1, 2)
 
 lns1 = ax1.plot(wave[mask], count[mask], label=r"Observed e$^-$ Count")
 lns2 = ax1.plot(wave_literature,
-                flux_literature * 1e16,
-                label=r"Flux (Literature) $\times 10^{16}$")
+                flux_literature * 1e15,
+                color='grey',
+                ls='dashed',
+                label=r"Flux (Literature) $\times 10^{15}$")
 
 lns3 = ax2.plot(wave[mask],
                 sensitivity[mask],
                 label='Sensitivity',
                 color='black')
-ax2.set_ylim(np.nanpercentile(sensitivity[mask], [0, 99.9]) * 0.9)
+ax2.set_ylim(1e-15, 1e-13)
 ax2.set_yscale('log')
 
 lns4 = ax3.plot(wave_literature,
                 flux_literature,
-                color='C1',
+                color='grey',
+                ls='dashed',
                 label=r"Literature Flux")
 lns5 = ax3.plot(wave_standard,
                 flux_standard,
@@ -129,11 +132,11 @@ ax1.set_xlim(3950, 8050)
 ax2.set_xlim(3950, 8050)
 ax3.set_xlim(3950, 8050)
 
-ax3.set_ylim(5e-14, 3.1e-13)
+ax3.set_ylim(8e-14, 3.15e-13)
 
 lns = lns1 + lns2 + lns3
 labs = [ln.get_label() for ln in lns]
-ax2.legend(lns, labs)
+ax2.legend(lns, labs, loc='center')
 
 lns_b = lns4 + lns5
 labs_b = [ln.get_label() for ln in lns_b]
@@ -147,6 +150,9 @@ ax3.set_xlabel(r'Wavelength (A)')
 ax1.set_ylabel(r'Electron Count (e$^-$)')
 ax2.set_ylabel(r'Flux ( erg / s / cm$^2$ / A) / e$^-$ Count')
 ax3.set_ylabel(r'Flux ( erg / s / cm$^2$ / A)')
+
+ax3.yaxis.get_offset_text().set_visible(False)
+ax3.text(4000, 2.925e-13, "1e-13")
 
 fig.tight_layout()
 fig.subplots_adjust(hspace=0)

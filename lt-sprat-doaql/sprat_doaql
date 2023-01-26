@@ -98,3 +98,53 @@
 [Thu, 08 Sep 2022 20:12:34] INFO [onedspec.py:6799] FITS is created for the standard_spectrum_list for spec_id: 0.
 [Thu, 08 Sep 2022 20:12:34] INFO [onedspec.py:8439] FITS file is saved to reduced_science_0 for the science_spectrum_list for spec_id: 0.
 [Thu, 08 Sep 2022 20:12:34] INFO [onedspec.py:8462] FITS file is saved to reduced_standard for the standard_spectrum_list.
+[Sun, 06 Nov 2022 22:49:20] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Sun, 06 Nov 2022 22:49:20] INFO [onedspec.py:246] spectrm1D object is added to spec_id: 0
+[Sun, 06 Nov 2022 22:49:20] INFO [onedspec.py:1502] Referenced SpectrumOneD of thescience_spectrum_list for spec_id: 0.to the corresponding science_wavecal.
+[Sun, 06 Nov 2022 22:49:20] INFO [onedspec.py:1526] Referenced SpectrumOneD of thestandard_spectrum_list to the standard_wavecal.
+[Sun, 06 Nov 2022 22:49:20] INFO [onedspec.py:1655] 35 arc lines are found in science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:1688] 35 arc lines are found in standard_spectrum_list.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:1887] Calibrator is initialised for science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:1904] Calibrator is initialised for the standard_spectrum_list.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:2070] Hough properties are set for the science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:2086] Hough properties are set for the standard_spectrum_list.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:2375] Added user supplied atlas to science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:2395] Added user supplied atlas to standard_spectrum_list.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:2783] Hough Transform is performed on science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:2793] Hough Transform is performed on standard_spectrum_list.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:2185] Ransac properties are set for the science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:2204] Ransac properties are set for the standard_spectrum_list.
+[Sun, 06 Nov 2022 22:49:21] INFO [onedspec.py:3021] Attempting to fit wavelength solution for science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:49:57] INFO [onedspec.py:3045] Wavelength solution is fitted for the science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:49:57] INFO [onedspec.py:3061] Attempting to fit wavelength solution for standard_spectrum_list[0].
+[Sun, 06 Nov 2022 22:50:25] INFO [onedspec.py:3081] Wavelength solution is fitted for the standard_spectrum_list.
+[Sun, 06 Nov 2022 22:50:25] INFO [onedspec.py:3638] Wavelength calibration is applied for the science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:50:25] INFO [onedspec.py:3661] Wavelength calibration is applied for the standard_spectrum_list.
+[Sun, 06 Nov 2022 22:50:25] WARNING [flux_calibration.py:333] 'bdp332642'
+[Sun, 06 Nov 2022 22:50:25] WARNING [flux_calibration.py:347] Requested standard star cannot be found, a list of the closest matching names are returned: ['bd332642', 'bd33d2642', 'bd_33d2642_004', 'bd73632', 'bd33']
+[Sun, 06 Nov 2022 22:50:25] WARNING [flux_calibration.py:485] The requested library does not exist, irafiidscal is used because it has the closest matching name.
+[Sun, 06 Nov 2022 22:50:25] INFO [onedspec.py:3709] Loaded standard: BDp332642 from None
+[Sun, 06 Nov 2022 22:50:25] INFO [flux_calibration.py:1127] The exposure time used for computing sensitivity curve is 60.0 seconds.
+[Sun, 06 Nov 2022 22:50:26] INFO [onedspec.py:3843] Sensitivity curve computed.
+[Sun, 06 Nov 2022 22:50:26] INFO [flux_calibration.py:1572] The exposure time used for flux calibration is 3600.0 seconds.
+[Sun, 06 Nov 2022 22:50:26] INFO [onedspec.py:4057] Flux calibration is applied for the science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:50:26] INFO [flux_calibration.py:1572] The exposure time used for flux calibration is 60.0 seconds.
+[Sun, 06 Nov 2022 22:50:26] INFO [onedspec.py:4084] Flux calibration is applied for the standard_spectrum_list.
+[Sun, 06 Nov 2022 22:50:26] INFO [onedspec.py:5140] orm extinction correction function is loaded.
+[Sun, 06 Nov 2022 22:50:26] INFO [onedspec.py:5313] Standard airmass is 1.036556.
+[Sun, 06 Nov 2022 22:50:26] INFO [onedspec.py:5314] Science airmass is 1.307897.
+[Sun, 06 Nov 2022 22:50:26] INFO [onedspec.py:5407] Atmospheric extinction is corrected.
+[Sun, 06 Nov 2022 22:50:26] INFO [onedspec.py:4335] Copying the telluric absorption profile to the science spectrum1D(s).
+[Sun, 06 Nov 2022 22:50:26] INFO [onedspec.py:4495] telluric_factor is [6.02766096e-18].
+[Sun, 06 Nov 2022 22:50:26] INFO [onedspec.py:5007] Telluric absorption in the science spectrum is corrected.
+[Sun, 06 Nov 2022 22:50:27] INFO [onedspec.py:5771] Figure is saved to spectrum_0.jpg for the science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:50:27] INFO [onedspec.py:6236] count is resampled for spec_id: 0.
+[Sun, 06 Nov 2022 22:50:27] INFO [onedspec.py:6282] flux is resampled for spec_id: 0.
+[Sun, 06 Nov 2022 22:50:27] INFO [onedspec.py:6318] flux_atm_ext_corrected is resampled for spec_id: 0.
+[Sun, 06 Nov 2022 22:50:27] INFO [onedspec.py:6355] flux_telluric_corrected is resampled for spec_id: 0.
+[Sun, 06 Nov 2022 22:50:28] INFO [onedspec.py:6398] flux_resampled_atm_ext_telluric_corrected is resampled for spec_id: 0.
+[Sun, 06 Nov 2022 22:50:28] INFO [onedspec.py:6779] FITS is created for the science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:50:28] INFO [onedspec.py:6458] Wavelength calibration is applied for the standard_spectrum_list.
+[Sun, 06 Nov 2022 22:50:29] INFO [onedspec.py:6799] FITS is created for the standard_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:50:29] INFO [onedspec.py:8439] FITS file is saved to reduced_science_0 for the science_spectrum_list for spec_id: 0.
+[Sun, 06 Nov 2022 22:50:29] INFO [onedspec.py:8462] FITS file is saved to reduced_standard for the standard_spectrum_list.

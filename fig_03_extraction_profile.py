@@ -37,6 +37,21 @@ twodspec.ap_trace(
     display=False,
 )
 
+
+twodspec.get_rectification(upsample_factor=5, n_bin=20, bin_size=11)
+twodspec.apply_rectification()
+
+twodspec.ap_trace(
+    nspec=1,
+    nwindow=30,
+    ap_faint=5,
+    trace_width=25,
+    resample_factor=5,
+    shift_tol=120,
+    fit_deg=7,
+    display=False,
+)
+
 trace = np.array(twodspec.spectrum_list[0].trace)
 
 # trace is at (spatial) pix 70 for (dispersion) pix 600
@@ -62,17 +77,17 @@ source_arrow = FancyArrowPatch(
 
 # boxes
 box_1 = Rectangle(
-    (230, 52), 20, 70, edgecolor="black", facecolor="none", lw=1.5
+    (230, 79), 20, 60, edgecolor="black", facecolor="none", lw=1.5
 )
 box_2 = Rectangle(
-    (1150, 127), 20, 70, edgecolor="black", facecolor="none", lw=1.5
+    (1090, 79), 20, 60, edgecolor="black", facecolor="none", lw=1.5
 )
 
-slice_1 = twodspec.img[50:120, 240]
-slice_2 = twodspec.img[125:195, 1160]
+slice_1 = twodspec.img[80:140, 240]
+slice_2 = twodspec.img[80:140, 1100]
 
-lowess_fit_1 = lowess(slice_1[25:51], np.arange(74, 100), frac=0.1)[:, 1]
-lowess_fit_2 = lowess(slice_2[25:51], np.arange(149, 175), frac=0.1)[:, 1]
+lowess_fit_1 = lowess(slice_1, np.arange(80, 140), frac=0.1)[:, 1]
+lowess_fit_2 = lowess(slice_2, np.arange(80, 140), frac=0.1)[:, 1]
 
 fig = plt.figure(1, figsize=(6, 6))
 fig.clf()
@@ -93,10 +108,10 @@ ax1.imshow(
 # Extraction slice
 ax1.add_patch(extraction_slice)
 # Sky arrows
-ax1.add_patch(sky_arrow_1)
-ax1.add_patch(sky_arrow_2)
+#ax1.add_patch(sky_arrow_1)
+#ax1.add_patch(sky_arrow_2)
 # Source arrow
-ax1.add_patch(source_arrow)
+#ax1.add_patch(source_arrow)
 # Boxes
 ax1.add_patch(box_1)
 ax1.add_patch(box_2)
@@ -115,18 +130,18 @@ ax1.set_xlabel("Pixel (Dispersion Direction)")
 ax1.set_ylabel("Pixel (Spatial Direction)")
 ax1.xaxis.tick_top()
 ax1.xaxis.set_label_position("top")
-ax1.set_ylim(35, 250)
+ax1.set_ylim(30, 175)
 ax1.set_xlim(0, 1450)
 
-ax1.text(300, 40, "Slice 1")
-ax1.text(1200, 120, "Slice 2")
+ax1.text(200, 160, "Slice 1")
+ax1.text(1050, 160, "Slice 2")
 
 vmin = min(slice_1) - 10
 vmax = max(slice_1) * 1.15
 
-ax2.plot(np.arange(49, 119), slice_1 / max(slice_1), color="black")
+ax2.plot(np.arange(80, 140), slice_1 / max(slice_1), color="black")
 ax2.plot(
-    np.arange(74, 100), lowess_fit_1 / max(lowess_fit_1) * 1.15, color="C0"
+    np.arange(80, 140), lowess_fit_1 / max(lowess_fit_1) * 1.15, color="C0"
 )
 ax2.vlines(trace[240] - 1, 0.0, 1.2, ls=":", color="black")
 ax2.vlines(trace[240] + 10 - 1, 0.0, 1.2, ls=":", color="C3")
@@ -137,39 +152,39 @@ ax2.vlines(trace[240] - 20 - 1, 0.0, 1.2, ls=":", color="C2")
 ax2.vlines(trace[240] - 30 - 1, 0.0, 1.2, ls=":", color="C2")
 
 ax3.plot(
-    np.arange(125, 195),
+    np.arange(80, 140),
     slice_2 / max(slice_2),
     color="black",
     label="Centroid (Trace)",
 )
 ax3.plot(
-    np.arange(150, 176),
+    np.arange(80, 140),
     lowess_fit_2 / max(lowess_fit_2) * 1.15,
     color="C0",
     label="LOWESS profile",
 )
-ax3.vlines(trace[1160], 0, vmax, ls=":", color="black")
+ax3.vlines(trace[1100], 0, vmax, ls=":", color="black")
 ax3.vlines(
-    trace[1160] + 10, 0.0, 1.2, ls=":", color="C3", label="Source region"
+    trace[1100] + 10, 0.0, 1.2, ls=":", color="C3", label="Source region"
 )
-ax3.vlines(trace[1160] - 10, 0, 1.2, ls=":", color="C3")
-ax3.vlines(trace[1160] + 20, 0.0, 1.2, ls=":", color="C2", label="Sky region")
-ax3.vlines(trace[1160] + 30, 0, 1.2, ls=":", color="C2")
-ax3.vlines(trace[1160] - 20, 0, 1.2, ls=":", color="C2")
-ax3.vlines(trace[1160] - 30, 0, 1.2, ls=":", color="C2")
+ax3.vlines(trace[1100] - 10, 0, 1.2, ls=":", color="C3")
+ax3.vlines(trace[1100] + 20, 0.0, 1.2, ls=":", color="C2", label="Sky region")
+ax3.vlines(trace[1100] + 30, 0, 1.2, ls=":", color="C2")
+ax3.vlines(trace[1100] - 20, 0, 1.2, ls=":", color="C2")
+ax3.vlines(trace[1100] - 30, 0, 1.2, ls=":", color="C2")
 
 ax2.hlines(1.0, 0, 10000, ls='dashed', color="black")
 ax3.hlines(1.0, 0, 10000, ls='dashed', color="black")
 
-ax2.set_xlim(45, 125)
-ax3.set_xlim(128, 198)
+ax2.set_xlim(75, 145)
+ax3.set_xlim(75, 145)
 
 ax2.set_ylim(0.45, 1.2)
 ax3.set_ylim(0.45, 1.2)
 ax3.set_yticks([])
 
-ax2.text(50, 1.1, "Slice 1")
-ax3.text(135, 1.1, "Slice 2")
+ax2.text(80, 1.1, "Slice 1")
+ax3.text(80, 1.1, "Slice 2")
 
 ax2.set_ylabel("Normalised Electron count")
 ax2.set_xlabel("Pixel (Spatial Direction)")

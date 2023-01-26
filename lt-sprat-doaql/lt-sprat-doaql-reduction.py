@@ -266,3 +266,29 @@ doaql_onedspec.save_fits(
     output="flux_resampled_atm_ext_telluric_corrected",
     overwrite=True,
 )
+
+np.savetxt(
+    "sprat-pixel-wavelength-solution-pairs.txt",
+    np.column_stack(
+        [
+            doaql_onedspec.science_spectrum_list[
+                0
+            ].calibrator.matched_peaks,
+            doaql_onedspec.science_spectrum_list[
+                0
+            ].calibrator.matched_atlas,
+        ]
+    ),
+    delimiter=",",
+)
+
+np.savetxt(
+    "sprat-effective-pixel-spectrum.txt",
+    np.column_stack(
+        [
+            doaql_onedspec.science_spectrum_list[0].pixel_list,
+            doaql_onedspec.science_spectrum_list[0].arc_spec,
+        ]
+    ),
+    delimiter=",",
+)

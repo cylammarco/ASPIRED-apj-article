@@ -189,6 +189,7 @@ standard_onedspec.inspect_reduced_spectrum(
     display=False,
 )
 
+
 for i in range(n_science):
     # Science frames must exist
     science_fits = fits.open(science_filepath[i])[0]
@@ -311,14 +312,15 @@ for i in range(n_science):
     ] = standard_onedspec.standard_spectrum_list[0]
     onedspec[i].fluxcal = standard_onedspec.fluxcal
     onedspec[i].sensitivity_curve_available = True
-    onedspec[i].apply_flux_calibration()
+    onedspec[i].apply_flux_calibration(stype="science")
     onedspec[i].get_continuum()
     onedspec[i].get_telluric_profile()
     onedspec[i].get_telluric_strength()
-    onedspec[i].apply_telluric_correction()
+    onedspec[i].apply_telluric_correction(stype="science")
     onedspec[i].set_atmospheric_extinction(location="ls")
     onedspec[i].apply_atmospheric_extinction_correction()
     onedspec[i].resample()
+
     onedspec[i].inspect_reduced_spectrum(
         save_fig=True,
         filename="gw170817_r400_{}".format(i),
@@ -655,3 +657,25 @@ for i in range(n_science):
         stype="science",
         overwrite=True,
     )
+
+np.savetxt(
+    "gmos-pixel-wavelength-solution-pairs.txt",
+    np.column_stack(
+        [
+            onedspec[i].science_spectrum_list[0].calibrator.matched_peaks,
+            onedspec[i].science_spectrum_list[0].calibrator.matched_atlas,
+        ]
+    ),
+    delimiter=",",
+)
+
+np.savetxt(
+    "gmos-effective-pixel-spectrum.txt",
+    np.column_stack(
+        [
+            onedspec[i].science_spectrum_list[0].pixel_list,
+            onedspec[i].science_spectrum_list[0].arc_spec,
+        ]
+    ),
+    delimiter=",",
+)

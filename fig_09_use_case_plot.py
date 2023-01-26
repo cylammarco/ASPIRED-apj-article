@@ -175,7 +175,7 @@ plt.clf()
 # OSIRIS
 plt.plot(
     r2500u_1_wave,
-    np.nanmean((r2500u_1_flux, r2500u_2_resampled), axis=0) * 5 + 4.0e-14,
+    np.nanmean((r2500u_1_flux, r2500u_2_resampled), axis=0) * 10 + 5.0e-14,
     color="royalblue",
     label="GTC/OSIRIS R2500U",
 )
@@ -185,34 +185,72 @@ plt.plot(
         r1000b_1_wave > 4500.0
     ]
     * 1.35
-    * 5.0
-    + 4.0e-14,
+    * 10.0
+    + 5.0e-14,
     color="royalblue",
     alpha=0.6,
     label="GTC/OSIRIS R1000B",
 )
 plt.text(
-    4400, 6.3e-14, "Many absorption lines in", color="royalblue", alpha=0.8
+    4400, 9.5e-14, "Many absorption lines in", color="royalblue", alpha=0.8
 )
 plt.text(
-    4400, 6.1e-14, "both target and standard", color="royalblue", alpha=0.8
+    4400, 9.0e-14, "both target and standard", color="royalblue", alpha=0.8
 )
+
+"""
+# OSIRIS - model
+blap_model = np.genfromtxt("gtc-osiris-zgpblap09/t35g50e10.dat.txt")
+plt.plot(blap_model[:, 0], blap_model[:, 1] * 1e-16, color="black", ls=":")
+"""
 
 # DOLORES
 plt.plot(
     dolores_wave,
-    dolores_flux + 1.5e-14,
+    dolores_flux_4 + 1.0e-14,
     color="crimson",
     label="TNG/DOLORES LR-B",
 )
 plt.plot(
     dolores_dm_wave,
-    dolores_dm_flux + 1.5e-14,
+    dolores_dm_flux + 1.0e-14,
     color="crimson",
     alpha=0.6,
     label="TNG/DOLORES LR-B",
 )
-plt.text(3650, 2.3e-14, "Simultaneous Extraction", color="crimson", alpha=0.8)
+plt.text(5000, 4.3e-14, "Simultaneous Extraction", color="crimson", alpha=0.8)
+
+"""
+# DOLORES - model
+dm3_model = fits.open("tng-dolores-dmwd/M3_00_Dwarf/spec-3683-55178-0310.fits")
+dm4_model = fits.open("tng-dolores-dmwd/M4_00_Dwarf/spec-5318-55983-0346.fits")
+wd_model = np.genfromtxt("tng-dolores-dmwd/da26000_775.dk.dat.txt.bz2")
+
+wd_model_resampled = spectres(
+    10.0 ** dm4_model[1].data["loglam"], wd_model[:, 0], wd_model[:, 1]
+)
+
+plt.plot(
+    10.0 ** dm4_model[1].data["loglam"],
+    (dm4_model[1].data["flux"] * 1e-16 + wd_model_resampled * 9e-23) + 1.0e-14,
+    color="black",
+    ls="dashed",
+    lw=1,
+    zorder=1
+)
+plt.plot(
+    10.0 ** dm3_model[1].data["loglam"],
+    (
+        1.50 * dm3_model[1].data["flux"]
+        + 0.50 * dm4_model[1].data["flux"][11:-10]
+    )
+    * 1e-16 + 1.0e-14,
+    color="black",
+    ls="dashed",
+    lw=1,
+    zorder=1
+)
+"""
 
 # ISIS
 plt.plot(
@@ -223,7 +261,7 @@ plt.plot(
         (isis_wave_blue_resampled > 4250) & (isis_wave_blue_resampled < 5350)
     ]
     * 500.0,
-    color="olivedrab",
+    color="darkgreen",
     label="WHT/ISIS R300B",
 )
 plt.plot(
@@ -236,20 +274,20 @@ plt.plot(
     * 500.0,
     color="olivedrab",
     label="WHT/ISIS R300R",
-    alpha=0.6,
 )
 
 # ACAM
 plt.plot(
-    acam_wave_resampled[acam_wave_resampled > 5150],
-    acam_flux_resampled[acam_wave_resampled > 5150] * 1000.0,
-    color="orange",
+    acam_wave_resampled[acam_wave_resampled > 5200],
+    acam_flux_resampled[acam_wave_resampled > 5200] * 1000.0,
+    color="olivedrab",
     label="WHT/ACAM V400",
+    alpha=0.6,
 )
 plt.text(6100, 0.66e-14, "Very low SNR", color="olivedrab", alpha=0.8)
 
 plt.xlim(3500, 9000)
-plt.ylim(0.0, 7e-14)
+plt.ylim(0.0, 1.2e-13)
 plt.yticks([])
 plt.xlabel(r"Wavelength ($\mathrm{\AA}$)")
 plt.ylabel("Arbitrary Flux (per $\mathrm{\AA}$)")

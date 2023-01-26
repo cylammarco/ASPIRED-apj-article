@@ -519,3 +519,25 @@ pso_reduced.save_fits(
     filename="pso_reduced_blue",
     overwrite=True,
 )
+
+np.savetxt(
+    "isis-pixel-wavelength-solution-pairs.txt",
+    np.column_stack(
+        [
+            pso_reduced.science_spectrum_list[0].calibrator.matched_peaks,
+            pso_reduced.science_spectrum_list[0].calibrator.matched_atlas,
+        ]
+    ),
+    delimiter=",",
+)
+
+np.savetxt(
+    "isis-effective-pixel-spectrum.txt",
+    np.column_stack(
+        [
+            pso_reduced.science_spectrum_list[0].pixel_list,
+            pso_reduced.science_spectrum_list[0].arc_spec,
+        ]
+    ),
+    delimiter=",",
+)

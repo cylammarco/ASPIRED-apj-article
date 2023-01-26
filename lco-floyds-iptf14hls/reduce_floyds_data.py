@@ -93,7 +93,7 @@ try:
     params_path = os.path.join(HERE, param_filename)
 except Exception as e:
     print(e)
-    params_path = os.path.join(HERE, "floyds_2022jdf_20220629_2932516.yaml")
+    params_path = os.path.join(HERE, "floyds_iptf14hls.yaml")
 
 if not os.path.isabs(params_path):
     params_path = os.path.abspath(params_path)
@@ -1797,4 +1797,59 @@ output.writeto(
         + "_{}.fits".format(params["output_file_name_suffix"]),
     ),
     overwrite=True,
+)
+
+
+
+
+np.savetxt(
+    "floyds-blue-pixel-wavelength-solution-pairs.txt",
+    np.column_stack(
+        [
+            blue_onedspec.science_spectrum_list[
+                0
+            ].calibrator.matched_peaks,
+            blue_onedspec.science_spectrum_list[
+                0
+            ].calibrator.matched_atlas,
+        ]
+    ),
+    delimiter=",",
+)
+
+np.savetxt(
+    "floyds-blue-effective-pixel-spectrum.txt",
+    np.column_stack(
+        [
+            blue_onedspec.science_spectrum_list[0].pixel_list,
+            blue_onedspec.science_spectrum_list[0].arc_spec,
+        ]
+    ),
+    delimiter=",",
+)
+
+np.savetxt(
+    "floyds-red-pixel-wavelength-solution-pairs.txt",
+    np.column_stack(
+        [
+            red_onedspec.science_spectrum_list[
+                0
+            ].calibrator.matched_peaks,
+            red_onedspec.science_spectrum_list[
+                0
+            ].calibrator.matched_atlas,
+        ]
+    ),
+    delimiter=",",
+)
+
+np.savetxt(
+    "floyds-red-effective-pixel-spectrum.txt",
+    np.column_stack(
+        [
+            red_onedspec.science_spectrum_list[0].pixel_list,
+            red_onedspec.science_spectrum_list[0].arc_spec,
+        ]
+    ),
+    delimiter=",",
 )

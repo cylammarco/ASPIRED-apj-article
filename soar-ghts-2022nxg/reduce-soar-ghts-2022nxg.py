@@ -348,3 +348,26 @@ xlabel("Wavelength (A)")
 ylabel("Flux (erg / s / cm / cm / A)")
 tight_layout()
 savefig("ztf22aapmawo_standard_20220704.png")
+
+
+np.savetxt(
+    "ghts-pixel-wavelength-solution-pairs.txt",
+    np.column_stack(
+        [
+            sci_1_onedspec.science_spectrum_list[0].calibrator.matched_peaks,
+            sci_1_onedspec.science_spectrum_list[0].calibrator.matched_atlas,
+        ]
+    ),
+    delimiter=",",
+)
+
+np.savetxt(
+    "ghts-effective-pixel-spectrum.txt",
+    np.column_stack(
+        [
+            sci_1_onedspec.science_spectrum_list[0].pixel_list,
+            sci_1_onedspec.science_spectrum_list[0].arc_spec,
+        ]
+    ),
+    delimiter=",",
+)
