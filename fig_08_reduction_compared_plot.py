@@ -267,7 +267,7 @@ fors_data_aspired = spectres(fors_wave, fors_wave_aspired, fors_fits.data)
 
 
 # big plot here
-plt.figure(1, figsize=(8, 8))
+plt.figure(1, figsize=(10, 10))
 plt.clf()
 
 # FLOYDS
@@ -304,7 +304,7 @@ plt.plot(
 plt.plot(
     gmos_public_data_2[:, 0], 8 * gmos_public_data_2[:, 1], color="crimson"
 )
-plt.text(8200, 1.5e-16, "Gemini/GMOS - AT 2017gfo")
+plt.text(8000, 1.5e-16, "Gemini/GMOS - AT 2017gfo")
 
 plt.xlim(3800, 9500)
 plt.ylim(0, 2.25e-15)
@@ -315,13 +315,13 @@ plt.plot(fors_wave, 15 * fors_data_aspired * 21 + 1.5e-15, color="royalblue")
 plt.plot(
     fors_wave,
     fors_data / 8.0 + 1.4e-15,
-    color="olivedrab",
+    color="darkgreen",
     label="starlink-based reduction as per publication",
 )
 plt.text(5100, 2.0e-15, "VLT/FORS2 - V418 Ser")
 
 
-plt.xlim(3800, 9500)
+plt.xlim(3800, 9250)
 plt.ylim(0, 2.25e-15)
 plt.legend()
 

@@ -169,7 +169,7 @@ ymax = np.nanmax((r2500u_1_flux, r2500u_2_flux))
 plt.rcParams.update({"font.size": 16})
 plt.rcParams.update({"legend.fontsize": 12})
 
-plt.figure(1, figsize=(8, 8))
+plt.figure(1, figsize=(7, 7))
 plt.clf()
 
 # OSIRIS
@@ -191,12 +191,14 @@ plt.plot(
     alpha=0.6,
     label="GTC/OSIRIS R1000B",
 )
+"""
 plt.text(
     4400, 9.5e-14, "Many absorption lines in", color="royalblue", alpha=0.8
 )
 plt.text(
     4400, 9.0e-14, "both target and standard", color="royalblue", alpha=0.8
 )
+"""
 
 """
 # OSIRIS - model
@@ -206,19 +208,21 @@ plt.plot(blap_model[:, 0], blap_model[:, 1] * 1e-16, color="black", ls=":")
 
 # DOLORES
 plt.plot(
-    dolores_wave,
-    dolores_flux_4 + 1.0e-14,
+    dolores_wave[250:-2],
+    dolores_flux_4[250:-2] + 1.0e-14,
     color="crimson",
     label="TNG/DOLORES LR-B",
 )
 plt.plot(
-    dolores_dm_wave,
-    dolores_dm_flux + 1.0e-14,
+    dolores_dm_wave[250:-2],
+    dolores_dm_flux[250:-2] + 1.0e-14,
     color="crimson",
     alpha=0.6,
     label="TNG/DOLORES LR-B",
 )
+"""
 plt.text(5000, 4.3e-14, "Simultaneous Extraction", color="crimson", alpha=0.8)
+"""
 
 """
 # DOLORES - model
@@ -284,10 +288,13 @@ plt.plot(
     label="WHT/ACAM V400",
     alpha=0.6,
 )
-plt.text(6100, 0.66e-14, "Very low SNR", color="olivedrab", alpha=0.8)
 
-plt.xlim(3500, 9000)
-plt.ylim(0.0, 1.2e-13)
+"""
+plt.text(6100, 0.66e-14, "Very low SNR", color="olivedrab", alpha=0.8)
+"""
+
+plt.xlim(3600, 9000)
+plt.ylim(0.0, 1.1e-13)
 plt.yticks([])
 plt.xlabel(r"Wavelength ($\mathrm{\AA}$)")
 plt.ylabel("Arbitrary Flux (per $\mathrm{\AA}$)")
