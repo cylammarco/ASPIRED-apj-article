@@ -559,37 +559,6 @@ Users are free to use third-party reduction tools to perform part(s) of
 the reduction process and return to continue the reduction with
 \texttt{image\_reduction} and \texttt{spectral\_reduction}.
 
-\textsc{ASPIRED} only intends to provide basic image reduction methods,
-sufficient for simple instrumental setups, which are the primary targets of
-\textsc{ASPIRED}. For example, a long-slit spectrograph with a rectilinear
-two-dimensional spectrum illuminated on the detector plane, i.e. the dispersion
-and spatial directions are perfectly perpendicular to each other across the
-entire detector plane. \textsc{ASPIRED} is usually not
-immediately suitable for complex systems that have multiple non-parallel
-spectra illuminated on the detector plane. However, in the FLOYDS reduction example below,
-we demonstrate how two non-parallel curved spectra in a single two-dimensional
-image can be reduced and extracted by applying a mask to the data. It is also assumed that bias, dark and flat frames
-are already available for use without extra processing.
-
-The \texttt{spectral\_reduction} is a large module that covers both the
-two-dimensional and one-dimensional operations through the \texttt{TwoDSpec} and
-\texttt{OneDSpec} classes, respectively. The former provides image
-rectification, spectral tracing, spectral extraction of the target and the
-arc, and locating the peaks of the arc lines. The latter performs
-wavelength calibration (with the \texttt{WavelengthCalibration} class),
-flux calibration (with the \texttt{FluxCalibration} class), atmospheric
-extinction correction and telluric absorption correction. Diagnostic images
-can be exported at each step of the two- and one-dimensional operations.
-This also includes the wavelength calibration diagnostic that wraps around
-\textsc{rascal} and uses their native plotting capability.
-Since the flux calibration has to be performed
-with a standard star spectrum, it is necessary for the \texttt{OneDSpec}
-object to have information on both the target and the standard one-dimensional
-spectra. Thus, a \texttt{OneDSpec} object keeps a dictionary of lists: --
-\texttt{science\_spectrum\_list} and \texttt{standard\_spectrum\_list}. At the
-time of writing, \textsc{ASPIRED} only supports wavelength calibration from one (total
-stacked) arc frame and flux calibration from one (total stacked) standard star frame.
-
 In addition, the data structure class \texttt{SpectrumOneD} handles the
 data and metadata of the extracted information. It provides a uniform format
 to store the metadata and the extracted data throughout the entire spectral
@@ -606,6 +575,20 @@ of a \texttt{spectrumOneD} object.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Image Reduction}
 \label{sec:image_reduction}
+
+\textsc{ASPIRED} only intends to provide basic image reduction methods,
+sufficient for simple instrumental setups, which are the primary targets of
+\textsc{ASPIRED}. For example, a long-slit spectrograph with a rectilinear
+two-dimensional spectrum illuminated on the detector plane, i.e. the dispersion
+and spatial directions are perfectly perpendicular to each other across the
+entire detector plane. \textsc{ASPIRED} is not immediately suitable for
+complex systems that have multiple non-parallel spectra illuminated on the
+detector plane. However, in the FLOYDS reduction example below, we
+demonstrate how two non-parallel curved spectra in a single two-dimensional
+image can be reduced and extracted by applying a mask to the data. It is also
+assumed that bias, dark and flat frames are already available for use without
+extra processing.
+
 This module allows mean-, median-, and sum-combining, subtracting and dividing
 of light, dark, bias and flat frames. The FITS header of the \textit{first}
 light frame provided is retained in the reduced product, while the headers
@@ -641,6 +624,25 @@ handle these processes post hoc. For example, sky glow subtraction with
 \textsc{Skycorr}~\citep{2014A&A...567A..25N}, or telluric
 absorption removal without supplementary calibration data with
 \textsc{MoleFit}~\citep{2015A&A...576A..77S, 2015A&A...576A..78K}.
+
+The \texttt{spectral\_reduction} is a large module that covers both the
+two-dimensional and one-dimensional operations through the \texttt{TwoDSpec} and
+\texttt{OneDSpec} classes, respectively. The former provides image
+rectification, spectral tracing, spectral extraction of the target and the
+arc, and locating the peaks of the arc lines. The latter performs
+wavelength calibration (with the \texttt{WavelengthCalibration} class),
+flux calibration (with the \texttt{FluxCalibration} class), atmospheric
+extinction correction and telluric absorption correction. Diagnostic images
+can be exported at each step of the two- and one-dimensional operations.
+This also includes the wavelength calibration diagnostic that wraps around
+\textsc{rascal} and uses their native plotting capability.
+Since the flux calibration has to be performed
+with a standard star spectrum, it is necessary for the \texttt{OneDSpec}
+object to have information on both the target and the standard one-dimensional
+spectra. Thus, a \texttt{OneDSpec} object keeps a dictionary of lists: --
+\texttt{science\_spectrum\_list} and \texttt{standard\_spectrum\_list}. At the
+time of writing, \textsc{ASPIRED} only supports wavelength calibration from one (total
+stacked) arc frame and flux calibration from one (total stacked) standard star frame.
 
 The following describes the technical details of the nine reduction steps mentioned above.
 We use the following convention throughout this article: the spectral image is
@@ -693,7 +695,7 @@ procedure. This tracing procedure is illustrated in Figure \ref{fig:trace}, and 
         While the spatial spectra are cross-correlated, they are also
         aligned and stacked to find the peak of the line spread profile.
         Peak finding is performed with \texttt{scipy.signal.find\_peaks}
-        and returns the list of peaks sorted by their prominence. which is
+        and returns the list of peaks sorted by their prominence, which is
         defined as the maximum count of the peak subtracted by the local
         background. The total stacked line spread profile is fitted with
         a Gaussian function to get the spread of the spectrum~(standard
@@ -899,14 +901,19 @@ to \textsc{Python 3}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Wavelength Calibration}
-As mentioned, the wavelength calibration is powered by \textsc{rascal}, which is a concurrent
-development to this work. All the public functions from \textsc{rascal} are
-available in \textsc{ASPIRED} so users can have fine control over the
-calibration. The diagnostic plots are the set provided by \textsc{rascal}.
+As mentioned, the wavelength calibration is powered by \textsc{rascal}, which is
+a concurrent development to this work. All the public functions from
+\textsc{rascal} are available in \textsc{ASPIRED} so users can have fine control
+over the calibration. It works by applying Hough transform to a set of
+peak\,(pixel)--line\,(wavelength) pairs (Hough pairs), and then identify the
+most probable set of Hough pairs that can be described by a polynomial
+function that satisfies the required residual tolerance limit~(see more
+details in \citealt{2020ASPC..527..627V})
+
+The diagnostic plots available are the set provided by \textsc{rascal}.
 They include (i)~the spectrum of the arc lamp extracted using the traces from
 the science and standard frames, the peak of the arc lines are also marked;
-(ii)~the peak\,(pixel)--line\,(wavelength) pairs and the constrained parameter
-space where the Hough pairs are selected~(see \citealt{2020ASPC..527..627V});
+(ii)~the Hough pairs and their constraints in the parameter space;
 and (iii)~a plot showing the best fit solution, the residual of the solution,
 and the pixel-wavelength relation~(Fig.~\ref{fig:wavecal}).
 
@@ -1212,7 +1219,7 @@ Las Cumbres Observatory/FLOYDS has a beam-splitter to expose the first-order
 red beam and the second-order blue beam into two non-parallel
 curved spectra on a single chip. Both the northern and southern FLOYDS suffers
 from strong fringing effects. This is not handled natively through the API of 
-\textsc{ASPIRED}, instead, the correction was done by directly accessing the
+\textsc{ASPIRED}, instead, the correction was done by directly modifying the
 electron (\texttt{count} of the \texttt{OneDSpec} object. The fringe subtraction
 workflow follows that in the official
 pipeline\footnote{\url{https://github.com/LCOGT/floyds_pipeline}}. Here, the
@@ -1238,15 +1245,15 @@ the resolution in the equivalent published spectra. Our comparisons are shown in
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Aside from the comparison against the independently and externally calibrated
 spectra above, we also illustrate a few cases of extractions concerning
-other use cases that \textsc{ASPIRED} is capable of dealing with. In the top set of spectra
-in Figure~\ref{fig:use_cases}, the \textit{GTC}/OSIRIS data show a blue large amplitude
-pulsator with many resolved absorption lines in both the science and the
-standard targets~(Feige 110\footnote{
+other use cases that \textsc{ASPIRED} is capable of dealing with. In the top set
+of spectra in Figure~\ref{fig:use_cases}, the \textit{GTC}/OSIRIS data show a
+blue large amplitude pulsator with many resolved absorption lines in both the
+science and the standard targets~(Feige 110\footnote{
 \url{https://www.eso.org/sci/observing/tools/standards/spectra/feige110.html}};
-~\citealp{2022MNRAS.511.4971M}). In the middle, the \textit{TNG}/DOLORES case shows a
-simultaneous tracing of a common proper motion system (three bodies resolved
-as two components) containing an M dwarf and a pair of eclipsing
-M dwarf--white dwarf binary, separated by 5" incidented on the same long-slit
+~\citealp{2022MNRAS.511.4971M}). In the middle, the \textit{TNG}/DOLORES case
+shows a simultaneous tracing of a common proper motion system (three bodies
+resolved as two components) containing an M dwarf and a pair of eclipsing
+M dwarf--white dwarf binary, separated by 5'' incidented on the same long-slit
 in a single exposure. At the bottom is a set of three spectra taken
 with \textit{WHT}/ISIS and ACAM. It demonstrates the reduction of a set of data with
 extremely low signal-to-noise for an ultra-cool white dwarf with a smooth
@@ -1271,7 +1278,7 @@ good agreement with the ACAM spectrum.
         Gemini/GMOS          & kilonova (AT 2017gfo)                       & R400 \& B600        & CuAr \\
         Las Cumbres/FLOYDS           & Type II-P (iPTF14hls)                       & 235\,l/mm           & HgArZn \\\hline
 \end{tabular}
-    \caption{List of the eight targets used in Figures~\ref{fig:extraction_compared} \& \ref{fig:use_cases}. See body text for references.}
+    \caption{List of the eight targets used in Figures~\ref{fig:reduction_compared} \& \ref{fig:use_cases}. See body text for references.}
     \label{tab:summary}
 \end{table*}
 
@@ -1289,17 +1296,24 @@ good agreement with the ACAM spectrum.
     \label{fig:reduction_compared}
 \end{figure*}
 
-\begin{figure*}
+\begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{fig_09_use_case_plots.pdf}
-    \caption{Example extractions of some special cases. The \textit{GTC}/OSIRIS (blue hue)
-    spectra were flux calibrated in the shorter wavelengths where there are a lot
-    of absorption features. The \textit{TNG}/DOLORES (red hue) spectra were of two targets where the
-    tracing was done simultaneously and then the extraction done
-    sequentially. The \textit{WHT}/ISIS and ACAM (green hue and yellow) data demonstrate extracting a
-    target with a very low signal-to-noise ratio. All spectra are optimally extracted using the \citet{1986PASP...98..609H} algorithm.}
+    \includegraphics[width=\columnwidth]{fig_09_use_case_plots.pdf}
+    \caption{Example extractions of some special cases. Each set of spectra
+    uses the same normalisation. All spectra are optimally extracted using the
+    \citet{1986PASP...98..609H} algorithm. The \textit{GTC}/OSIRIS (top set in blue hue)
+    spectra were flux calibrated in the shorter wavelengths where there are a
+    lot of absorption features. With a bad sensitivity curve, we expect many
+    small bump features in the the spectra and their continuum would not agree
+    in the overlapping wavelength range as polynomials tend to run away at the
+    edges. The \textit{TNG}/DOLORES (middle set in red hue) spectra were of two targets where
+    the tracing was done simultaneously and then the extraction done
+    sequentially. The \textit{WHT}/ISIS and ACAM (bottom set in green hue) data demonstrate
+    extracting a target with a very low signal-to-noise ratio. The independently
+    flux calibrated spectra agree well with each other in the overlapping
+    wavelength ranges.}
     \label{fig:use_cases}
-\end{figure*}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Distribution}
@@ -1344,9 +1358,7 @@ that is tagged by version number from \texttt{v0.4}.
 \label{sec:summary}
 
 We expect to continue the development and maintenance of \textsc{ASPIRED} in the
-future. 
-
-Some of the main planned developments include:
+future. Some of the main planned developments include:
 \begin{enumerate}
     \item Improving the quality of the flux calibration by
     carefully masking out the absorption lines in the standard spectra, and
@@ -1362,7 +1374,16 @@ Some of the main planned developments include:
     \item Supporting more forms of optimal extractions.
 \end{enumerate}
 
-We anticipate that ASPIRED will be useful for many individual researchers as well as observatories.
+We anticipate that ASPIRED will be useful for many individual researchers as
+well as observatories. It offers a complete set of methods in \textsc{Python}
+for spectral data reduction from raw images to final products. It sits between
+\textsc{specreduce}, which provides low level reduction functions, and 
+\textsc{PypeIt} that offers pre-configured tailor-made reduction methods for
+specific instrument configuration. Its simple structure and syntax with a
+rich set of examples and documentation are aimed to make the learning curve
+as gentle as possible. The relatively light-weight and cross-platform design
+allow a wide audience including those with less computing equipment and power
+to perform the reduction tasks.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgements}
