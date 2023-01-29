@@ -10,7 +10,7 @@ import numpy as np
 
 # Standard frame
 standard_light = fits.open(
-    "vlt-fors-v418ser/standard/FORS2.2015-04-09T08_56_00.429.fits.gz"
+    "ASPIRED-apj-article-data/vlt-fors-v418ser/standard/FORS2.2015-04-09T08_56_00.429.fits.gz"
 )
 
 flat_filelist = glob.glob("vlt-fors-v418ser/flat/*.gz")
@@ -152,7 +152,7 @@ ax2.set_xlim(0, 2048)
 ax3.set_xlim(0, 2048)
 
 ax2.set_ylim(10000, 2e5)
-#ax2.set_yscale('log')
+# ax2.set_yscale('log')
 
 ax3.set_ylim(0, 3e3)
 # ax3.set_yscale('log')

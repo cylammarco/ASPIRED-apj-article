@@ -12,30 +12,30 @@ plt.ion()
 # _|"""""|_|"""""|_|"""""|_|"""""|
 # "`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'
 #
-fits_r400_1 = fits.open("gemini_gmos-gw170817/gw170817_r400_0_science_0.fits")[
-    1
-]
-fits_r400_2 = fits.open("gemini_gmos-gw170817/gw170817_r400_1_science_0.fits")[
-    1
-]
-fits_r400_3 = fits.open("gemini_gmos-gw170817/gw170817_r400_2_science_0.fits")[
-    1
-]
-fits_r400_4 = fits.open("gemini_gmos-gw170817/gw170817_r400_3_science_0.fits")[
-    1
-]
-fits_b600_1 = fits.open("gemini_gmos-gw170817/gw170817_b600_0_science_0.fits")[
-    1
-]
-fits_b600_2 = fits.open("gemini_gmos-gw170817/gw170817_b600_1_science_0.fits")[
-    1
-]
-fits_b600_3 = fits.open("gemini_gmos-gw170817/gw170817_b600_2_science_0.fits")[
-    1
-]
-fits_b600_4 = fits.open("gemini_gmos-gw170817/gw170817_b600_3_science_0.fits")[
-    1
-]
+fits_r400_1 = fits.open(
+    "ASPIRED-apj-article-data/gemini_gmos-gw170817/gw170817_r400_0_science_0.fits"
+)[1]
+fits_r400_2 = fits.open(
+    "ASPIRED-apj-article-data/gemini_gmos-gw170817/gw170817_r400_1_science_0.fits"
+)[1]
+fits_r400_3 = fits.open(
+    "ASPIRED-apj-article-data/gemini_gmos-gw170817/gw170817_r400_2_science_0.fits"
+)[1]
+fits_r400_4 = fits.open(
+    "ASPIRED-apj-article-data/gemini_gmos-gw170817/gw170817_r400_3_science_0.fits"
+)[1]
+fits_b600_1 = fits.open(
+    "ASPIRED-apj-article-data/gemini_gmos-gw170817/gw170817_b600_0_science_0.fits"
+)[1]
+fits_b600_2 = fits.open(
+    "ASPIRED-apj-article-data/gemini_gmos-gw170817/gw170817_b600_1_science_0.fits"
+)[1]
+fits_b600_3 = fits.open(
+    "ASPIRED-apj-article-data/gemini_gmos-gw170817/gw170817_b600_2_science_0.fits"
+)[1]
+fits_b600_4 = fits.open(
+    "ASPIRED-apj-article-data/gemini_gmos-gw170817/gw170817_b600_3_science_0.fits"
+)[1]
 
 wave_r400_1_start = fits_r400_1.header["CRVAL1"]
 wave_r400_1_bin = fits_r400_1.header["CDELT1"]
@@ -160,7 +160,7 @@ gmos_wave_combined = np.concatenate(
 
 
 gmos_public_data_2 = np.genfromtxt(
-    "gemini_gmos-gw170817/AT2017gfo_2017-08-21_00-15-00_Gemini-S_GMOS-S_None.dat"
+    "ASPIRED-apj-article-data/gemini_gmos-gw170817/AT2017gfo_2017-08-21_00-15-00_Gemini-S_GMOS-S_None.dat"
 )
 
 
@@ -177,7 +177,9 @@ gmos_flux_combined = spectres(
 #
 
 
-sprat_fits = fits.open("lt-sprat-doaql/reduced_science_0.fits")[1]
+sprat_fits = fits.open(
+    "ASPIRED-apj-article-data/lt-sprat-doaql/reduced_science_0.fits"
+)[1]
 sprat_data = sprat_fits.data
 sprat_wave = np.linspace(
     sprat_fits.header["CRVAL1"],
@@ -187,13 +189,13 @@ sprat_wave = np.linspace(
 )
 
 sprat_public_fits_1 = fits.open(
-    "lt-sprat-doaql/v_e_20170618_20_1_0_2.fits.gz"
+    "ASPIRED-apj-article-data/lt-sprat-doaql/v_e_20170618_20_1_0_2.fits.gz"
 )[-1]
 sprat_public_fits_2 = fits.open(
-    "lt-sprat-doaql/v_e_20170618_20_2_0_2.fits.gz"
+    "ASPIRED-apj-article-data/lt-sprat-doaql/v_e_20170618_20_2_0_2.fits.gz"
 )[-1]
 sprat_public_fits_3 = fits.open(
-    "lt-sprat-doaql/v_e_20170618_20_3_0_2.fits.gz"
+    "ASPIRED-apj-article-data/lt-sprat-doaql/v_e_20170618_20_3_0_2.fits.gz"
 )[-1]
 sprat_public_data = np.nanmean(
     (
@@ -222,9 +224,9 @@ sprat_data_resampled = spectres(sprat_public_wave, sprat_wave, sprat_data)
 # "`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'
 #
 
-floyds_fits = fits.open("lco-floyds-iptf14hls/iptf14hls/IPTF14HLS_None.fits")[
-    0
-]
+floyds_fits = fits.open(
+    "ASPIRED-apj-article-data/lco-floyds-iptf14hls/iptf14hls/IPTF14HLS_None.fits"
+)[0]
 floyds_data = floyds_fits.data
 floyds_wave = np.linspace(
     floyds_fits.header["CRVAL1"],
@@ -234,7 +236,7 @@ floyds_wave = np.linspace(
 )
 
 floyds_public_ascii = np.genfromtxt(
-    "lco-floyds-iptf14hls/iPTF14hls_2016-02-09_08-15-33_FTN_FLOYDS-N_iPTF.ascii"
+    "ASPIRED-apj-article-data/lco-floyds-iptf14hls/iPTF14hls_2016-02-09_08-15-33_FTN_FLOYDS-N_iPTF.ascii"
 )
 floyds_public_wave = floyds_public_ascii[:, 0]
 floyds_public_data = floyds_public_ascii[:, 1]
@@ -250,7 +252,9 @@ floyds_data_resampled = spectres(floyds_public_wave, floyds_wave, floyds_data)
 # "`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'
 #
 
-fors_ascii = np.genfromtxt("vlt-fors-v418ser/v418ser_chip1_average.dat")
+fors_ascii = np.genfromtxt(
+    "ASPIRED-apj-article-data/vlt-fors-v418ser/v418ser_chip1_average.dat"
+)
 fors_wave = fors_ascii[:, 0]
 fors_data = fors_ascii[:, 1] * 2.99792458e-6 / fors_wave**2.0
 
