@@ -793,13 +793,17 @@ is defined as the maximum count of the peak subtracted by the local background.
 The resampling is performed with \texttt{scipy.ndimage.zoom} 
 which interpolates with a cubic spline. It is possible to supply a set of
 pre-computed polynomials to perform the rectification, which can significantly
-speed up the data reduction process of a stable optical system. A change in the 
+speed up the data reduction process of a stable optical system.
+
+\begin{comment}
+A change in the 
 zeroth order coefficient can shift the bluest part of the spectrum to the
 reddest part, and vice versa. For a stable instrument, this should not affect
 more than a few pixels. However, as long as the effect is identical in the science
 frame and the standard frame they can be calibrated out or trimmed. Furthermore,
 the edges of a detector are usually unusable, so it does not pose any real
 problem.
+\end{comment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Spectral Extraction}
@@ -905,7 +909,7 @@ As mentioned, the wavelength calibration is powered by \textsc{rascal}, which is
 a concurrent development to this work. All the public functions from
 \textsc{rascal} are available in \textsc{ASPIRED} so users can have fine control
 over the calibration. It works by applying Hough transform to a set of
-peak\,(pixel)--line\,(wavelength) pairs (Hough pairs), and then identify the
+peak\,(pixel)--line\,(wavelength) pairs (Hough pairs), and then identifying the
 most probable set of Hough pairs that can be described by a polynomial
 function that satisfies the required residual tolerance limit~(see more
 details in \citealt{2020ASPC..527..627V})
@@ -1219,9 +1223,9 @@ Las Cumbres Observatory/FLOYDS has a beam-splitter to expose the first-order
 red beam and the second-order blue beam into two non-parallel
 curved spectra on a single chip. Both the northern and southern FLOYDS suffers
 from strong fringing effects. This is not handled natively through the API of 
-\textsc{ASPIRED}, instead, the correction was done by directly modifying the
-electron (\texttt{count} of the \texttt{OneDSpec} object. The fringe subtraction
-workflow follows that in the official
+\textsc{ASPIRED}. Instead, the correction was done by directly modifying the
+electron \texttt{count} of the \texttt{OneDSpec} object. The fringe subtraction
+workflow follows that of the official
 pipeline\footnote{\url{https://github.com/LCOGT/floyds_pipeline}}. Here, the
 Type II supernova iPTF14hls is used as an example for
 comparison~\citep{2017Natur.551..210A}.
@@ -1250,17 +1254,30 @@ of spectra in Figure~\ref{fig:use_cases}, the \textit{GTC}/OSIRIS data show a
 blue large amplitude pulsator with many resolved absorption lines in both the
 science and the standard targets~(Feige 110\footnote{
 \url{https://www.eso.org/sci/observing/tools/standards/spectra/feige110.html}};
-~\citealp{2022MNRAS.511.4971M}). In the middle, the \textit{TNG}/DOLORES case
-shows a simultaneous tracing of a common proper motion system (three bodies
-resolved as two components) containing an M dwarf and a pair of eclipsing
-M dwarf--white dwarf binary, separated by 5'' incidented on the same long-slit
-in a single exposure. At the bottom is a set of three spectra taken
-with \textit{WHT}/ISIS and ACAM. It demonstrates the reduction of a set of data with
-extremely low signal-to-noise for an ultra-cool white dwarf with a smooth
-blackbody-like spectrum~\citep{2020MNRAS.493.6001L}. The tracing and extraction
-are only possible after careful cosmic ray removal and trimming of the images.
-The spectral shape of the ISIS spectra in both the blue and the red arms are in
-good agreement with the ACAM spectrum.
+~\citealp{2022MNRAS.511.4971M}). With a poorly computed sensitivity curve, we
+expect many small bump features in the the spectra and their continuum would
+not agree in the overlapping wavelength range as polynomials tend to run away
+at the edges of the fitted range of the wavelength solution. In the middle,
+the \textit{TNG}/DOLORES case shows a simultaneous tracing of a common proper
+motion system (three bodies resolved as two components) containing an M dwarf
+and a pair of eclipsing M dwarf--white dwarf binary~\citep{2022MNRAS.509.4171K},
+separated by 5'' incidented on the same long-slit in a single exposure.
+At the bottom is a set of three spectra taken with \textit{WHT}/ISIS and ACAM.
+It demonstrates the reduction of a set of data with extremely low signal-to-noise
+for an ultra-cool white dwarf with a smooth blackbody-like
+spectrum~\citep{2020MNRAS.493.6001L}. The tracing and extraction are only
+possible after careful cosmic ray removal and trimming of the images. The
+spectral shape of the ISIS spectra in both the blue and the red arms are in good
+agreement with the ACAM spectrum. And these independently flux calibrated
+spectra agree well with each other in the overlapping wavelength ranges.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+To summarize, our test cases cover the most commonly encountered possible
+problematic data (red or blue dominated spectra, narrow/broad
+absorption/emission lines, featureless spectra, closely spaced (resolved)
+line spectra and curved spectra) and demonstrate that \textsc{ASPIRED} can
+produce spectral products at a quality comparable to that of industrial
+standard reduction software.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table*}
@@ -1378,12 +1395,13 @@ We anticipate that ASPIRED will be useful for many individual researchers as
 well as observatories. It offers a complete set of methods in \textsc{Python}
 for spectral data reduction from raw images to final products. It sits between
 \textsc{specreduce}, which provides low level reduction functions, and 
-\textsc{PypeIt} that offers pre-configured tailor-made reduction methods for
-specific instrument configuration. Its simple structure and syntax with a
-rich set of examples and documentation are aimed to make the learning curve
+\textsc{PypeIt}, which offers pre-configured tailor-made reduction methods for
+specific instrument configuration. ASPIRED's simple structure and syntax, with a
+rich set of examples and documentation, is aimed to make the learning curve
 as gentle as possible. The relatively light-weight and cross-platform design
-allow a wide audience including those with less computing equipment and power
-to perform the reduction tasks.
+allow a wide audience, including those with less computing equipment and power,
+to perform all necessary reduction tasks.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgements}
