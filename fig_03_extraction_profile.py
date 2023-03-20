@@ -6,7 +6,9 @@ import numpy as np
 from scipy.ndimage import rotate
 from statsmodels.nonparametric.smoothers_lowess import lowess
 
-fits_file = fits.open("ogg2m001-en06-20160111-0005-e00.fits.fz")[1]
+fits_file = fits.open(
+    "ASPIRED-apj-article-data/ogg2m001-en06-20160111-0005-e00.fits.fz"
+)[1]
 data = fits_file.data
 header = fits_file.header
 
@@ -108,10 +110,10 @@ ax1.imshow(
 # Extraction slice
 ax1.add_patch(extraction_slice)
 # Sky arrows
-#ax1.add_patch(sky_arrow_1)
-#ax1.add_patch(sky_arrow_2)
+# ax1.add_patch(sky_arrow_1)
+# ax1.add_patch(sky_arrow_2)
 # Source arrow
-#ax1.add_patch(source_arrow)
+# ax1.add_patch(source_arrow)
 # Boxes
 ax1.add_patch(box_1)
 ax1.add_patch(box_2)
@@ -173,8 +175,8 @@ ax3.vlines(trace[1100] + 30, 0, 1.2, ls=":", color="C2")
 ax3.vlines(trace[1100] - 20, 0, 1.2, ls=":", color="C2")
 ax3.vlines(trace[1100] - 30, 0, 1.2, ls=":", color="C2")
 
-ax2.hlines(1.0, 0, 10000, ls='dashed', color="black")
-ax3.hlines(1.0, 0, 10000, ls='dashed', color="black")
+ax2.hlines(1.0, 0, 10000, ls="dashed", color="black")
+ax3.hlines(1.0, 0, 10000, ls="dashed", color="black")
 
 ax2.set_xlim(75, 145)
 ax3.set_xlim(75, 145)
