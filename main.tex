@@ -226,8 +226,7 @@
 %\email{greg.schwarz@aas.org, gus.muench@aas.org}
 
 \author[0000-0002-9347-2298]{Marco C. Lam}
-\affiliation{School of Physics and Astronomy, Tel Aviv University, Tel Aviv 69978, Israel
-}
+\affiliation{School of Physics and Astronomy, Tel Aviv University, Tel Aviv 69978, Israel}
 \affiliation{Astrophysics Research Institute, Liverpool John Moores University, IC2, LSP, 146 Brownlow Hill, Liverpool L3 5RF, UK}
 \affiliation{Astronomical Observatory, University of Warsaw, Al. Ujazdowskie 4, 00-478, Warszawa, Poland}
 
@@ -293,7 +292,7 @@ not limited to, time-domain astronomy.
 %% You will be asked to selected these concepts during the submission process
 %% but this old "keyword" functionality is maintained in case authors want
 %% to include these concepts in their preprints.
-\keywords{(fill in)}
+\keywords{}
 
 %% From the front matter, we move on to the body of the paper.
 %% Sections are demarcated by \section and \subsection, respectively.
@@ -336,7 +335,8 @@ REDuction~(\textsc{ASPIRED}), coordinated on
 The ``industrial standard'' of spectral and image reduction is undoubtedly
 the \textsc{iraf} framework~\citep{1986SPIE..627..733T, 1993ASPC...52..173T}.
 It has powered many reduction engines in the past and present. However,
-unfortunately, the software has reached the end-of-support state, and it is now
+unfortunately, \textcolor{red}{the National Optical Astronomy Observatory 
+discontinued the support of the software in 2013}, and it is now
 entirely relying on community support\footnote{\url{https://iraf-community.github.io}}.
 In addition, the \textsc{STARLINK}
 library\footnote{\url{https://STARLINK.eao.hawaii.edu/STARLINK}} \citep{2014ASPC..485..391C, 2022ASPC..532..559B}
@@ -349,8 +349,10 @@ to enable low-level code access from high-level programs. These software tools
 have made significant contributions to the entire Astrophysics community. They
 are very often overlooked when they are so deeply embedded into many systems,
 and users do not interact directly with them in this era of big data
-and high data rates. However, they also come with a few drawbacks; The most
-notable obstacle in using these powerful libraries concerns the ease of
+and high data rates. However, \textcolor{red}{this is not always the case,
+many smaller facilities and individual users are still required to commission
+their own data reduction routines. These powerful libraries and tools } also
+come with a few drawbacks; The most notable obstacle concerns the ease of
 installation and linkage of libraries that users often find difficult.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -404,11 +406,15 @@ graduate-level astronomers.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 We use the SPRAT spectrograph \citep{2014SPIE.9147E..8HP} mounted on the \textit{Liverpool Telescope}~(\textit{LT}) as our
-``first-light'' instrument for development. \textsc{ASPIRED} is also currently used for the quicklook reduction of data obtained by the MISTRAL spectrograph
+``first-light'' instrument for development. \textsc{ASPIRED} is currently used
+\textcolor{red}{by the transient science research group at the Tel Aviv University
+for a proprietary spectral data reduction pipeline of the FLOYDS instrument of
+the Las Cumbres Observatory. It is also known to be used}
+for quicklook reduction of data obtained by the MISTRAL spectrograph
 mounted on the \textit{1.93\,m telescope} at the Observatoire de
-Haute-Provence\footnote{\url{http://www.obs-hp.fr/guide/mistral/MISTRAL_spectrograph_camera.shtml}}. However, as mentioned, we
-aim to allow high-level tools for users to build and fine-tune their pipelines
-to support a wide range of
+Haute-Provence\footnote{\url{http://www.obs-hp.fr/guide/mistral/MISTRAL_spectrograph_camera.shtml}}.
+However, as mentioned, we aim to allow high-level tools for users to build and
+fine-tune their pipelines to support a wide range of
 configurations~\citep{2020arXiv201203505L, marco_2021_4463569}. As of the time
 of writing, we have successfully used \textsc{ASPIRED} to reduce data from the
 \textit{William Herschel Telescope} Intermediate-dispersion Spectrograph and
@@ -447,8 +453,14 @@ important to the data reduction processes are discussed here.
 \section{Development and Structure of \textsc{ASPIRED}}
 \label{sec:development}
 
-One of the development goals of \textsc{ASPIRED} is to design a piece of software that is as
-modular and portable as possible and that relies on as few external dependencies as possible.
+One of the development goals of \textsc{ASPIRED} is to design a piece of
+software that is as modular and portable as possible, \textcolor{red}{such that
+it is operable on \textsc{Linux}, \textsc{Mac} and \textsc{Windows} systems. The
+last is particularly important as software for Astronomy and Astrophysics are
+strongly leaning towards Unix systems, however, \textsc{Windows} has the highest
+market share worldwide; furthermore, demographically it is the common choice
+among university systems, students and lower-income countries. On top of that,
+it is designed to rely} on as few external dependencies as possible.
 The ones we do use are those that would require a substantial programming effort to reproduce and have a
 proven track record of reliability and/or plan to remain maintained in the
 foreseeable future. The explicit top-level dependencies are --
@@ -1204,8 +1216,7 @@ output option is CSV. The options for output are:
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Example Data Reduction Results}
-\label{sec:examples}
+\textcolor{red}{\section{Validation}}
 Being a flexible toolkit, \textsc{ASPIRED} is not designed to reduce data for a
 specific instrument. Instead, it can be customised to suit many configurations,
 as long as they are long-slit-like. We demonstrate this here with data products
@@ -1213,6 +1224,23 @@ from eight different instruments, most of which have conventional long-slit
 settings. A summary of the following example reductions is tabulated in
 Table~\ref{tab:summary}.
 
+\textcolor{red}{The purpose of the comparison made here is to demonstrate that
+the reductions are sufficiently consistent with some spectra in the literature
+for a range of instruments and astrophysical sources. However, a full
+systematic comparison is beyond the scope of this work. Such a level of
+detailed validation would be the most useful if any service providers wish to
+adopt \textsc{ASPIRED} as the official reduction tool, and that shall be
+included in future work.}
+
+\textcolor{red}{\subsection{Repeatability}}
+\textcolor{red}{In order to demonstrate the reproducibility and repeatability,
+we opt to calibrate the standard star xxxx against xxxx taken with
+\textit{LT}/SPRAT.
+}
+
+
+\textcolor{red}{\subsection{Example Data Reduction Results}}
+\label{sec:examples}
 In the case of Gemini/GMOS, a single spectrum is exposed onto
 three detectors, and each detector is read out with four amplifiers. The bias 
 subtraction is also unconventional, so all the image data reduction procedures
@@ -1394,13 +1422,13 @@ future. Some of the main planned developments include:
 We anticipate that ASPIRED will be useful for many individual researchers as
 well as observatories. It offers a complete set of methods in \textsc{Python}
 for spectral data reduction from raw images to final products. It sits between
-\textsc{specreduce}, which provides low level reduction functions, and 
+\textsc{specreduce}, which provides low-level reduction functions, and 
 \textsc{PypeIt}, which offers pre-configured tailor-made reduction methods for
-specific instrument configuration. ASPIRED's simple structure and syntax, with a
-rich set of examples and documentation, is aimed to make the learning curve
-as gentle as possible. The relatively light-weight and cross-platform design
-allow a wide audience, including those with less computing equipment and power,
-to perform all necessary reduction tasks.
+specific instrument configuration. \textsc{ASPIRED}'s simple structure and
+syntax, with a rich set of examples and documentation, is aimed to make the
+learning curve as gentle as possible. The relatively light-weight and
+cross-platform design allow a wide audience, including those with less
+computing equipment and power, to perform all necessary reduction tasks.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
