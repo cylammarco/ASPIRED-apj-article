@@ -7,10 +7,10 @@ plt.ion()
 
 # ISIS
 isis_blue = fits.open(
-    "wht-isis-ucwd-pso1801p6254/pso_reduced_blue_science_0.fits"
+    "ASPIRED-apj-article-data/wht-isis-ucwd-pso1801p6254/pso_reduced_blue_science_0.fits"
 )[1]
 isis_red = fits.open(
-    "wht-isis-ucwd-pso1801p6254/pso_reduced_red_science_0.fits"
+    "ASPIRED-apj-article-data/wht-isis-ucwd-pso1801p6254/pso_reduced_red_science_0.fits"
 )[1]
 
 isis_wave_blue = np.linspace(
@@ -40,7 +40,9 @@ isis_flux_red_resampled = spectres(
 
 
 # ACAM
-acam = fits.open("wht-acam-ucwd-pso1801p6254/pso_reduced_science_0.fits")[1]
+acam = fits.open(
+    "ASPIRED-apj-article-data/wht-acam-ucwd-pso1801p6254/pso_reduced_science_0.fits"
+)[1]
 
 acam_wave = np.linspace(
     acam.header["CRVAL1"],
@@ -55,10 +57,18 @@ acam_flux_resampled = spectres(acam_wave_resampled, acam_wave, acam_flux)
 
 
 # DOLORES dmwd
-dolores_fits_1 = fits.open("tng-dolores-dmwd/dmwd_blue_1_science_1.fits")[1]
-dolores_fits_2 = fits.open("tng-dolores-dmwd/dmwd_blue_2_science_1.fits")[1]
-dolores_fits_3 = fits.open("tng-dolores-dmwd/dmwd_blue_3_science_1.fits")[1]
-dolores_fits_4 = fits.open("tng-dolores-dmwd/dmwd_blue_4_science_1.fits")[1]
+dolores_fits_1 = fits.open(
+    "ASPIRED-apj-article-data/tng-dolores-dmwd/dmwd_blue_1_science_1.fits"
+)[1]
+dolores_fits_2 = fits.open(
+    "ASPIRED-apj-article-data/tng-dolores-dmwd/dmwd_blue_2_science_1.fits"
+)[1]
+dolores_fits_3 = fits.open(
+    "ASPIRED-apj-article-data/tng-dolores-dmwd/dmwd_blue_3_science_1.fits"
+)[1]
+dolores_fits_4 = fits.open(
+    "ASPIRED-apj-article-data/tng-dolores-dmwd/dmwd_blue_4_science_1.fits"
+)[1]
 dolores_wave_1 = np.linspace(
     dolores_fits_1.header["CRVAL1"],
     dolores_fits_1.header["CRVAL1"]
@@ -94,10 +104,18 @@ dolores_flux = np.mean(
 )
 
 # DOLORES dm
-dolores_fits_dm_1 = fits.open("tng-dolores-dmwd/dmwd_blue_1_science_2.fits")[1]
-dolores_fits_dm_2 = fits.open("tng-dolores-dmwd/dmwd_blue_2_science_2.fits")[1]
-dolores_fits_dm_3 = fits.open("tng-dolores-dmwd/dmwd_blue_3_science_2.fits")[1]
-dolores_fits_dm_4 = fits.open("tng-dolores-dmwd/dmwd_blue_4_science_2.fits")[1]
+dolores_fits_dm_1 = fits.open(
+    "ASPIRED-apj-article-data/tng-dolores-dmwd/dmwd_blue_1_science_2.fits"
+)[1]
+dolores_fits_dm_2 = fits.open(
+    "ASPIRED-apj-article-data/tng-dolores-dmwd/dmwd_blue_2_science_2.fits"
+)[1]
+dolores_fits_dm_3 = fits.open(
+    "ASPIRED-apj-article-data/tng-dolores-dmwd/dmwd_blue_3_science_2.fits"
+)[1]
+dolores_fits_dm_4 = fits.open(
+    "ASPIRED-apj-article-data/tng-dolores-dmwd/dmwd_blue_4_science_2.fits"
+)[1]
 dolores_wave_dm_1 = np.linspace(
     dolores_fits_dm_1.header["CRVAL1"],
     dolores_fits_dm_1.header["CRVAL1"]
@@ -145,19 +163,27 @@ dolores_dm_flux = np.mean(
 )
 
 # OSIRIS
-r1000b_1 = np.load("gtc-osiris-zgpblap09/r1000b_1.npy")
+r1000b_1 = np.load(
+    "ASPIRED-apj-article-data/gtc-osiris-zgpblap09/r1000b_1.npy"
+)
 r1000b_1_wave = r1000b_1[:, 0]
 r1000b_1_flux = r1000b_1[:, 1]
 
-r1000b_2 = np.load("gtc-osiris-zgpblap09/r1000b_2.npy")
+r1000b_2 = np.load(
+    "ASPIRED-apj-article-data/gtc-osiris-zgpblap09/r1000b_2.npy"
+)
 r1000b_2_wave = r1000b_2[:, 0]
 r1000b_2_flux = r1000b_2[:, 1]
 
-r2500u_1 = np.load("gtc-osiris-zgpblap09/r2500u_1.npy")
+r2500u_1 = np.load(
+    "ASPIRED-apj-article-data/gtc-osiris-zgpblap09/r2500u_1.npy"
+)
 r2500u_1_wave = r2500u_1[:, 0]
 r2500u_1_flux = r2500u_1[:, 1]
 
-r2500u_2 = np.load("gtc-osiris-zgpblap09/r2500u_2.npy")
+r2500u_2 = np.load(
+    "ASPIRED-apj-article-data/gtc-osiris-zgpblap09/r2500u_2.npy"
+)
 r2500u_2_wave = r2500u_2[:, 0]
 r2500u_2_flux = r2500u_2[:, 1]
 

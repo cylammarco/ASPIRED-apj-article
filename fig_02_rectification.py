@@ -4,7 +4,9 @@ from matplotlib import pyplot as plt
 from scipy import ndimage
 import numpy as np
 
-fits_file = fits.open("ogg2m001-en06-20160111-0005-e00.fits.fz")[1]
+fits_file = fits.open(
+    "ASPIRED-apj-article-data/ogg2m001-en06-20160111-0005-e00.fits.fz"
+)[1]
 data = fits_file.data
 header = fits_file.header
 

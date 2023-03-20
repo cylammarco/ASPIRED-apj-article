@@ -5,7 +5,9 @@ from scipy.ndimage import rotate
 from scipy.signal import correlate
 import numpy as np
 
-data = fits.open("v_s_20180810_27_1_0_2.fits.gz")[0].data
+data = fits.open("ASPIRED-apj-article-data/v_s_20180810_27_1_0_2.fits.gz")[
+    0
+].data
 data = rotate(data, 2.15)
 
 fig = plt.figure(1, figsize=(7, 7))
@@ -20,9 +22,15 @@ ax3 = fig.add_subplot(2, 2, 4)
 
 ax1.imshow(data, origin="lower", aspect="auto")
 
-rect_2 = Rectangle((200, 140), 100, 40, lw=2.5, edgecolor="silver", facecolor="none")
-rect_3 = Rectangle((250, 140), 100, 40, lw=2, edgecolor="grey", facecolor="none")
-rect_4 = Rectangle((300, 140), 100, 40, lw=1.5, edgecolor="black", facecolor="none")
+rect_2 = Rectangle(
+    (200, 140), 100, 40, lw=2.5, edgecolor="silver", facecolor="none"
+)
+rect_3 = Rectangle(
+    (250, 140), 100, 40, lw=2, edgecolor="grey", facecolor="none"
+)
+rect_4 = Rectangle(
+    (300, 140), 100, 40, lw=1.5, edgecolor="black", facecolor="none"
+)
 
 ax1.add_patch(rect_2)
 ax1.add_patch(rect_3)
@@ -46,7 +54,9 @@ line4 /= max(line4)
 ax2.plot(range(140, 180), line2, color="silver")
 ax2.plot(range(140, 180), line3, color="grey")
 ax2.plot(range(140, 180), line4, color="black")
-ax2.vlines(np.argmax(line2) + 140, 0, max(line2) * 1.05, ls=":", color="silver")
+ax2.vlines(
+    np.argmax(line2) + 140, 0, max(line2) * 1.05, ls=":", color="silver"
+)
 ax2.vlines(np.argmax(line3) + 140, 0, max(line3) * 1.05, ls=":", color="grey")
 ax2.vlines(np.argmax(line4) + 140, 0, max(line4) * 1.05, ls=":", color="black")
 ax2.set_xlim(151, 166)
@@ -67,7 +77,7 @@ ax3.plot(
     dashes=[3, 3],
     gapcolor="silver",
     lw=2,
-    ls='dashed',
+    ls="dashed",
     label="Darkgrey rel. to Lightgrey",
 )
 ax3.plot(
