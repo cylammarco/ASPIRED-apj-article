@@ -1,0 +1,176 @@
+[Wed, 29 Mar 2023 11:52:28] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Wed, 29 Mar 2023 11:52:28] INFO [onedspec.py:3756] Loaded standard: hiltner102 from irafirscal
+[Wed, 29 Mar 2023 12:03:58] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Wed, 29 Mar 2023 12:03:58] INFO [onedspec.py:3756] Loaded standard: hiltner102 from irafirscal
+[Wed, 29 Mar 2023 12:04:31] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Wed, 29 Mar 2023 12:04:31] INFO [onedspec.py:3756] Loaded standard: bdp33 from irafirscal
+[Wed, 29 Mar 2023 12:04:37] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Wed, 29 Mar 2023 12:04:37] INFO [onedspec.py:3756] Loaded standard: bdp33 from irafirscal
+[Wed, 29 Mar 2023 12:04:55] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Wed, 29 Mar 2023 12:04:55] WARNING [flux_calibration.py:331] 'bdp33'
+[Wed, 29 Mar 2023 12:04:55] WARNING [flux_calibration.py:344] Requested standard star cannot be found, a list of the closest matching names are returned: ['bd33', 'bd73632', 'bd332642', 'bd253', 'bd33d2642']
+[Wed, 29 Mar 2023 12:04:55] WARNING [flux_calibration.py:476] The requested library does not exist, ing_oke is used because it has the closest matching name.
+[Wed, 29 Mar 2023 12:04:55] INFO [onedspec.py:3756] Loaded standard: bdp33 from None
+[Wed, 29 Mar 2023 22:22:43] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Wed, 29 Mar 2023 22:22:43] WARNING [flux_calibration.py:331] 'bdp33'
+[Wed, 29 Mar 2023 22:22:43] WARNING [flux_calibration.py:344] Requested standard star cannot be found, a list of the closest matching names are returned: ['bd33', 'bd73632', 'bd332642', 'bd253', 'bd33d2642']
+[Wed, 29 Mar 2023 22:22:43] WARNING [flux_calibration.py:476] The requested library does not exist, ing_oke is used because it has the closest matching name.
+[Wed, 29 Mar 2023 22:22:43] INFO [onedspec.py:3756] Loaded standard: bdp33 from None
+[Wed, 29 Mar 2023 22:23:26] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Wed, 29 Mar 2023 22:23:27] WARNING [flux_calibration.py:331] 'bdp33'
+[Wed, 29 Mar 2023 22:23:27] WARNING [flux_calibration.py:344] Requested standard star cannot be found, a list of the closest matching names are returned: ['bd33', 'bd73632', 'bd332642', 'bd253', 'bd33d2642']
+[Wed, 29 Mar 2023 22:23:27] WARNING [flux_calibration.py:476] The requested library does not exist, ing_oke is used because it has the closest matching name.
+[Wed, 29 Mar 2023 22:23:27] INFO [onedspec.py:3756] Loaded standard: bdp33 from None
+[Wed, 29 Mar 2023 22:39:06] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Wed, 29 Mar 2023 22:39:06] WARNING [flux_calibration.py:331] 'bdp33'
+[Wed, 29 Mar 2023 22:39:06] WARNING [flux_calibration.py:344] Requested standard star cannot be found, a list of the closest matching names are returned: ['bd33', 'bd73632', 'bd332642', 'bd253', 'bd33d2642']
+[Wed, 29 Mar 2023 22:39:06] WARNING [flux_calibration.py:476] The requested library does not exist, ing_oke is used because it has the closest matching name.
+[Wed, 29 Mar 2023 22:39:06] INFO [onedspec.py:3756] Loaded standard: bdp33 from None
+[Wed, 29 Mar 2023 22:56:20] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Wed, 29 Mar 2023 22:56:20] WARNING [flux_calibration.py:331] 'bdp33'
+[Wed, 29 Mar 2023 22:56:20] WARNING [flux_calibration.py:344] Requested standard star cannot be found, a list of the closest matching names are returned: ['bd33', 'bd73632', 'bd332642', 'bd253', 'bd33d2642']
+[Wed, 29 Mar 2023 22:56:20] WARNING [flux_calibration.py:476] The requested library does not exist, ing_oke is used because it has the closest matching name.
+[Wed, 29 Mar 2023 22:56:20] INFO [onedspec.py:3756] Loaded standard: bdp33 from None
+[Wed, 29 Mar 2023 23:18:55] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Wed, 29 Mar 2023 23:18:55] WARNING [flux_calibration.py:461] The requested standard star cannot be found in the given library,  or the library is not specified. ASPIRED is using esohststan.
+[Wed, 29 Mar 2023 23:18:55] INFO [onedspec.py:3756] Loaded standard: bd33d2642 from None
+[Thu, 30 Mar 2023 00:04:12] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:04:12] WARNING [flux_calibration.py:331] 'bdp33'
+[Thu, 30 Mar 2023 00:04:12] WARNING [flux_calibration.py:344] Requested standard star cannot be found, a list of the closest matching names are returned: ['bd33', 'bd73632', 'bd332642', 'bd253', 'bd33d2642']
+[Thu, 30 Mar 2023 00:04:12] WARNING [flux_calibration.py:476] The requested library does not exist, ing_oke is used because it has the closest matching name.
+[Thu, 30 Mar 2023 00:04:12] INFO [onedspec.py:3756] Loaded standard: bdp33 from None
+[Thu, 30 Mar 2023 00:19:23] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:19:55] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:20:19] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:20:26] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:20:26] INFO [onedspec.py:3756] Loaded standard: hiltner102 from irafirscal
+[Thu, 30 Mar 2023 00:21:22] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:21:22] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:21:29] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:21:29] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:22:14] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:22:14] INFO [onedspec.py:3756] Loaded standard: bd332642 from ingoke
+[Thu, 30 Mar 2023 00:24:42] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:24:42] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:26:39] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:26:39] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:26:46] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:26:46] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:26:52] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:26:52] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:28:58] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:28:58] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:31:08] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:31:08] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:31:31] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:31:31] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:31:45] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:31:45] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:32:27] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:32:27] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:32:40] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:32:40] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:32:53] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:32:53] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:33:13] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:33:13] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:33:35] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:33:35] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:33:46] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:33:46] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:33:53] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:33:53] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:34:09] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:34:09] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:34:30] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:34:31] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:34:42] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:34:42] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:35:13] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:35:13] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:35:30] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:35:30] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:35:47] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:35:47] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:35:59] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:35:59] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:36:16] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:36:16] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:36:34] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:36:34] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:36:49] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:36:49] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:37:06] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:37:06] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:38:01] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:38:01] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:38:28] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:38:28] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:38:44] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:38:44] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:38:55] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:38:55] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:39:08] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:39:08] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:39:16] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:39:16] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:39:42] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:39:42] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:40:16] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:40:16] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:41:40] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:41:40] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:44:57] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:44:57] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:45:21] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:45:21] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:45:34] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:45:34] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:47:43] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:47:43] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:50:38] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:50:38] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:55:03] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:55:03] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:55:28] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:55:28] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:56:12] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:56:12] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 00:57:09] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 00:57:09] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:36:59] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:36:59] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:37:28] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:37:28] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:38:23] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:38:23] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:38:52] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:38:52] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:39:28] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:39:28] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:39:48] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:39:48] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:39:58] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:39:58] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:40:12] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:40:12] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:40:25] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:40:25] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:40:53] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:40:53] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:42:00] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:42:00] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:42:12] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:42:12] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:42:22] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:42:22] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:42:32] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:42:32] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:42:58] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:42:58] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:49:06] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:49:06] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:49:32] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:49:32] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
+[Thu, 30 Mar 2023 01:49:48] INFO [onedspec.py:256] spectrm1D object is added to spec_id: 0
+[Thu, 30 Mar 2023 01:49:48] INFO [onedspec.py:3756] Loaded standard: bd332642 from irafirscal
