@@ -1416,7 +1416,10 @@ and install with the setup script using
 \end{verbatim}
 ASPIRED is distributed through \textsc{conda} starting from \texttt{v0.4.9}.
 
-There are also example reduction scripts available from the companion repository
+\textcolor{red}{
+All the reduction scripts for the spectra used in this article can be found at
+\url{https://github.com/cylammarco/ASPIRED-apj-article}.
+}There are also example reduction scripts available from the companion repository
 \textsc{ASPIRED-example}\footnote{\url{https://github.com/cylammarco/ASPIRED-example}}
 that is tagged by version number from \texttt{v0.4}. \textcolor{red}{This work is most accurately
 reflecting the software release of the \texttt{v0.5}-series.}
@@ -1506,7 +1509,7 @@ Based on observations collected at the European Southern Observatory under ESO p
     \textsc{astroscrappy}~\citep{curtis_mccully_2018_1482019, 2001PASP..113.1420V}
     \textsc{Astropy}~\citep{astropy:2013, astropy:2018},
     \textsc{ccdproc}~\citep{matt_craig_2017_1069648},
-    \textsc{matplotlib},
+    \textsc{matplotlib}~\citep{Hunter:2007},
     \textsc{numpy}~\citep{2020NumPy-Array}
     \textsc{plotly}~\citep{plotly},
     \textsc{rascal}~\citep{2020ASPC..527..627V},
@@ -1523,8 +1526,7 @@ The following compares the reduction scripts for LT/SPRAT and
 Gemini/GMOS reduction. LT/SPRAT starts from an ImageReduction object,
 while the Gemini/GMOS workflow uses flattened images in FITS objects.
 Both have all the necessary header information for the reduction.
-
-The examples are simplified to exclude any file and image saving
+The examples are simplified to exclude any file- and image-saving
 instructions. They are shown in three groups according to the types
 of operation:
 
@@ -1532,29 +1534,25 @@ of operation:
 
 \vspace*{2em}
 \noindent
-\begin{minipage}{0.45\linewidth}
+\begin{minipage}{0.475\linewidth}
 \begin{Verbatim}[frame=topline,numbers=left,label=LT/SPRAT,framesep=3mm]
 # Initialise the two TwoDSpec() for the
 # science and standard. The arc frames
 # in the objects are handled automatically
 science_twodspec = TwoDSpec(
     science_image_reduction_object,
-    spatial_mask=spatial_mask,
-    spec_mask=spec_mask,
+    spatial_mask=sprat_spatial_mask,
+    spec_mask=sprat_spec_mask,
 )
 standard_twodspec = TwoDSpec(
     standard_image_reduction_object,
-    spatial_mask=spatial_mask,
-    spec_mask=spec_mask,
+    spatial_mask=sprat_spatial_mask,
+    spec_mask=sprat_spec_mask,
 )
 
 # Automatically trace the spectrum
-science_twodspec.ap_trace(
-    nspec=1,
-)
-standard_twodspec.ap_trace(
-    nspec=1,
-)
+science_twodspec.ap_trace()
+standard_twodspec.ap_trace()
 
 # Tophat extraction of the spectrum
 science_twodspec.ap_extract(
@@ -1578,34 +1576,29 @@ science_twodspec.extract_arc_spec()
 standard_twodspec.extract_arc_spec()
 \end{Verbatim}
 \end{minipage}\hfill
-\begin{minipage}{0.45\linewidth}
+\begin{minipage}{0.475\linewidth}
 \begin{Verbatim}[frame=topline,numbers=left,label=Gemini/GMOS,framesep=3mm]
 # Initialise the two TwoDSpec() for the
 # science and standard
 science_twodspec = TwoDSpec(
     science_fits_object,
-    spatial_mask=spatial_mask,
-    spec_mask=spec_mask,
+    spatial_mask=gmos_spatial_mask,
+    spec_mask=gmos_spec_mask,
     flip=True,
 )
 standard_twodspec = TwoDSpec(
     standard_fits_object,
-    spatial_mask=spatial_mask,
-    spec_mask=spec_mask,
+    spatial_mask=gmos_spatial_mask,
+    spec_mask=gmos_spec_mask,
     flip=True,
 )
 
 # Automatically trace the spectrum
-science_twodspec.ap_trace(
-    fit_deg=2,
-)
-standard_twodspec.ap_trace(
-    fit_deg=2,
-)
+science_twodspec.ap_trace(fit_deg=2)
+standard_twodspec.ap_trace(fit_deg=2)
 
 # Extracting of the spectrum
-science_twodspec.ap_extract(
-)
+science_twodspec.ap_extract()
 standard_twodspec.ap_extract(
     apwidth=25,
 )
@@ -1622,39 +1615,42 @@ standard_twodspec.add_arc(
     np.flip(standard_arc)
 )
 standard_twodspec.extract_arc_spec()
+
 \end{Verbatim}
 \end{minipage}
 
 \clearpage
 
-(2)~wavelength calibration;
+(2)~wavelength calibration, where the \texttt{effective\_peaks}
+and \texttt{science\_pixel\_list} in the GMOS reduction is
+to account for the pixel positions due to chip gaps;
 
 \vspace*{1em}
 
 \noindent
-\begin{minipage}{0.45\linewidth}
+\begin{minipage}{0.475\linewidth}
 \begin{Verbatim}[frame=topline,numbers=left,label=LT/SPRAT,framesep=3mm]
 # Initialise an OneDSpec() for the
 # science and standard targets
-onedspec = OneDSpec()
-onedspec.from_twodspec(
+spec = OneDSpec()
+spec.from_twodspec(
     science_twodspec,
     stype="science"
 )
-onedspec.from_twodspec(
+spec.from_twodspec(
     standard_twodspec,
     stype="standard"
 )
 
 # Find the peaks of the arc
-onedspec.find_arc_lines(
+spec.find_arc_lines(
     top_n_peaks=35,
     prominence=1,
 )
 
 # Configure the wavelength calibrator
-onedspec.initialise_calibrator()
-onedspec.set_hough_properties(
+spec.initialise_calibrator()
+spec.set_hough_properties(
     num_slopes=500,
     xbins=100,
     ybins=100,
@@ -1664,92 +1660,146 @@ onedspec.set_hough_properties(
 )
 
 # Add user-provided atlas
-onedspec.add_user_atlas(
+spec.add_user_atlas(
     elements=sprat_element,
     wavelengths=sprat_atlas,
 )
 
 # More configuration of the calibrator
-onedspec.do_hough_transform()
-onedspec.set_ransac_properties(
+spec.do_hough_transform()
+spec.set_ransac_properties(
     minimum_matches=18,
 )
 
 # Fit for the wavelength solution
-onedspec.fit(max_tries=1000)
+spec.fit(max_tries=1000)
 
 # Apply the fitted solution
-onedspec.apply_wavelength_calibration()
+spec.apply_wavelength_calibration()
 
 
 
 
 \end{Verbatim}
 \end{minipage}\hfill
-\begin{minipage}{0.45\linewidth}
+\begin{minipage}{0.475\linewidth}
 \begin{Verbatim}[frame=topline,numbers=left,label=Gemini/GMOS,framesep=3mm]
 # Initialise an OneDSpec() for the
 # science and standard targets
-onedspec = OneDSpec()
-onedspec.from_twodspec(
+spec = OneDSpec()
+spec.from_twodspec(
     science_twodspec,
     stype="science",
 )
-onedspec.from_twodspec(
+spec.from_twodspec(
     standard_twodspec,
     stype="standard",
 )
 
 # Find the peaks of the arc
-onedspec.find_arc_lines(prominence=0.25)
+spec.find_arc_lines(prominence=0.25)
 
 # Configure the wavelength calibrator
-onedspec.initialise_calibrator(
+spec.initialise_calibrator(
     peaks=effective_peaks,
 )
-onedspec.set_calibrator_properties(
+spec.set_calibrator_properties(
     pixel_list=science_pixel_list,
 )
-onedspec.set_hough_properties(
+spec.set_hough_properties(
     num_slopes=10000.0,
     xbins=500,
     ybins=500,
     min_wavelength=4900.0,
     max_wavelength=9500.0,
 )
-onedspec.add_user_atlas(
+spec.add_user_atlas(
     elements=gmos_elements,
     wavelengths=gmos_atlas_lines,
     pressure=gmos_pressure,
     temperature=gmos_temperature,
     relative_humidity=gmos_rh,
 )
-onedspec.do_hough_transform()
-onedspec.set_ransac_properties(
+spec.do_hough_transform()
+spec.set_ransac_properties(
     sample_size=6,
     minimum_matches=15, 
 )
 
 # Fit for the wavelength solution
-onedspec.fit(
+spec.fit(
     max_tries=1000,
     fit_deg=4,
     fit_tolerance=10.0,
 )
 # Apply the fitted solution
-onedspec.apply_wavelength_calibration()
+spec.apply_wavelength_calibration()
 \end{Verbatim}
 \end{minipage}
 
 and (3)~flux calibration.
 
+\vspace*{1em}
+
+\noindent
+\begin{minipage}{0.475\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=LT/SPRAT,framesep=3mm]
+# Choose the standard star
+spec.load_standard(
+    target="BDp332642",
+    library="irafirscal",
+)
+
+# Compute the sensitivity/response function
+spec.get_sensitivity()
+
+# Accept the sensitivity/response function
+spec.apply_flux_calibration()
+
+# Correct for atmospheric extinction
+spec.set_atmospheric_extinction(
+    location="orm"
+)
+spec.apply_atmospheric_extinction_correction()
+
+# Telluric absorption correction
+spec.get_telluric_profile()
+spec.get_telluric_strength()
+spec.apply_telluric_correction()
+
+# Resample the spectra
+spec.resample()
+\end{Verbatim}
+\end{minipage}\hfill
+\begin{minipage}{0.475\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=Gemini/GMOS,framesep=3mm]
+# Choose the standard star
+spec.load_standard(
+    target="EG274",
+    library="esoxshooter",
+)
+
+# Compute the sensitivity/response function
+spec.get_sensitivity()
+
+# Accept the sensitivity/response function
+spec.apply_flux_calibration(stype="science")
+
+# Correct for atmospheric extinction
+spec.set_atmospheric_extinction(location="ls")
+spec.apply_atmospheric_extinction_correction()
+
+# Telluric absorption correction
+spec.get_telluric_profile()
+spec.get_telluric_strength()
+spec.apply_telluric_correction()
+
+# Resample the spectra
+spec.resample()
 
 
-
-
-
-
-
+\end{Verbatim}
+\end{minipage}
 
 
 %% For this sample we use BibTeX plus aasjournals.bst to generate the
