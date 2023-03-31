@@ -1,0 +1,288 @@
+\section{Code Snippets}
+
+The following compares the reduction scripts for LT/SPRAT and
+Gemini/GMOS reduction. LT/SPRAT starts from an ImageReduction object,
+while the Gemini/GMOS workflow uses flattened images in FITS objects.
+Both have all the necessary header information for the reduction.
+
+The examples are simplified to exclude any file and image saving
+instructions. They are shown in three groups according to the types
+of operation:
+
+(1)~tracing and extracting the spectra from two-dimensional images:
+
+\vspace*{2em}
+\noindent
+\begin{minipage}{0.45\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=LT/SPRAT,framesep=3mm]
+# Initialise the two TwoDSpec() for the
+# science and standard. The arc frames
+# in the objects are handled automatically
+science_twodspec = TwoDSpec(
+    science_image_reduction_object,
+    spatial_mask=spatial_mask,
+    spec_mask=spec_mask,
+)
+standard_twodspec = TwoDSpec(
+    standard_image_reduction_object,
+    spatial_mask=spatial_mask,
+    spec_mask=spec_mask,
+)
+
+# Automatically trace the spectrum
+science_twodspec.ap_trace(
+    nspec=1,
+)
+standard_twodspec.ap_trace(
+    nspec=1,
+)
+
+# Tophat extraction of the spectrum
+science_twodspec.ap_extract(
+    apwidth=12,
+    skysep=12,
+    skywidth=5,
+    skydeg=1,
+    optimal=False,
+)
+# Optimal extracting spectrum
+standard_twodspec.ap_extract(
+    apwidth=15,
+    skysep=3,
+    skywidth=5,
+    skydeg=1,
+)
+
+# Extract the 1D arc by aperture sum of the
+# traces provided
+science_twodspec.extract_arc_spec()
+standard_twodspec.extract_arc_spec()
+\end{Verbatim}
+\end{minipage}\hfill
+\begin{minipage}{0.45\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=Gemini/GMOS,framesep=3mm]
+# Initialise the two TwoDSpec() for the
+# science and standard
+science_twodspec = TwoDSpec(
+    science_fits_object,
+    spatial_mask=spatial_mask,
+    spec_mask=spec_mask,
+    flip=True,
+)
+standard_twodspec = TwoDSpec(
+    standard_fits_object,
+    spatial_mask=spatial_mask,
+    spec_mask=spec_mask,
+    flip=True,
+)
+
+# Automatically trace the spectrum
+science_twodspec.ap_trace(
+    fit_deg=2,
+)
+standard_twodspec.ap_trace(
+    fit_deg=2,
+)
+
+# Extracting of the spectrum
+science_twodspec.ap_extract(
+)
+standard_twodspec.ap_extract(
+    apwidth=25,
+)
+
+# Handling the arc frame
+science_twodspec.add_arc(science_arc)
+
+# Use apply_mask to handle the flip
+science_twodspec.apply_mask_to_arc()
+science_twodspec.extract_arc_spec()
+
+# Alternatively, it can be flipped manually
+standard_twodspec.add_arc(
+    np.flip(standard_arc)
+)
+standard_twodspec.extract_arc_spec()
+\end{Verbatim}
+\end{minipage}
+
+\clearpage
+
+(2)~wavelength calibration;
+
+\vspace*{1em}
+
+\noindent
+\begin{minipage}{0.45\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=LT/SPRAT,framesep=3mm]
+# Initialise an OneDSpec() for the
+# science and standard targets
+onedspec = OneDSpec()
+onedspec.from_twodspec(
+    science_twodspec,
+    stype="science"
+)
+onedspec.from_twodspec(
+    standard_twodspec,
+    stype="standard"
+)
+
+# Find the peaks of the arc
+onedspec.find_arc_lines(
+    top_n_peaks=35,
+    prominence=1,
+)
+
+# Configure the wavelength calibrator
+onedspec.initialise_calibrator()
+onedspec.set_hough_properties(
+    num_slopes=500,
+    xbins=100,
+    ybins=100,
+    min_wavelength=3500,
+    max_wavelength=8000,
+    range_tolerance=250,
+)
+
+# Add user-provided atlas
+onedspec.add_user_atlas(
+    elements=sprat_element,
+    wavelengths=sprat_atlas,
+)
+
+# More configuration of the calibrator
+onedspec.do_hough_transform()
+onedspec.set_ransac_properties(
+    minimum_matches=18,
+)
+
+# Fit for the wavelength solution
+onedspec.fit(max_tries=1000)
+
+# Apply the fitted solution
+onedspec.apply_wavelength_calibration()
+
+
+
+
+\end{Verbatim}
+\end{minipage}\hfill
+\begin{minipage}{0.45\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=Gemini/GMOS,framesep=3mm]
+# Initialise an OneDSpec() for the
+# science and standard targets
+onedspec = OneDSpec()
+onedspec.from_twodspec(
+    science_twodspec,
+    stype="science",
+)
+onedspec.from_twodspec(
+    standard_twodspec,
+    stype="standard",
+)
+
+# Find the peaks of the arc
+onedspec.find_arc_lines(prominence=0.25)
+
+# Configure the wavelength calibrator
+onedspec.initialise_calibrator(
+    peaks=effective_peaks,
+)
+onedspec.set_calibrator_properties(
+    pixel_list=science_pixel_list,
+)
+onedspec.set_hough_properties(
+    num_slopes=10000.0,
+    xbins=500,
+    ybins=500,
+    min_wavelength=4900.0,
+    max_wavelength=9500.0,
+)
+onedspec.add_user_atlas(
+    elements=gmos_elements,
+    wavelengths=gmos_atlas_lines,
+    pressure=gmos_pressure,
+    temperature=gmos_temperature,
+    relative_humidity=gmos_rh,
+)
+onedspec.do_hough_transform()
+onedspec.set_ransac_properties(
+    sample_size=6,
+    minimum_matches=15, 
+)
+
+# Fit for the wavelength solution
+onedspec.fit(
+    max_tries=1000,
+    fit_deg=4,
+    fit_tolerance=10.0,
+)
+# Apply the fitted solution
+onedspec.apply_wavelength_calibration()
+\end{Verbatim}
+\end{minipage}
+
+and (3)~flux calibration.
+
+\vspace*{1em}
+
+\noindent
+\begin{minipage}{0.45\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=LT/SPRAT,framesep=3mm]
+# Choose the standard star
+onedspec.load_standard(
+    target="BDp332642",
+    cutoff=0.4,
+    ftype="flux"
+)
+
+# Compute the sensitivity/response function
+onedspec.get_sensitivity()
+
+# Accept the sensitivity/response function
+onedspec.apply_flux_calibration()
+
+# Correct for atmospheric extinction
+onedspec.set_atmospheric_extinction(
+    location="orm"
+)
+onedspec.apply_atmospheric_extinction_correction()
+
+# Telluric absorption correction
+onedspec.get_telluric_profile()
+onedspec.get_telluric_strength()
+onedspec.apply_telluric_correction()
+
+# Resample the spectra
+onedspec.resample()
+
+\end{Verbatim}
+\end{minipage}\hfill
+\begin{minipage}{0.45\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=Gemini/GMOS,framesep=3mm]
+# Choose the standard star
+onedspec.load_standard(
+    target="EG274",
+    library="esoxshooter",
+)
+
+# Compute the sensitivity/response function
+onedspec.get_sensitivity()
+
+# Accept the sensitivity/response function
+onedspec.apply_flux_calibration(stype="science")
+
+# Correct for atmospheric extinction
+onedspec.set_atmospheric_extinction(location="ls")
+onedspec.apply_atmospheric_extinction_correction()
+
+# Telluric absorption correction
+onedspec.get_telluric_profile()
+onedspec.get_telluric_strength()
+onedspec.apply_telluric_correction()
+
+# Resample the spectra
+onedspec.resample()
+
+\end{Verbatim}
+\end{minipage}
