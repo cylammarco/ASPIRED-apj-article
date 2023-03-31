@@ -96,7 +96,7 @@
 \newcommand\aastex{AAS\TeX}
 \newcommand\latex{La\TeX}
 \usepackage{multirow}
-
+\usepackage{fancyvrb}
 %% Reintroduced the \received and \accepted commands from AASTeX v5.2
 %\received{March 1, 2021}
 %\revised{April 1, 2021}
@@ -807,15 +807,14 @@ which interpolates with a cubic spline. It is possible to supply a set of
 pre-computed polynomials to perform the rectification, which can significantly
 speed up the data reduction process of a stable optical system.
 
-\begin{comment}
-A change in the 
-zeroth order coefficient can shift the bluest part of the spectrum to the
-reddest part, and vice versa. For a stable instrument, this should not affect
-more than a few pixels. However, as long as the effect is identical in the science
-frame and the standard frame they can be calibrated out or trimmed. Furthermore,
-the edges of a detector are usually unusable, so it does not pose any real
-problem.
-\end{comment}
+
+%A change in the 
+%zeroth order coefficient can shift the bluest part of the spectrum to the
+%reddest part, and vice versa. For a stable instrument, this should not affect
+%more than a few pixels. However, as long as the effect is identical in the science
+%frame and the standard frame they can be calibrated out or trimmed. Furthermore,
+%the edges of a detector are usually unusable, so it does not pose any real
+%problem.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Spectral Extraction}
@@ -911,7 +910,8 @@ to \textsc{Python 3}.
     using the three extraction methods are very similar. \textit{Bottom}: The
     uncertainties with the three extraction methods in units of electron counts.
     The top-hat method is clearly noisier than the two optimal methods.
-    Horne86 and Mash89 produce almost identical outputs.}
+    \textcolor{red}{Extraction using \texttt{Horne86} and \texttt{Marsh89} algorithm produce
+    almost identical outputs.}}
     \label{fig:extraction_compared}
 \end{figure}
 
@@ -1234,10 +1234,33 @@ included in future work.}
 
 \textcolor{red}{\subsection{Repeatability}}
 \textcolor{red}{In order to demonstrate the reproducibility and repeatability,
-we opt to calibrate the standard star xxxx against xxxx taken with
-\textit{LT}/SPRAT.
-}
+we opt to calibrate the standard star BD\,33+2642 against Hiltner\,102 on
+eight nights that \textit{LT}/SPRAT collected on the same night during
+semester 2022\,B. We require the transparency to be photometric and the seeing
+is better than 2'' as reported by the autoguider. Because of the robotic
+observing nature of the LT, standard stars are only taken in the beginning
+and at the end of the nights. The data used are not taken immediately
+before and after each other, the weather effect cannot be calibrated out,
+we only attempt to apply atmospheric extinction corrections and telluric
+absorption corrections. From the reprocessing, We find a typical spread in
+the residual of roughly 1-2\%. The absolute deviation is within 3\% apart from
+around the Telluric absorption regions and at the H$\gamma$ line at 4340\,\AA\
+that are observed at low detector efficiency~(see Fig.~\ref{fig:repeatability}).}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{fig_08_sprat_standards_compared.png}
+    \caption{Fractional residual in the calibrated flux of BD\,33+2642 using
+    Hiltner\,102 as a standard star taken with \textit{LT}/SPRAT. Each grey
+    lines show the residual between the median spectrum of the eight spectra
+    taken on different nights. The blue area shows the 1 standard deviation
+    of the scatter in the residual. The spikes above 5\% residual are the
+    H$\gamma$ at 4340\,\AA\ and the oxygen telluric features at the 6869 and
+    7605\,\AA\ . The residuals are larger on the two ends are expected as
+    the signal-to-noise ratios drops with the detector efficiency on either
+    side.}
+    \label{fig:repeatability}
+\end{figure}
 
 \textcolor{red}{\subsection{Example Data Reduction Results}}
 \label{sec:examples}
@@ -1330,7 +1353,7 @@ standard reduction software.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}
     \centering
-    \includegraphics[width=\textwidth]{fig_08_reduction_compared.pdf}
+    \includegraphics[width=\textwidth]{fig_09_reduction_compared.pdf}
     \caption{From top to bottom are the comparison spectra taken with \textit{VLT}/FORS2,
     Las Cumbres/FLOYDS, \textit{LT}/SPRAT and Gemini/GMOS in long-slit mode. The published FORS2
     spectrum was reduced using \textsc{Molly}~(green) powered by the \textsc{STARLINK}
@@ -1343,7 +1366,7 @@ standard reduction software.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\columnwidth]{fig_09_use_case_plots.pdf}
+    \includegraphics[width=\columnwidth]{fig_10_use_case_plots.pdf}
     \caption{Example extractions of some special cases. Each set of spectra
     uses the same normalisation. All spectra are optimally extracted using the
     \citet{1986PASP...98..609H} algorithm. The \textit{GTC}/OSIRIS (top set in blue hue)
@@ -1395,7 +1418,8 @@ ASPIRED is distributed through \textsc{conda} starting from \texttt{v0.4.9}.
 
 There are also example reduction scripts available from the companion repository
 \textsc{ASPIRED-example}\footnote{\url{https://github.com/cylammarco/ASPIRED-example}}
-that is tagged by version number from \texttt{v0.4}.
+that is tagged by version number from \texttt{v0.4}. \textcolor{red}{This work is most accurately
+reflecting the software release of the \texttt{v0.5}-series.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1477,6 +1501,256 @@ Based on observations collected at the European Southern Observatory under ESO p
 
 
 %%%%%%%%%%%%%%%%% APPENDICES %%%%%%%%%%%%%%%%%%%%%
+
+\software{
+    \textsc{astroscrappy}~\citep{curtis_mccully_2018_1482019, 2001PASP..113.1420V}
+    \textsc{Astropy}~\citep{astropy:2013, astropy:2018},
+    \textsc{ccdproc}~\citep{matt_craig_2017_1069648},
+    \textsc{matplotlib},
+    \textsc{numpy}~\citep{2020NumPy-Array}
+    \textsc{plotly}~\citep{plotly},
+    \textsc{rascal}~\citep{2020ASPC..527..627V},
+    \textsc{scipy}~\citep{2020SciPy-NMeth},
+    \textsc{spectres}~\citep{2017arXiv170505165C},
+    \textsc{specutil}, and
+    \textsc{statsmodels}~\citep{seabold2010statsmodels}
+    }
+
+\appendix
+\section{Code Snippets}
+
+The following compares the reduction scripts for LT/SPRAT and
+Gemini/GMOS reduction. LT/SPRAT starts from an ImageReduction object,
+while the Gemini/GMOS workflow uses flattened images in FITS objects.
+Both have all the necessary header information for the reduction.
+
+The examples are simplified to exclude any file and image saving
+instructions. They are shown in three groups according to the types
+of operation:
+
+(1)~tracing and extracting the spectra from two-dimensional images:
+
+\vspace*{2em}
+\noindent
+\begin{minipage}{0.45\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=LT/SPRAT,framesep=3mm]
+# Initialise the two TwoDSpec() for the
+# science and standard. The arc frames
+# in the objects are handled automatically
+science_twodspec = TwoDSpec(
+    science_image_reduction_object,
+    spatial_mask=spatial_mask,
+    spec_mask=spec_mask,
+)
+standard_twodspec = TwoDSpec(
+    standard_image_reduction_object,
+    spatial_mask=spatial_mask,
+    spec_mask=spec_mask,
+)
+
+# Automatically trace the spectrum
+science_twodspec.ap_trace(
+    nspec=1,
+)
+standard_twodspec.ap_trace(
+    nspec=1,
+)
+
+# Tophat extraction of the spectrum
+science_twodspec.ap_extract(
+    apwidth=12,
+    skysep=12,
+    skywidth=5,
+    skydeg=1,
+    optimal=False,
+)
+# Optimal extracting spectrum
+standard_twodspec.ap_extract(
+    apwidth=15,
+    skysep=3,
+    skywidth=5,
+    skydeg=1,
+)
+
+# Extract the 1D arc by aperture sum of the
+# traces provided
+science_twodspec.extract_arc_spec()
+standard_twodspec.extract_arc_spec()
+\end{Verbatim}
+\end{minipage}\hfill
+\begin{minipage}{0.45\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=Gemini/GMOS,framesep=3mm]
+# Initialise the two TwoDSpec() for the
+# science and standard
+science_twodspec = TwoDSpec(
+    science_fits_object,
+    spatial_mask=spatial_mask,
+    spec_mask=spec_mask,
+    flip=True,
+)
+standard_twodspec = TwoDSpec(
+    standard_fits_object,
+    spatial_mask=spatial_mask,
+    spec_mask=spec_mask,
+    flip=True,
+)
+
+# Automatically trace the spectrum
+science_twodspec.ap_trace(
+    fit_deg=2,
+)
+standard_twodspec.ap_trace(
+    fit_deg=2,
+)
+
+# Extracting of the spectrum
+science_twodspec.ap_extract(
+)
+standard_twodspec.ap_extract(
+    apwidth=25,
+)
+
+# Handling the arc frame
+science_twodspec.add_arc(science_arc)
+
+# Use apply_mask to handle the flip
+science_twodspec.apply_mask_to_arc()
+science_twodspec.extract_arc_spec()
+
+# Alternatively, it can be flipped manually
+standard_twodspec.add_arc(
+    np.flip(standard_arc)
+)
+standard_twodspec.extract_arc_spec()
+\end{Verbatim}
+\end{minipage}
+
+\clearpage
+
+(2)~wavelength calibration;
+
+\vspace*{1em}
+
+\noindent
+\begin{minipage}{0.45\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=LT/SPRAT,framesep=3mm]
+# Initialise an OneDSpec() for the
+# science and standard targets
+onedspec = OneDSpec()
+onedspec.from_twodspec(
+    science_twodspec,
+    stype="science"
+)
+onedspec.from_twodspec(
+    standard_twodspec,
+    stype="standard"
+)
+
+# Find the peaks of the arc
+onedspec.find_arc_lines(
+    top_n_peaks=35,
+    prominence=1,
+)
+
+# Configure the wavelength calibrator
+onedspec.initialise_calibrator()
+onedspec.set_hough_properties(
+    num_slopes=500,
+    xbins=100,
+    ybins=100,
+    min_wavelength=3500,
+    max_wavelength=8000,
+    range_tolerance=250,
+)
+
+# Add user-provided atlas
+onedspec.add_user_atlas(
+    elements=sprat_element,
+    wavelengths=sprat_atlas,
+)
+
+# More configuration of the calibrator
+onedspec.do_hough_transform()
+onedspec.set_ransac_properties(
+    minimum_matches=18,
+)
+
+# Fit for the wavelength solution
+onedspec.fit(max_tries=1000)
+
+# Apply the fitted solution
+onedspec.apply_wavelength_calibration()
+
+
+
+
+\end{Verbatim}
+\end{minipage}\hfill
+\begin{minipage}{0.45\linewidth}
+\begin{Verbatim}[frame=topline,numbers=left,label=Gemini/GMOS,framesep=3mm]
+# Initialise an OneDSpec() for the
+# science and standard targets
+onedspec = OneDSpec()
+onedspec.from_twodspec(
+    science_twodspec,
+    stype="science",
+)
+onedspec.from_twodspec(
+    standard_twodspec,
+    stype="standard",
+)
+
+# Find the peaks of the arc
+onedspec.find_arc_lines(prominence=0.25)
+
+# Configure the wavelength calibrator
+onedspec.initialise_calibrator(
+    peaks=effective_peaks,
+)
+onedspec.set_calibrator_properties(
+    pixel_list=science_pixel_list,
+)
+onedspec.set_hough_properties(
+    num_slopes=10000.0,
+    xbins=500,
+    ybins=500,
+    min_wavelength=4900.0,
+    max_wavelength=9500.0,
+)
+onedspec.add_user_atlas(
+    elements=gmos_elements,
+    wavelengths=gmos_atlas_lines,
+    pressure=gmos_pressure,
+    temperature=gmos_temperature,
+    relative_humidity=gmos_rh,
+)
+onedspec.do_hough_transform()
+onedspec.set_ransac_properties(
+    sample_size=6,
+    minimum_matches=15, 
+)
+
+# Fit for the wavelength solution
+onedspec.fit(
+    max_tries=1000,
+    fit_deg=4,
+    fit_tolerance=10.0,
+)
+# Apply the fitted solution
+onedspec.apply_wavelength_calibration()
+\end{Verbatim}
+\end{minipage}
+
+and (3)~flux calibration.
+
+
+
+
+
+
+
+
+
 
 %% For this sample we use BibTeX plus aasjournals.bst to generate the
 %% the bibliography. The sample631.bib file was populated from ADS. To
